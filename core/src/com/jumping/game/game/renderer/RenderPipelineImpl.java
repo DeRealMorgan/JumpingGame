@@ -1,4 +1,4 @@
-package com.jumping.game.renderer;
+package com.jumping.game.game.renderer;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.GL20;
@@ -8,7 +8,7 @@ import com.badlogic.gdx.math.Interpolation;
 import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
-import com.jumping.game.game.ui.UIManager;
+import com.jumping.game.util.UIManager;
 import com.jumping.game.util.Values;
 import com.jumping.game.util.ZSprite;
 

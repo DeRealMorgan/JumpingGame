@@ -14,6 +14,10 @@ public class MathExercise {
         return exercise;
     }
 
+    public String getExerciseQuestion() {
+        return exercise + "=?";
+    }
+
     public String getSolution() {
         return solution;
     }

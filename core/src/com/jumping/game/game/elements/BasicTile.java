@@ -1,6 +1,6 @@
 package com.jumping.game.game.elements;
 
-import com.jumping.game.game.assets.AssetsManager;
+import com.jumping.game.assets.AssetsManager;
 import com.jumping.game.game.physics.EntityType;
 import com.jumping.game.game.physics.PhysicsEntity;
 import com.jumping.game.util.Values;
@@ -17,6 +17,7 @@ public class BasicTile extends Tile {
 
     @Override
     protected void attachmentSet() {
+        attachment.attachToEntity(this);
         attachment.updateAttachment(sprite.getX(), sprite.getWidth(), sprite.getTop());
     }
 

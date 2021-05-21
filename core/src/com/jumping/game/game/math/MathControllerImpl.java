@@ -1,20 +1,22 @@
 package com.jumping.game.game.math;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Input;
+import com.badlogic.gdx.InputAdapter;
 import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.scenes.scene2d.Touchable;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.utils.Align;
 import com.jumping.game.game.GameManager;
-import com.jumping.game.game.assets.AssetsManager;
+import com.jumping.game.assets.AssetsManager;
 import com.jumping.game.game.ui.GameUIController;
 import com.jumping.game.util.MathUtils;
 import com.jumping.game.util.Values;
 
 public class MathControllerImpl implements MathController {
     private Table contentTable, exerciseTable;
-    private Label exerciseLabel;
+    private Label exerciseLabel, answerLabel;
 
     private GameManager gameManager;
     private GameUIController controller;
@@ -22,6 +24,8 @@ public class MathControllerImpl implements MathController {
     private String[] addStringList, subStringList, mulStringList, divStringList;
 
     private MathExercise currentExercise;
+
+    private String answerString = "";
 
     public MathControllerImpl(GameManager gameManager, GameUIController controller, AssetsManager assetsManager) {
         this.gameManager = gameManager;
@@ -32,18 +36,74 @@ public class MathControllerImpl implements MathController {
         this.mulStringList = loadList(Values.MUL_EXERCISE_FILE);
         this.divStringList = loadList(Values.DIV_EXERCISE_FILE);
 
+        buildUI(assetsManager);
+    }
+
+    private void buildUI(AssetsManager assetsManager) {
         contentTable = new Table();
         contentTable.setFillParent(true);
         contentTable.setVisible(false);
         contentTable.setTouchable(Touchable.disabled);
+        contentTable.top();
 
         exerciseLabel = new Label("", assetsManager.labelStyleBig());
         exerciseLabel.setAlignment(Align.center);
-        exerciseTable = new Table();
-        exerciseTable.add(exerciseLabel);
-        exerciseTable.background(assetsManager.getDrawable(Values.EXERCISE_BACKGROUND));
 
-        contentTable.add(exerciseTable).top().grow().pad(Values.EXERCISE_PADDING);
+        assetsManager.addInputProcessor(new InputAdapter() {
+            @Override
+            public boolean keyUp(int keycode) {
+                if(keycode == Input.Keys.BACK || keycode == Input.Keys.ENTER)
+                    closeKeyboard();
+                if(keycode == Input.Keys.DEL)
+                    deleteChar();
+
+                return true;
+            }
+
+            @Override
+            public boolean keyTyped(char character) {
+                if(Character.isDigit(character)) digitTyped(character);
+                return true;
+            }
+        });
+
+        answerLabel = new Label(Values.ANSWER_TEXT, assetsManager.labelStyleBig());
+        answerLabel.setAlignment(Align.center);
+
+        exerciseTable = new Table();
+        exerciseTable.add(exerciseLabel).row();
+        exerciseTable.add(answerLabel).growX().row();
+        exerciseTable.background(assetsManager.get9Drawable(Values.EXERCISE_BACKGROUND));
+
+        contentTable.add(exerciseTable).top().growX().pad(Values.EXERCISE_PADDING).row();
+    }
+
+    private void closeKeyboard() {
+        Gdx.input.setOnscreenKeyboardVisible(false);
+
+        if(currentExercise.isCorrect(answerString)) {
+            // todo
+        } else {
+            // todo
+        }
+    }
+
+    private void digitTyped(char c) {
+        answerString += c;
+
+        updateAnswer();
+    }
+
+    private void deleteChar() {
+        if(answerString.isEmpty()) return;
+
+        answerString = answerString.substring(0, answerString.length()-1);
+
+        updateAnswer();
+    }
+
+    private void updateAnswer() {
+        answerLabel.setText(Values.ANSWER_TEXT + answerString);
     }
 
     private String[] loadList(String l) {
@@ -58,6 +118,7 @@ public class MathControllerImpl implements MathController {
 
         gameManager.pauseUpdate();
         controller.showMathDialog(contentTable);
+        Gdx.input.setOnscreenKeyboardVisible(true, Input.OnscreenKeyboardType.NumberPad);
     }
 
     private void buildContentTable() {
@@ -69,6 +130,8 @@ public class MathControllerImpl implements MathController {
         // todo make dependend on the height/level of the player or so, so you use a mixture of add/sub/mul/div ...
         String[] list = getExerciseList(MathUtils.getRandomX(0, 3));
         currentExercise = new MathExercise(list[MathUtils.getRandomX(0, list.length-1)]);
+
+        exerciseLabel.setText(currentExercise.getExerciseQuestion());
     }
 
     /**

@@ -2,8 +2,8 @@ package com.jumping.game;
 
 import com.badlogic.gdx.Gdx;
 import com.jumping.game.game.GameScreen;
-import com.jumping.game.game.assets.AssetsManagerImpl;
-import com.jumping.game.renderer.RenderPipelineImpl;
+import com.jumping.game.assets.AssetsManagerImpl;
+import com.jumping.game.game.renderer.RenderPipelineImpl;
 import com.jumping.game.util.Game;
 import com.jumping.game.util.GameState;
 
@@ -11,6 +11,12 @@ public class Main extends Game {
 	private RenderPipelineImpl renderPipeline;
 	private GameState gameState;
 	private AssetsManagerImpl assetsManager;
+
+	private boolean essentialPermissionsGranted;
+
+	public Main(boolean essentialPermissionsGranted) {
+		this.essentialPermissionsGranted = essentialPermissionsGranted;
+	}
 
 	@Override
 	public void create() {
@@ -24,6 +30,10 @@ public class Main extends Game {
 
 		GameScreen gameScreen = new GameScreen(renderPipeline, assetsManager);
 		setScreen(gameScreen);
+	}
+
+	public void permissionGranted(int code) {
+
 	}
 
 	@Override

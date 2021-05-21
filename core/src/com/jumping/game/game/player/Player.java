@@ -2,7 +2,7 @@ package com.jumping.game.game.player;
 
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.math.Vector2;
-import com.jumping.game.game.assets.AssetsManager;
+import com.jumping.game.assets.AssetsManager;
 import com.jumping.game.game.physics.EntityType;
 import com.jumping.game.game.physics.PhysicsEntity;
 import com.jumping.game.game.ui.GameUIController;
@@ -17,6 +17,8 @@ public class Player implements PhysicsEntity {
     private ZSprite sprite;
     private final Vector2 velocityVec;
     private PlayerListener playerListener; // todo maybe change to list
+
+    private float highestY;
 
     public Player(AssetsManager manager, float x, float y, GameUIController gameUIController) {
         this.gameUIController = gameUIController;
@@ -35,6 +37,7 @@ public class Player implements PhysicsEntity {
     public void updatePhysics(float dt, float gravityY) {
         velocityVec.y += gravityY;
         sprite.addToPosition(velocityVec.x * dt, velocityVec.y * dt);
+        highestY = Math.max(highestY, getY());
 
         float playerWidth2 = sprite.getWidth()/2;
         float midX = sprite.getX() + playerWidth2;
@@ -62,11 +65,13 @@ public class Player implements PhysicsEntity {
             case PLAYER:
                 break;
             case TILE:
-                if(velocityVec.y > 0)
+                if(velocityVec.y >= 0)
                     return;
                 handleTileCollision(other);
                 break;
             case MATH_EXERCISE:
+                if(velocityVec.y > 0)
+                    return;
                 other.onCollision(this);
                 break;
                 // todo add other tiles (like breakable_tile) ...

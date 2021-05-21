@@ -4,6 +4,7 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.utils.viewport.Viewport;
+import com.jumping.game.util.UIManager;
 
 public class UIManagerImpl implements UIManager, GameUIController {
     private final Stage stage;
@@ -20,6 +21,7 @@ public class UIManagerImpl implements UIManager, GameUIController {
     @Override
     public void showMathDialog(Table t) {
         stage.addActor(t);
+        t.setVisible(true);
     }
 
     @Override

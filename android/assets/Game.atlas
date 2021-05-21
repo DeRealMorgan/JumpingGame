@@ -1,442 +1,98 @@
 
 Game.png
-size: 2048,2048
+size: 304, 523
 format: RGBA8888
-filter: Linear,Linear
+filter: Nearest, Nearest
 repeat: none
-Shoplist_0019_Score-multiplier-copy-2
+achievementsIcon
   rotate: false
-  xy: 916, 1294
-  size: 52, 180
-  orig: 52, 180
+  xy: 68, 14
+  size: 64, 64
+  orig: 64, 64
   offset: 0, 0
   index: -1
-background_dark
-  rotate: false
-  xy: 968, 1137
-  size: 50, 50
-  orig: 50, 50
-  offset: 0, 0
-  index: -1
-background_light
-  rotate: false
-  xy: 373, 2
-  size: 50, 50
-  orig: 50, 50
-  offset: 0, 0
-  index: -1
-background_semi
-  rotate: false
-  xy: 425, 2
-  size: 50, 50
-  orig: 50, 50
-  offset: 0, 0
-  index: -1
-bar_background
-  rotate: false
-  xy: 1152, 1339
-  size: 101, 108
-  split: 53, 44, 47, 52
-  pad: 0, 0, 0, 0
-  orig: 101, 108
-  offset: 0, 0
-  index: -1
-bar_plus
-  rotate: false
-  xy: 827, 1136
-  size: 139, 148
-  orig: 139, 148
-  offset: 0, 0
-  index: -1
-blankImg
-  rotate: false
-  xy: 395, 750
-  size: 14, 14
-  split: 0, 0, 0, 0
-  orig: 14, 14
-  offset: 0, 0
-  index: -1
-button_blue
-  rotate: false
-  xy: 795, 1809
-  size: 696, 237
-  orig: 696, 237
-  offset: 0, 0
-  index: -1
-button_dark
-  rotate: false
-  xy: 848, 990
-  size: 91, 88
-  orig: 91, 88
-  offset: 0, 0
-  index: -1
-button_disabled
-  rotate: false
-  xy: 1493, 1859
-  size: 540, 187
-  orig: 540, 187
-  offset: 0, 0
-  index: -1
-button_orange
-  rotate: false
-  xy: 795, 1601
-  size: 598, 206
-  orig: 598, 206
-  offset: 0, 0
-  index: -1
-button_square
-  rotate: false
-  xy: 436, 803
-  size: 212, 212
-  orig: 212, 212
-  offset: 0, 0
-  index: -1
-button_white
-  rotate: false
-  xy: 1070, 1198
-  size: 94, 91
-  orig: 94, 91
-  offset: 0, 0
-  index: -1
-close_back
-  rotate: false
-  xy: 1987, 1629
-  size: 59, 60
-  orig: 59, 60
-  offset: 0, 0
-  index: -1
-coin_icon
-  rotate: false
-  xy: 1255, 1275
-  size: 145, 155
-  orig: 145, 155
-  offset: 0, 0
-  index: -1
-bar_coin
-  rotate: false
-  xy: 1255, 1275
-  size: 145, 155
-  orig: 145, 155
-  offset: 0, 0
-  index: -1
-colors
-  rotate: false
-  xy: 2, 554
-  size: 391, 210
-  orig: 391, 210
-  offset: 0, 0
-  index: -1
-dailyReward
-  rotate: false
-  xy: 795, 1476
-  size: 236, 123
-  orig: 236, 123
-  offset: 0, 0
-  index: 4
-dailyReward
-  rotate: false
-  xy: 1033, 1449
-  size: 223, 150
-  orig: 223, 150
-  offset: 0, 0
-  index: 3
-dailyReward
-  rotate: false
-  xy: 269, 54
-  size: 172, 168
-  orig: 172, 168
-  offset: 0, 0
-  index: 2
-dailyReward
-  rotate: false
-  xy: 650, 770
-  size: 149, 153
-  orig: 149, 153
-  offset: 0, 0
-  index: 1
-dailyReward_lock
-  rotate: false
-  xy: 680, 1078
-  size: 145, 170
-  orig: 145, 170
-  offset: 0, 0
-  index: -1
-gameScreen_time
-  rotate: false
-  xy: 1911, 1748
-  size: 106, 109
-  orig: 106, 109
-  offset: 0, 0
-  index: -1
-headerOverlay_back
-  rotate: false
-  xy: 321, 2
-  size: 50, 50
-  split: 12, 12, 12, 12
-  orig: 50, 50
-  offset: 0, 0
-  index: -1
-roundedRect
-  rotate: false
-  xy: 321, 2
-  size: 50, 50
-  split: 12, 12, 12, 12
-  orig: 50, 50
-  offset: 0, 0
-  index: -1
-hexagon_wall
-  rotate: false
-  xy: 288, 224
-  size: 180, 156
-  orig: 180, 156
-  offset: 0, 0
-  index: -1
-hollowHex_back
+cursor
   rotate: false
   xy: 2, 2
-  size: 265, 265
-  orig: 265, 265
+  size: 10, 10
+  orig: 10, 10
   offset: 0, 0
   index: -1
-home_background
+energyProgressBar
   rotate: false
-  xy: 2, 766
-  size: 432, 768
-  orig: 432, 768
+  xy: 204, 391
+  size: 64, 64
+  orig: 64, 64
   offset: 0, 0
   index: -1
-icon_achievement
+exercise_back
   rotate: false
-  xy: 1402, 1293
-  size: 170, 170
-  orig: 170, 170
+  xy: 2, 14
+  size: 64, 64
+  split: 7, 11, 4, 5
+  orig: 64, 64
   offset: 0, 0
   index: -1
-icon_back
+foodIcon
   rotate: false
-  xy: 1574, 1171
-  size: 170, 170
-  orig: 170, 170
+  xy: 204, 259
+  size: 64, 64
+  orig: 64, 64
   offset: 0, 0
   index: -1
-icon_close
+math
   rotate: false
-  xy: 968, 1189
-  size: 100, 100
-  orig: 100, 100
+  xy: 2, 152
+  size: 200, 167
+  orig: 200, 167
   offset: 0, 0
   index: -1
-icon_credits
+minigameIcon
   rotate: false
-  xy: 1574, 1343
-  size: 170, 170
-  orig: 170, 170
+  xy: 200, 14
+  size: 64, 64
+  orig: 64, 64
   offset: 0, 0
   index: -1
-icon_home
+petIcon
   rotate: false
-  xy: 1746, 1343
-  size: 170, 170
-  orig: 170, 170
+  xy: 134, 14
+  size: 64, 64
+  orig: 64, 64
   offset: 0, 0
   index: -1
-icon_next
+player
   rotate: false
-  xy: 1402, 1465
-  size: 170, 170
-  orig: 170, 170
+  xy: 2, 321
+  size: 200, 200
+  orig: 200, 200
   offset: 0, 0
   index: -1
-icon_pause
+shopIcon
   rotate: false
-  xy: 1739, 1687
-  size: 170, 170
-  orig: 170, 170
+  xy: 204, 193
+  size: 64, 64
+  orig: 64, 64
   offset: 0, 0
   index: -1
-icon_play
+showerIcon
   rotate: false
-  xy: 1746, 1515
-  size: 170, 170
-  orig: 170, 170
+  xy: 204, 325
+  size: 64, 64
+  orig: 64, 64
   offset: 0, 0
   index: -1
-icon_repeat
+tile
   rotate: false
-  xy: 1395, 1637
-  size: 170, 170
-  orig: 170, 170
+  xy: 2, 80
+  size: 300, 70
+  orig: 300, 70
   offset: 0, 0
   index: -1
-icon_settings
+worldsIcon
   rotate: false
-  xy: 1567, 1687
-  size: 170, 170
-  orig: 170, 170
-  offset: 0, 0
-  index: -1
-icon_share
-  rotate: false
-  xy: 288, 382
-  size: 170, 170
-  orig: 170, 170
-  offset: 0, 0
-  index: -1
-icon_shop
-  rotate: false
-  xy: 1746, 1171
-  size: 170, 170
-  orig: 170, 170
-  offset: 0, 0
-  index: -1
-icon_video
-  rotate: false
-  xy: 1574, 1515
-  size: 170, 170
-  orig: 170, 170
-  offset: 0, 0
-  index: -1
-levelFinished_star
-  rotate: false
-  xy: 848, 926
-  size: 60, 62
-  orig: 60, 62
-  offset: 0, 0
-  index: -1
-levelFinished_star_locked
-  rotate: false
-  xy: 436, 1017
-  size: 242, 231
-  orig: 242, 231
-  offset: 0, 0
-  index: -1
-levelScreen_back
-  rotate: false
-  xy: 436, 1250
-  size: 285, 284
-  orig: 285, 284
-  offset: 0, 0
-  index: -1
-levelScreen_backLocked
-  rotate: false
-  xy: 2, 269
-  size: 284, 283
-  orig: 284, 283
-  offset: 0, 0
-  index: -1
-level_lock
-  rotate: false
-  xy: 1258, 1432
-  size: 142, 167
-  orig: 142, 167
-  offset: 0, 0
-  index: -1
-level_stars
-  rotate: false
-  xy: 1493, 1811
-  size: 46, 46
-  orig: 46, 46
-  offset: 0, 0
-  index: -1
-level_stars_locked
-  rotate: false
-  xy: 1152, 1291
-  size: 46, 46
-  orig: 46, 46
-  offset: 0, 0
-  index: -1
-menu_back
-  rotate: false
-  xy: 723, 1286
-  size: 191, 188
-  split: 86, 85, 82, 91
-  pad: 0, 0, 0, 0
-  orig: 191, 188
-  offset: 0, 0
-  index: -1
-not_found
-  rotate: false
-  xy: 269, 2
-  size: 50, 50
-  orig: 50, 50
-  offset: 0, 0
-  index: -1
-selectBox_selected
-  rotate: false
-  xy: 436, 769
-  size: 52, 32
-  orig: 52, 32
-  offset: 0, 0
-  index: -1
-shop_icon_ads
-  rotate: false
-  xy: 1918, 1621
-  size: 67, 68
-  orig: 67, 68
-  offset: 0, 0
-  index: -1
-shop_icon_big
-  rotate: false
-  xy: 1918, 1552
-  size: 61, 67
-  orig: 61, 67
-  offset: 0, 0
-  index: -1
-shop_icon_bigger
-  rotate: false
-  xy: 1911, 1691
-  size: 75, 55
-  orig: 75, 55
-  offset: 0, 0
-  index: -1
-shop_icon_middle
-  rotate: false
-  xy: 723, 1477
-  size: 69, 57
-  orig: 69, 57
-  offset: 0, 0
-  index: -1
-shop_icon_small
-  rotate: false
-  xy: 1918, 1501
-  size: 48, 49
-  orig: 48, 49
-  offset: 0, 0
-  index: -1
-shop_item_back
-  rotate: false
-  xy: 680, 925
-  size: 166, 151
-  orig: 166, 151
-  offset: 0, 0
-  index: -1
-snake_body
-  rotate: false
-  xy: 970, 1291
-  size: 180, 156
-  orig: 180, 156
-  offset: 0, 0
-  index: -1
-title
-  rotate: false
-  xy: 2, 1536
-  size: 791, 510
-  orig: 791, 510
-  offset: 0, 0
-  index: -1
-window_background
-  rotate: false
-  xy: 1395, 1630
-  size: 5, 5
-  orig: 5, 5
-  offset: 0, 0
-  index: -1
-window_banner
-  rotate: false
-  xy: 827, 1080
-  size: 111, 54
-  split: 47, 49, 2, 28
-  pad: 18, 24, 6, 35
-  orig: 111, 54
+  xy: 204, 457
+  size: 64, 64
+  orig: 64, 64
   offset: 0, 0
   index: -1

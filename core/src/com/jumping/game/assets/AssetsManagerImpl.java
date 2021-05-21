@@ -1,9 +1,8 @@
-package com.jumping.game.game.assets;
+package com.jumping.game.assets;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.InputMultiplexer;
-import com.badlogic.gdx.assets.AssetManager;
-import com.badlogic.gdx.assets.loaders.resolvers.InternalFileHandleResolver;
+import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
@@ -12,26 +11,25 @@ import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
+import com.badlogic.gdx.scenes.scene2d.ui.TextField;
 import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
-import com.badlogic.gdx.scenes.scene2d.utils.SpriteDrawable;
+import com.badlogic.gdx.scenes.scene2d.utils.NinePatchDrawable;
 import com.badlogic.gdx.utils.Disposable;
 import com.jumping.game.util.Values;
 
 public class AssetsManagerImpl implements AssetsManager, Disposable {
-    private final AssetManager assetManager;
-
     private final InputMultiplexer inputMultiplexer;
 
+    private final Texture fallbackTexture;
     private final TextureAtlas atlas;
     private final Skin skin;
 
     private final Label.LabelStyle labelStyleBig;
+    private final TextField.TextFieldStyle textFieldStyleBig;
 
+    // todo use AssetManager
     public AssetsManagerImpl() {
-        this.assetManager = new AssetManager(new InternalFileHandleResolver());
-
-        this.assetManager.load(Values.FALLBACK_TEXTURE, Texture.class);
-        // this.assetManager.load(Values.TEXTURE_PATH, TextureAtlas.class); // todo implement ? correct??
+        this.fallbackTexture = new Texture(Gdx.files.internal(Values.FALLBACK_TEXTURE));
 
         this.atlas = new TextureAtlas(Gdx.files.internal(Values.ATLAS_NAME));
         this.skin = new Skin(this.atlas);
@@ -43,7 +41,7 @@ public class AssetsManagerImpl implements AssetsManager, Disposable {
         FreeTypeFontGenerator.FreeTypeFontParameter fontParameter = new FreeTypeFontGenerator.FreeTypeFontParameter();
         FreeTypeFontGenerator.setMaxTextureSize(FreeTypeFontGenerator.NO_MAXIMUM);
         fontParameter.borderColor = Color.valueOf("3b3b3b");
-        fontParameter.color = Color.valueOf("fafafa");
+        fontParameter.color = Values.FONT_COLOR;
         fontParameter.minFilter = Texture.TextureFilter.Linear;
         fontParameter.magFilter = Texture.TextureFilter.Linear;
         fontParameter.borderWidth = Values.FONT_BORDER_WIDTH;
@@ -52,39 +50,47 @@ public class AssetsManagerImpl implements AssetsManager, Disposable {
         BitmapFont font = fontGenerator.generateFont(fontParameter);
         labelStyleBig = new Label.LabelStyle();
         labelStyleBig.font = font;
+
+        textFieldStyleBig = new TextField.TextFieldStyle();
+        textFieldStyleBig.cursor = getDrawable(Values.CURSOR);
+        textFieldStyleBig.font = font;
+        textFieldStyleBig.fontColor = Values.FONT_COLOR;
     }
 
     public void update(float dt) {
-        this.assetManager.update(Values.FPS_IN_MILLIS);
     }
 
     /**
      * Loads all queued assets. Use with care, will block thread if many/big assets need to be loaded.
      */
     public void loadAll() {
-        this.assetManager.finishLoading();
     }
 
-    public float getPercentLoaded() {
-        return assetManager.getProgress();
+    @Override
+    public void addInputProcessor(InputProcessor processor) {
+        inputMultiplexer.addProcessor(processor);
+    }
+
+    @Override
+    public void removeInputProcessor(InputProcessor processor) {
+        inputMultiplexer.removeProcessor(processor);
     }
 
     @Override
     public Sprite getSprite(String name) {
-        if(!assetManager.contains(name)) {// todo remove: only debug
-            System.out.println("Asset with name \"" + name + "\" not found.");
-            return new Sprite(assetManager.get(Values.FALLBACK_TEXTURE, Texture.class));
-        }
-        return new Sprite(assetManager.get(name, Texture.class));
+        TextureAtlas.AtlasRegion region = atlas.findRegion(name); // todo remove: only debug
+        if(region == null) return new Sprite(fallbackTexture);
+        return new Sprite(region);
     }
 
     @Override
     public Drawable getDrawable(String name) {
-        if(!skin.has(name, Drawable.class)) {// todo remove: only debug
-            System.out.println("Asset with name \"" + name + "\" in skin not found.");
-            return new SpriteDrawable(getSprite(name));
-        }
         return skin.getDrawable(name);
+    }
+
+    @Override
+    public Drawable get9Drawable(String name) {
+        return new NinePatchDrawable(skin.getPatch(name));
     }
 
     @Override
@@ -93,7 +99,13 @@ public class AssetsManagerImpl implements AssetsManager, Disposable {
     }
 
     @Override
+    public TextField.TextFieldStyle textFieldStyleBig() {
+        return textFieldStyleBig;
+    }
+
+    @Override
     public void dispose() {
-        assetManager.dispose();
+        fallbackTexture.dispose();
+        atlas.dispose();
     }
 }

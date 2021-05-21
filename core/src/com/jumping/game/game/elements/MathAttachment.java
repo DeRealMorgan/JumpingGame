@@ -1,6 +1,6 @@
 package com.jumping.game.game.elements;
 
-import com.jumping.game.game.assets.AssetsManager;
+import com.jumping.game.assets.AssetsManager;
 import com.jumping.game.game.math.MathController;
 import com.jumping.game.game.physics.EntityType;
 import com.jumping.game.game.physics.PhysicsEntity;
@@ -24,7 +24,8 @@ public class MathAttachment extends TileAttachment {
 
     @Override
     public void onCollision(PhysicsEntity other) {
-        controller.showMathExercise();
+        if(other.getY() > attachedTile.getTop())
+            controller.showMathExercise();
     }
 
     @Override

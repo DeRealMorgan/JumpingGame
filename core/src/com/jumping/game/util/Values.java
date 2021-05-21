@@ -1,5 +1,7 @@
 package com.jumping.game.util;
 
+import com.badlogic.gdx.graphics.Color;
+
 public class Values {
     public static final int MIN_WORLD_WIDTH = 1000, MAX_WORLD_WIDTH = 1000,
             MIN_WORLD_HEIGHT = 2000, MAX_WORLD_HEIGHT = 100000;
@@ -9,7 +11,7 @@ public class Values {
 
     public static final int SPACE_BELOW_TILE_Y = WORLD_HEIGHT/20; // how much of world below player tile is on screen
 
-    public static final int EXERCISE_PADDING = 10;
+    public static final int EXERCISE_PADDING = 50;
 
     public static final int TILE_WIDTH_NORMAL = 250,
             TILE_HEIGHT_NORMAL = 30;
@@ -18,15 +20,16 @@ public class Values {
     public static final int MATH_ATTACHMENT_WIDTH = 150, MATH_ATTACHMENT_HEIGHT = 110;
 
     public static final int FONT_BORDER_WIDTH = 2,
-            FONT_SIZE = 30;
+            FONT_SIZE = 80;
+    public static final Color FONT_COLOR = Color.valueOf("fafafa");
 
-    public static final String ATLAS_NAME = "game.atlas";
-    public static final String TEXTURE_PATH = "game_textures";
+    public static final String ATLAS_NAME = "Game.atlas";
     public static final String PLAYER_SPRITE = "player",
             TILE_SPRITE = "tile",
-            MATH_SPRITE = "math";
+            MATH_SPRITE = "math",
+            CURSOR = "cursor";
     public static final String FALLBACK_TEXTURE = "fallback_texture.jpg";
-    public static final String EXERCISE_BACKGROUND = "exercise_background";
+    public static final String EXERCISE_BACKGROUND = "exercise_back";
 
     public static final float GRAVITY = -1200;
 
@@ -48,5 +51,9 @@ public class Values {
             MUL_EXERCISE_FILE = "exercise_mul.txt",
             DIV_EXERCISE_FILE = "exercise_div.txt";
 
+    public static final String ANSWER_TEXT = "Answer: ";
+
     public static final String NEW_LINE = "\n";
+
+    public static final int REQUEST_ACTIVITY_RECOG_CODE = 200;
 }

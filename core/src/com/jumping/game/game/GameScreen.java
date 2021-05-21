@@ -1,7 +1,7 @@
 package com.jumping.game.game;
 
-import com.jumping.game.game.assets.AssetsManager;
-import com.jumping.game.renderer.RenderPipeline;
+import com.jumping.game.assets.AssetsManager;
+import com.jumping.game.game.renderer.RenderPipeline;
 import com.jumping.game.util.interfaces.Screen;
 
 public class GameScreen implements Screen {
