@@ -5,13 +5,11 @@ public interface Screen extends com.badlogic.gdx.Screen {
     void show();
 
     @Override
-    @Deprecated // use render pipeline instead
     default void render(float delta) {}
 
     void update(float dt);
 
     @Override
-    @Deprecated // do not use, resize is handled in render pipeline
     default void resize(int width, int height) {}
 
     @Override
@@ -25,4 +23,6 @@ public interface Screen extends com.badlogic.gdx.Screen {
 
     @Override
     void dispose();
+
+    RenderPipeline getRenderPipeline();
 }

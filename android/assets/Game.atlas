@@ -1,33 +1,33 @@
 
 Game.png
-size: 304, 523
+size: 1887, 1159
 format: RGBA8888
 filter: Nearest, Nearest
 repeat: none
 achievementsIcon
   rotate: false
-  xy: 68, 14
+  xy: 1108, 2
   size: 64, 64
   orig: 64, 64
   offset: 0, 0
   index: -1
 cursor
   rotate: false
-  xy: 2, 2
+  xy: 2, 5
   size: 10, 10
   orig: 10, 10
   offset: 0, 0
   index: -1
 energyProgressBar
   rotate: false
-  xy: 204, 391
+  xy: 1042, 2
   size: 64, 64
   orig: 64, 64
   offset: 0, 0
   index: -1
 exercise_back
   rotate: false
-  xy: 2, 14
+  xy: 976, 33
   size: 64, 64
   split: 7, 11, 4, 5
   orig: 64, 64
@@ -35,63 +35,210 @@ exercise_back
   index: -1
 foodIcon
   rotate: false
-  xy: 204, 259
+  xy: 1372, 2
+  size: 64, 64
+  orig: 64, 64
+  offset: 0, 0
+  index: -1
+food_apple
+  rotate: false
+  xy: 1208, 575
+  size: 355, 290
+  orig: 355, 290
+  offset: 0, 0
+  index: -1
+food_bacon
+  rotate: false
+  xy: 1208, 867
+  size: 355, 290
+  orig: 355, 290
+  offset: 0, 0
+  index: -1
+food_banana
+  rotate: false
+  xy: 280, 118
+  size: 355, 290
+  orig: 355, 290
+  offset: 0, 0
+  index: -1
+hand_pet
+  rotate: false
+  xy: 879, 99
+  size: 192, 280
+  orig: 192, 280
+  offset: 0, 0
+  index: -1
+hearts
+  rotate: false
+  xy: 1565, 932
+  size: 320, 225
+  orig: 320, 225
+  offset: 0, 0
+  index: -1
+leaderboardIcon
+  rotate: false
+  xy: 1240, 2
   size: 64, 64
   orig: 64, 64
   offset: 0, 0
   index: -1
 math
   rotate: false
-  xy: 2, 152
+  xy: 1461, 163
   size: 200, 167
   orig: 200, 167
   offset: 0, 0
   index: -1
 minigameIcon
   rotate: false
-  xy: 200, 14
+  xy: 1678, 301
   size: 64, 64
   orig: 64, 64
   offset: 0, 0
   index: -1
 petIcon
   rotate: false
-  xy: 134, 14
+  xy: 1306, 2
   size: 64, 64
   orig: 64, 64
   offset: 0, 0
   index: -1
+pig_arm
+  rotate: false
+  xy: 637, 90
+  size: 240, 303
+  orig: 240, 303
+  offset: 0, 0
+  index: -1
+pig_body
+  rotate: false
+  xy: 2, 410
+  size: 643, 747
+  orig: 643, 747
+  offset: 0, 0
+  index: -1
+pig_ear
+  rotate: false
+  xy: 969, 381
+  size: 230, 239
+  orig: 230, 239
+  offset: 0, 0
+  index: -1
+pig_eyes
+  rotate: false
+  xy: 280, 2
+  size: 172, 114
+  orig: 172, 114
+  offset: 0, 0
+  index: -1
+pig_foot
+  rotate: false
+  xy: 1565, 534
+  size: 259, 169
+  orig: 259, 169
+  offset: 0, 0
+  index: -1
+pig_hair
+  rotate: false
+  xy: 1461, 12
+  size: 228, 149
+  orig: 228, 149
+  offset: 0, 0
+  index: -1
+pig_hand
+  rotate: false
+  xy: 1678, 367
+  size: 190, 165
+  orig: 190, 165
+  offset: 0, 0
+  index: -1
+pig_head
+  rotate: false
+  xy: 647, 622
+  size: 559, 535
+  orig: 559, 535
+  offset: 0, 0
+  index: -1
+pig_leg
+  rotate: false
+  xy: 2, 17
+  size: 276, 391
+  orig: 276, 391
+  offset: 0, 0
+  index: -1
+pig_mouth
+  rotate: false
+  xy: 454, 35
+  size: 152, 81
+  orig: 152, 81
+  offset: 0, 0
+  index: -1
+pig_nose
+  rotate: false
+  xy: 1201, 350
+  size: 273, 223
+  orig: 273, 223
+  offset: 0, 0
+  index: -1
 player
   rotate: false
-  xy: 2, 321
+  xy: 1476, 332
   size: 200, 200
   orig: 200, 200
   offset: 0, 0
   index: -1
 shopIcon
   rotate: false
-  xy: 204, 193
+  xy: 1744, 301
   size: 64, 64
   orig: 64, 64
   offset: 0, 0
   index: -1
 showerIcon
   rotate: false
-  xy: 204, 325
+  xy: 1174, 2
   size: 64, 64
   orig: 64, 64
   offset: 0, 0
   index: -1
+shower_head
+  rotate: false
+  xy: 1073, 68
+  size: 192, 280
+  orig: 192, 280
+  offset: 0, 0
+  index: -1
+soap
+  rotate: false
+  xy: 1267, 68
+  size: 192, 280
+  orig: 192, 280
+  offset: 0, 0
+  index: -1
+soap_bubble
+  rotate: false
+  xy: 647, 395
+  size: 320, 225
+  orig: 320, 225
+  offset: 0, 0
+  index: -1
 tile
   rotate: false
-  xy: 2, 80
+  xy: 608, 18
   size: 300, 70
   orig: 300, 70
   offset: 0, 0
   index: -1
+water_drops
+  rotate: false
+  xy: 1565, 705
+  size: 320, 225
+  orig: 320, 225
+  offset: 0, 0
+  index: -1
 worldsIcon
   rotate: false
-  xy: 204, 457
+  xy: 910, 33
   size: 64, 64
   orig: 64, 64
   offset: 0, 0

@@ -39,7 +39,9 @@ public abstract class Game implements ApplicationListener {
     }
 
     @Override
-    public abstract void resize(int width, int height);
+    public void resize(int width, int height) {
+        screen.resize(width, height);
+    }
 
     protected void setScreen (Screen screen) {
         if (this.screen != null) this.screen.hide();

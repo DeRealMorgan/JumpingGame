@@ -8,6 +8,7 @@ import java.util.Collection;
 import java.util.List;
 
 public class PhysicsEngineImpl implements PhysicsEngine {
+    private static Rectangle r1 = new Rectangle(), r2 = new Rectangle();
     private final List<PhysicsEntity> entityList;
 
     public PhysicsEngineImpl() {
@@ -35,6 +36,13 @@ public class PhysicsEngineImpl implements PhysicsEngine {
                 player.onCollision(e);
 
         }
+
+
+    }
+
+    public static boolean isColliding(PhysicsEntity e, PhysicsEntity e1) {
+        r1.set(e.getX(), e.getY(), e.getWidth(), e.getHeight());
+        return e.canCollide() && e1.canCollide() && r2.set(e1.getX(), e1.getY(), e1.getWidth(), e1.getHeight()).overlaps(r1);
     }
 
     @Override

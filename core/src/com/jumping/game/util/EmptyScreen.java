@@ -1,8 +1,10 @@
 package com.jumping.game.util;
 
+import com.jumping.game.util.interfaces.RenderPipeline;
 import com.jumping.game.util.interfaces.Screen;
 
 public class EmptyScreen implements Screen {
+    private EmptyRenderPipelineImpl renderPipeline;
 
     public EmptyScreen() {}
 
@@ -23,4 +25,9 @@ public class EmptyScreen implements Screen {
 
     @Override
     public void dispose() {}
+
+    @Override
+    public RenderPipeline getRenderPipeline() {
+        return renderPipeline;
+    }
 }

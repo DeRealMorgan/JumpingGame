@@ -4,7 +4,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.utils.viewport.FitViewport;
+import com.badlogic.gdx.utils.viewport.ExtendViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import com.jumping.game.util.UIManager;
 import com.jumping.game.util.Values;
@@ -21,7 +21,7 @@ public class RenderPipelineImpl implements RenderPipeline {
         this.batch = new SpriteBatch();
 
         this.uiCam = new OrthographicCamera();
-        this.uiViewport = new FitViewport(Values.MIN_WORLD_WIDTH, Values.MIN_WORLD_HEIGHT, this.uiCam);
+        this.uiViewport = new ExtendViewport(Values.CHARACTER_WORLD_WIDTH, Values.CHARACTER_WORLD_HEIGHT, this.uiCam);
         this.uiCam.position.set(uiViewport.getWorldWidth()/2, uiViewport.getWorldHeight()/2, 0);
     }
 

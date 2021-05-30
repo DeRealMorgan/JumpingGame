@@ -7,7 +7,7 @@ import com.jumping.game.util.ZSprite;
 
 import java.util.Collection;
 
-public interface RenderPipeline {
+public interface RenderPipeline extends com.jumping.game.util.interfaces.RenderPipeline {
     void submitSprites(Collection<ZSprite> sprites);
     void submitSprite(ZSprite sprite);
 
@@ -20,8 +20,6 @@ public interface RenderPipeline {
 
     float getGameCamTopY();
     float getGameCamBottomY();
-
-    void update(float dt);
 
     void setUiManager(UIManager uiManager);
 

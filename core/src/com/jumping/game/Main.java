@@ -1,14 +1,14 @@
 package com.jumping.game;
 
 import com.badlogic.gdx.Gdx;
-import com.jumping.game.game.GameScreen;
 import com.jumping.game.assets.AssetsManagerImpl;
-import com.jumping.game.game.renderer.RenderPipelineImpl;
+import com.jumping.game.character.CharacterScreen;
 import com.jumping.game.util.Game;
 import com.jumping.game.util.GameState;
+import com.jumping.game.util.interfaces.RenderPipeline;
 
 public class Main extends Game {
-	private RenderPipelineImpl renderPipeline;
+	private RenderPipeline renderPipeline;
 	private GameState gameState;
 	private AssetsManagerImpl assetsManager;
 
@@ -21,15 +21,19 @@ public class Main extends Game {
 	@Override
 	public void create() {
 		this.gameState = GameState.ACTIVE;
-
-		this.renderPipeline = new RenderPipelineImpl();
 		this.assetsManager = new AssetsManagerImpl();
 
 		// todo start with loading screen!
 		this.assetsManager.loadAll();
 
-		GameScreen gameScreen = new GameScreen(renderPipeline, assetsManager);
+
+		/*GameScreen gameScreen = new GameScreen(assetsManager);
 		setScreen(gameScreen);
+		this.renderPipeline = gameScreen.getRenderPipeline();*/
+
+		CharacterScreen characterScreen = new CharacterScreen(assetsManager);
+		setScreen(characterScreen);
+		this.renderPipeline = characterScreen.getRenderPipeline();
 	}
 
 	public void permissionGranted(int code) {
@@ -49,6 +53,7 @@ public class Main extends Game {
 	@Override
 	public void resize(int width, int height) {
 		renderPipeline.resize(width, height);
+		super.resize(width, height);
 	}
 
 	@Override

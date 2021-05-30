@@ -30,6 +30,10 @@ public class UIManagerImpl implements UIManager, GameUIController {
     }
 
     @Override
+    public void resize(int w, int h) {
+    }
+
+    @Override
     public void dispose() {
         stage.dispose();
     }

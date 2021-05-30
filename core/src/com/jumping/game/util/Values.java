@@ -5,6 +5,7 @@ import com.badlogic.gdx.graphics.Color;
 public class Values {
     public static final int MIN_WORLD_WIDTH = 1000, MAX_WORLD_WIDTH = 1000,
             MIN_WORLD_HEIGHT = 2000, MAX_WORLD_HEIGHT = 100000;
+    public static final int CHARACTER_WORLD_WIDTH = 800, CHARACTER_WORLD_HEIGHT = 1400;
 
     public static final int WORLD_WIDTH = MIN_WORLD_WIDTH,
             WORLD_HEIGHT = MIN_WORLD_HEIGHT;
@@ -28,13 +29,47 @@ public class Values {
             TILE_SPRITE = "tile",
             MATH_SPRITE = "math",
             CURSOR = "cursor";
+    public static final String SHOP_BTN = "shopIcon",
+            ACHIEVEMENTS_BTN = "achievementsIcon",
+            WORLDS_BTN = "worldsIcon",
+            LEADERBOARD_BTN = "worldsIcon",
+            SHOWER_BTN = "showerIcon",
+            FOOD_BTN = "foodIcon",
+            PET_BTN = "petIcon",
+            MINIGAME_BTN = "minigameIcon";
     public static final String FALLBACK_TEXTURE = "fallback_texture.jpg";
     public static final String EXERCISE_BACKGROUND = "exercise_back";
+
+    public static final String PIG_HEAD = "pig_head",
+            PIG_HAIR = "pig_hair",
+            PIG_EAR = "pig_ear",
+            PIG_EYE = "pig_eyes",
+            PIG_MOUTH = "pig_mouth",
+            PIG_NOSE = "pig_nose",
+            PIG_BODY = "pig_body",
+            PIG_ARM = "pig_arm",
+            PIG_HAND = "pig_hand",
+            PIG_LEG = "pig_leg",
+            PIG_FOOT = "pig_foot";
+
+    public static final String HAND = "hand_pet", SHOWER = "shower_head",
+            HEARTS = "hearts", SOAP = "soap", SOAP_BUBBLE = "soap_bubble",
+            WATER_DROPS = "water_drops";
+
+    public static final float BTN_SIZE = CHARACTER_WORLD_WIDTH/8;
 
     public static final float GRAVITY = -1200;
 
     public static final float PLAYER_COLLISION_DELTA = 30;
     public static final float PLAYER_JUMP_VELOCITY_Y = 1200;
+
+    public static final long HEART_COOLDOWN = 2000; // heart cooldown in ms
+    public static final long PET_DURATION = 15000;
+    public static final long WATERDROP_COOLDOWN = 1000; // in ms
+    public static final long SHOWER_DURATION = 10000;
+    public static final long SOAP_COOLDOWN = 500; // in ms
+    public static final long SOAP_DURATION = 10000;
+
 
     public static final float TILE_DISTANCE_Y = 400;
 

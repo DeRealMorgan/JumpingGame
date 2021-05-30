@@ -2,15 +2,16 @@ package com.jumping.game.game;
 
 import com.jumping.game.assets.AssetsManager;
 import com.jumping.game.game.renderer.RenderPipeline;
+import com.jumping.game.game.renderer.RenderPipelineImpl;
 import com.jumping.game.util.interfaces.Screen;
 
 public class GameScreen implements Screen {
-    private final RenderPipeline renderPipeline;
+    private final RenderPipelineImpl renderPipeline;
     private final GameManagerImpl gameManager;
     private final AssetsManager assetsManager;
 
-    public GameScreen(RenderPipeline renderPipeline, AssetsManager assetsManager) {
-        this.renderPipeline = renderPipeline;
+    public GameScreen(AssetsManager assetsManager) {
+        this.renderPipeline = new RenderPipelineImpl();
         this.assetsManager = assetsManager;
 
         this.gameManager = new GameManagerImpl(renderPipeline, assetsManager);
@@ -46,5 +47,10 @@ public class GameScreen implements Screen {
     @Override
     public void dispose() {
 
+    }
+
+    @Override
+    public RenderPipeline getRenderPipeline() {
+        return renderPipeline;
     }
 }

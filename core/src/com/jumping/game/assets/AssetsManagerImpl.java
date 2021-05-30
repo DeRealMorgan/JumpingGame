@@ -8,12 +8,14 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.TextField;
 import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
 import com.badlogic.gdx.scenes.scene2d.utils.NinePatchDrawable;
+import com.badlogic.gdx.scenes.scene2d.utils.SpriteDrawable;
 import com.badlogic.gdx.utils.Disposable;
 import com.jumping.game.util.Values;
 
@@ -80,7 +82,18 @@ public class AssetsManagerImpl implements AssetsManager, Disposable {
     public Sprite getSprite(String name) {
         TextureAtlas.AtlasRegion region = atlas.findRegion(name); // todo remove: only debug
         if(region == null) return new Sprite(fallbackTexture);
-        return new Sprite(region);
+        Sprite s = new Sprite(region);
+        s.setBounds(0, 0, region.getRegionWidth(), region.getRegionHeight());
+
+        return s;
+    }
+
+    @Override
+    public TextureRegion getTextureRegion(String name) {
+        TextureAtlas.AtlasRegion region = atlas.findRegion(name); // todo remove: only debug
+        if(region == null) return new TextureRegion(fallbackTexture);
+
+        return region;
     }
 
     @Override
@@ -91,6 +104,11 @@ public class AssetsManagerImpl implements AssetsManager, Disposable {
     @Override
     public Drawable get9Drawable(String name) {
         return new NinePatchDrawable(skin.getPatch(name));
+    }
+
+    @Override
+    public SpriteDrawable getSpriteDrawable(String name) {
+        return new SpriteDrawable(getSprite(name));
     }
 
     @Override
