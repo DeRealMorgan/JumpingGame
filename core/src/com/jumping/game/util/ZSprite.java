@@ -6,6 +6,7 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 public class ZSprite {
     private int z;
     private final Sprite sprite;
+    private boolean remove;
 
     public ZSprite(int z, Sprite s) {
         this.z = z;
@@ -48,6 +49,10 @@ public class ZSprite {
         sprite.setOrigin(getX() + getWidth()/2, getY());
     }
 
+    public void remove() {
+        remove = true;
+    }
+
     public void draw(SpriteBatch batch) {
         sprite.draw(batch);
     }
@@ -74,5 +79,9 @@ public class ZSprite {
 
     public float getHeight() {
         return sprite.getHeight();
+    }
+
+    public boolean isRemove() {
+        return remove;
     }
 }

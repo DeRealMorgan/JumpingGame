@@ -2,7 +2,7 @@ package com.jumping.game.game.renderer;
 
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.utils.viewport.Viewport;
-import com.jumping.game.util.UIManager;
+import com.jumping.game.util.interfaces.UIManager;
 import com.jumping.game.util.ZSprite;
 
 import java.util.Collection;

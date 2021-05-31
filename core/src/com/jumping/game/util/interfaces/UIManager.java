@@ -1,4 +1,4 @@
-package com.jumping.game.util;
+package com.jumping.game.util.interfaces;
 
 public interface UIManager {
     void update(float dt);

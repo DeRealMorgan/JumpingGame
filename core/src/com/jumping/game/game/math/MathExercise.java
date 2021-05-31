@@ -7,7 +7,7 @@ public class MathExercise {
     public MathExercise(String exercise) {
         String[] parts = exercise.split("=");
         this.exercise = parts[0];
-        this.solution = parts[1];
+        this.solution = parts[1].trim();
     }
 
     public String getExercise() {

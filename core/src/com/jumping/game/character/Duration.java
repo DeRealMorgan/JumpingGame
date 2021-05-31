@@ -32,6 +32,10 @@ public class Duration {
         reset();
     }
 
+    public float getPercentDone() {
+        return (float)passedDuration/duration;
+    }
+
     /**
      * Irreversible is over
      */

@@ -3,12 +3,14 @@ package com.jumping.game.game.elements;
 import com.jumping.game.assets.AssetsManager;
 import com.jumping.game.game.math.MathController;
 import com.jumping.game.game.physics.EntityType;
-import com.jumping.game.game.physics.PhysicsEngineImpl;
 import com.jumping.game.game.physics.PhysicsEntity;
+import com.jumping.game.util.MathUtils;
 import com.jumping.game.util.Values;
 import com.jumping.game.util.ZPositions;
 
 public class MathAttachment extends TileAttachment {
+    private boolean canCollide = true;
+
     private final MathController controller;
 
     public MathAttachment(AssetsManager manager, MathController controller) {
@@ -24,9 +26,25 @@ public class MathAttachment extends TileAttachment {
     }
 
     @Override
-    public void onCollision(PhysicsEntity other) {
-        if(other.getY() > attachedTile.getTop() && PhysicsEngineImpl.isColliding(other, attachedTile))
-            controller.showMathExercise();
+    public boolean onCollision(PhysicsEntity player) {
+        if(MathUtils.isInDelta(player.getY(), attachedTile.getTop(), Values.PLAYER_COLLISION_DELTA)) {
+            disable();
+            controller.showMathExercise(this);
+
+            return true;
+        }
+
+        return false;
+    }
+
+    @Override
+    public void remove() {
+        super.remove();
+        disable();
+    }
+
+    private void disable() {
+        canCollide = false;
     }
 
     @Override
@@ -51,7 +69,7 @@ public class MathAttachment extends TileAttachment {
 
     @Override
     public boolean canCollide() {
-        return true;
+        return canCollide;
     }
 
     @Override

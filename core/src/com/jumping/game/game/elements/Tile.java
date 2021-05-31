@@ -10,6 +10,7 @@ public abstract class Tile implements PhysicsEntity {
     protected EntityType type;
     protected float minY, maxY; // y position the tile can be in the world (e.g. moving up/down), use top of tile
     protected TileAttachment attachment;
+    protected boolean isRemove;
 
     public Tile(Sprite sprite, int z, float minY, float maxY) {
         this.sprite = new ZSprite(z, sprite);
@@ -32,6 +33,11 @@ public abstract class Tile implements PhysicsEntity {
 
     public boolean hasAttachment() {
         return attachment != null;
+    }
+
+    @Override
+    public boolean isRemove() {
+        return isRemove;
     }
 
     public ZSprite getSprite() {

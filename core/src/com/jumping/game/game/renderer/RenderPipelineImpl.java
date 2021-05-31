@@ -8,7 +8,7 @@ import com.badlogic.gdx.math.Interpolation;
 import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
-import com.jumping.game.util.UIManager;
+import com.jumping.game.util.interfaces.UIManager;
 import com.jumping.game.util.Values;
 import com.jumping.game.util.ZSprite;
 
@@ -57,6 +57,8 @@ public class RenderPipelineImpl implements RenderPipeline {
 
         gameCam.update();
         uiCam.update();
+
+        spriteList.removeIf(ZSprite::isRemove);
     }
 
     public void render(float dt) {

@@ -6,7 +6,7 @@ public interface PhysicsEntity {
      */
     void updatePhysics(float dt, float gravityY);
 
-    void onCollision(PhysicsEntity other);
+    boolean onCollision(PhysicsEntity other);
 
     float getX();
     float getY();
@@ -23,6 +23,8 @@ public interface PhysicsEntity {
     }
 
     boolean canCollide();
+
+    boolean isRemove();
 
     /**
      * Collision type used

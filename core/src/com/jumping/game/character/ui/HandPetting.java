@@ -6,19 +6,26 @@ import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.utils.Align;
 import com.jumping.game.assets.AssetsManager;
+import com.jumping.game.character.Duration;
 import com.jumping.game.util.MathUtils;
 import com.jumping.game.util.Values;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class Hand extends DragItem {
+public class HandPetting extends DragItem {
     private List<Image> heartsList;
     private int currentIndex;
     private long lastHeartEffect;
 
-    public Hand(AssetsManager assetsManager) {
+    private Duration duration;
+
+    private HandPettingListener listener;
+
+    public HandPetting(AssetsManager assetsManager, HandPettingListener listener) {
         super(assetsManager, Values.HAND);
+
+        this.listener = listener;
 
         heartsList = new ArrayList<>();
         for(int i = 0; i < 10; ++i) {
@@ -31,6 +38,22 @@ public class Hand extends DragItem {
         }
 
         moving = false;
+
+        duration = new Duration(Values.PET_DURATION);
+    }
+
+    @Override
+    protected void touchedDown() {
+        duration.start();
+    }
+
+    @Override
+    protected void touchMoved() {
+        if(duration.addTimeStampDiff()) {
+            listener.pettingDone();
+            hide();
+            moving = false;
+        }
     }
 
     public void showHearts(Rectangle headBounds) {

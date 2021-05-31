@@ -12,6 +12,7 @@ public class Values {
 
     public static final int SPACE_BELOW_TILE_Y = WORLD_HEIGHT/20; // how much of world below player tile is on screen
 
+    public static final int SLOW_UPDATE = 3000; // for how long game will be slowed down after math exercise
     public static final int EXERCISE_PADDING = 50;
 
     public static final int TILE_WIDTH_NORMAL = 250,
@@ -60,14 +61,13 @@ public class Values {
 
     public static final float GRAVITY = -1200;
 
-    public static final float PLAYER_COLLISION_DELTA = 30;
+    public static final float PLAYER_COLLISION_DELTA = 50;
     public static final float PLAYER_JUMP_VELOCITY_Y = 1200;
 
-    public static final long HEART_COOLDOWN = 2000; // heart cooldown in ms
+    public static final long HEART_COOLDOWN = 500; // heart cooldown in ms
     public static final long PET_DURATION = 15000;
-    public static final long WATERDROP_COOLDOWN = 1000; // in ms
+    public static final long SOAPWATER_COOLDOWN = 700; // in ms
     public static final long SHOWER_DURATION = 10000;
-    public static final long SOAP_COOLDOWN = 500; // in ms
     public static final long SOAP_DURATION = 10000;
 
 

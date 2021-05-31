@@ -34,6 +34,10 @@ public abstract class DragItem implements DragListener {
         isPresent = false;
     }
 
+    public void position() {
+        dragItemImg.setPosition(dragItemImg.getStage().getWidth()/2, dragItemImg.getStage().getHeight()/4, Align.center);
+    }
+
     @Override
     public boolean touchDown(int screenX, int screenY, int pointer, int button) {
         if(!isPresent) return false;
@@ -60,8 +64,12 @@ public abstract class DragItem implements DragListener {
     }
 
     private void moveTo(float x, float y) {
+        float boundedX = Math.min(dragItemImg.getStage().getWidth()-dragItemImg.getWidth()/2,
+                Math.max(x, dragItemImg.getWidth()/2));
+        float boundedY = Math.min(dragItemImg.getStage().getHeight()-dragItemImg.getHeight()/2,
+                Math.max(y, dragItemImg.getHeight()/2));
         dragItemImg.getActions().clear();
-        dragItemImg.addAction(Actions.moveToAligned(x, y, Align.center, 0.01f));
+        dragItemImg.addAction(Actions.moveToAligned(boundedX, boundedY, Align.center, 0.01f));
     }
 
     @Override

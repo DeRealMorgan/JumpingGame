@@ -20,6 +20,8 @@ public class Player implements PhysicsEntity {
 
     private float highestY;
 
+    private boolean canCollide = true;
+
     public Player(AssetsManager manager, float x, float y, GameUIController gameUIController) {
         this.gameUIController = gameUIController;
 
@@ -58,26 +60,27 @@ public class Player implements PhysicsEntity {
     }
 
     @Override
-    public void onCollision(PhysicsEntity other) {
+    public boolean onCollision(PhysicsEntity other) {
+        if(!canCollide) return false;
         EntityType otherType = other.getType();
 
         switch (otherType) {
             case PLAYER:
                 break;
             case TILE:
-                if(velocityVec.y >= 0)
-                    return;
+                if(velocityVec.y >= 0) return false;
                 handleTileCollision(other);
                 break;
             case MATH_EXERCISE:
-                if(velocityVec.y > 0)
-                    return;
+                if(velocityVec.y > 0) return false;
                 other.onCollision(this);
                 break;
                 // todo add other tiles (like breakable_tile) ...
             case NONE:
                 break;
         }
+
+        return true;
     }
 
     private void handleTileCollision(PhysicsEntity tile) {
@@ -92,6 +95,10 @@ public class Player implements PhysicsEntity {
 
     }
 
+    public void gameOver() {
+        canCollide = false;
+    }
+
     public void start() {
         jump();
     }
@@ -100,7 +107,11 @@ public class Player implements PhysicsEntity {
         velocityVec.y = Values.PLAYER_JUMP_VELOCITY_Y;
     }
 
-    // todo add tolerance to also collide with tiles if very close
+    @Override
+    public boolean isRemove() {
+        return sprite.isRemove();
+    }
+
     @Override
     public float getX() {
         return sprite.getX();
@@ -123,7 +134,7 @@ public class Player implements PhysicsEntity {
 
     @Override
     public boolean canCollide() {
-        return true;
+        return canCollide;
     }
 
     @Override

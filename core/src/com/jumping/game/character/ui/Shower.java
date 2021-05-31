@@ -7,7 +7,6 @@ import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
 import com.badlogic.gdx.utils.Align;
 import com.jumping.game.assets.AssetsManager;
-import com.jumping.game.character.Duration;
 import com.jumping.game.util.MathUtils;
 import com.jumping.game.util.Values;
 
@@ -20,17 +19,20 @@ public class Shower extends DragItem {
     private int currentWaterIndex, currentBubbleIndex;
     private long lastWaterEffect, lastBubbleEffect;
 
-    private Duration duration;
+    private boolean useShower, done;
 
-    private boolean useShower;
+    private ShowerListener listener;
 
-    public Shower(AssetsManager assetsManager) {
+    public Shower(AssetsManager assetsManager, ShowerListener listener) {
         super(assetsManager, Values.SOAP);
+
+        this.listener = listener;
 
         soapDrawable = assetsManager.getDrawable(Values.SOAP);
         showerDrawable = assetsManager.getDrawable(Values.SHOWER);
 
         waterdropList = new ArrayList<>();
+        soapBubbleList = new ArrayList<>();
         for(int i = 0; i < 20; ++i) {
             Image waterdrop = new Image(assetsManager.getDrawable(Values.WATER_DROPS));
             waterdrop.pack();
@@ -38,10 +40,7 @@ public class Shower extends DragItem {
             waterdrop.setVisible(false);
             waterdrop.getColor().a = 0;
             waterdropList.add(waterdrop);
-        }
 
-        soapBubbleList = new ArrayList<>();
-        for(int i = 0; i < 30; ++i) {
             Image soapBubble = new Image(assetsManager.getDrawable(Values.SOAP_BUBBLE));
             soapBubble.pack();
             soapBubble.setOrigin(Align.center);
@@ -49,74 +48,74 @@ public class Shower extends DragItem {
             soapBubble.getColor().a = 0;
             soapBubbleList.add(soapBubble);
         }
-
-        duration = new Duration(Values.SOAP_DURATION);
     }
 
     public void showEffect(Rectangle bodyBounds) {
-        if(!moving) return;
+        if(!moving || done) return;
         if(useShower) {
             if(lastWaterEffect + 1000000 < System.currentTimeMillis()) { // effect long gone
-                lastWaterEffect = System.currentTimeMillis() + Values.WATERDROP_COOLDOWN;
+                lastWaterEffect = System.currentTimeMillis() + Values.SOAPWATER_COOLDOWN;
                 return;
             }
 
-            if(lastWaterEffect + Values.WATERDROP_COOLDOWN < System.currentTimeMillis()) {
+            if(lastWaterEffect + Values.SOAPWATER_COOLDOWN < System.currentTimeMillis()) {
                 Image img = waterdropList.get(currentWaterIndex);
                 int inset = (int)(bodyBounds.getWidth()/5);
-                img.setPosition(bodyBounds.x + MathUtils.getRandomX(inset, (int)bodyBounds.width-inset), bodyBounds.y + MathUtils.getRandomX(inset, (int)bodyBounds.height-inset), Align.center);
+                img.setPosition(bodyBounds.x + MathUtils.getRandomX(inset, (int)bodyBounds.width-inset),
+                        bodyBounds.y + MathUtils.getRandomX(inset, (int)bodyBounds.height-inset), Align.center);
                 img.setScale(.7f);
-                img.addAction(Actions.sequence(Actions.visible(true), Actions.parallel(Actions.fadeIn(1), Actions.scaleTo(1, 1, 2))));
+                img.addAction(Actions.sequence(Actions.visible(true), Actions.parallel(Actions.fadeIn(1),
+                       Actions.scaleTo(1, 1, 2)), Actions.delay(2), Actions.fadeOut(2)));
 
-                currentWaterIndex = (currentWaterIndex+1)%waterdropList.size();
+                currentBubbleIndex--;
+                soapBubbleList.get(currentBubbleIndex).addAction(Actions.fadeOut(2));
+
+                currentWaterIndex++;
+                if(currentWaterIndex == waterdropList.size()) {
+                    moving = false;
+                    done = true;
+                    hide();
+                    listener.showerDone();
+                }
                 lastWaterEffect = System.currentTimeMillis();
             }
         } else {
             if(lastBubbleEffect + 100000 < System.currentTimeMillis()) { // effect long gone
-                lastBubbleEffect = System.currentTimeMillis() + Values.SOAP_COOLDOWN;
+                lastBubbleEffect = System.currentTimeMillis() + Values.SOAPWATER_COOLDOWN;
                 return;
             }
 
-            if(lastBubbleEffect + Values.SOAP_COOLDOWN < System.currentTimeMillis()) {
+            if(lastBubbleEffect + Values.SOAPWATER_COOLDOWN < System.currentTimeMillis()) {
                 Image img = soapBubbleList.get(currentBubbleIndex);
                 int inset = (int)(bodyBounds.getWidth()/5);
-                img.setPosition(bodyBounds.x + MathUtils.getRandomX(inset, (int)bodyBounds.width-inset), bodyBounds.y + MathUtils.getRandomX(inset, (int)bodyBounds.height-inset), Align.center);
+                img.setPosition(bodyBounds.x + MathUtils.getRandomX(inset, (int)bodyBounds.width-inset),
+                        bodyBounds.y + MathUtils.getRandomX(inset, (int)bodyBounds.height-inset), Align.center);
                 img.setScale(.7f);
-                img.addAction(Actions.sequence(Actions.visible(true), Actions.parallel(Actions.fadeIn(1), Actions.scaleTo(1, 1, 2))));
+                img.addAction(Actions.sequence(Actions.visible(true), Actions.parallel(Actions.fadeIn(1),
+                        Actions.scaleTo(1, 1, 2))));
 
-                currentBubbleIndex = (currentBubbleIndex+1)%soapBubbleList.size();
+                currentBubbleIndex++;
                 lastBubbleEffect = System.currentTimeMillis();
+                if(currentBubbleIndex == soapBubbleList.size()) {
+                    moving = false;
+                    useShower();
+                }
             }
         }
     }
-
-    @Override
-    protected void touchedDown() {
-        duration.start();
-    }
-
-    @Override
-    protected void touchMoved() {
-        if(duration.addTimeStampDiff()) {
-            duration.reset(Values.SHOWER_DURATION);
-            useShower();
-            moving = false;
-        }
-    }
-
-    @Override
-    protected void touchedUp() {}
 
     public void useShower() {
         this.useShower = true;
 
         dragItemImg.setDrawable(showerDrawable);
+        position();
     }
 
     public void useSoap() {
         this.useShower = false;
 
         dragItemImg.setDrawable(soapDrawable);
+        position();
     }
 
     @Override

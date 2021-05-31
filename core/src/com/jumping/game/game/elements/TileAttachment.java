@@ -15,6 +15,14 @@ public abstract class TileAttachment implements PhysicsEntity {
         this.type = EntityType.TILE;
     }
 
+    public void remove() {
+        sprite.remove();
+    }
+
+    public boolean isRemove() {
+        return sprite.isRemove();
+    }
+
     public void updateAttachment(float tileX, float tileWidth, float tileTop) {
         this.sprite.setPosition(tileX + tileWidth/2, tileTop);
     }

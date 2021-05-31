@@ -27,7 +27,8 @@ public class BasicTile extends Tile {
     }
 
     @Override
-    public void onCollision(PhysicsEntity other) {
+    public boolean onCollision(PhysicsEntity other) {
+        return true;
         // does nothing
     }
 

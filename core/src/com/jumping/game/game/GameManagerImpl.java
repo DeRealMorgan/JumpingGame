@@ -4,6 +4,7 @@ import com.badlogic.gdx.Application;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.jumping.game.assets.AssetsManager;
+import com.jumping.game.character.Duration;
 import com.jumping.game.game.elements.BasicTile;
 import com.jumping.game.game.elements.MathAttachment;
 import com.jumping.game.game.elements.Tile;
@@ -47,6 +48,8 @@ public class GameManagerImpl implements GameManager {
 
     private boolean pause;
 
+    private Duration slowUpdate;
+
     public GameManagerImpl(RenderPipeline renderPipeline, AssetsManager assetsManager) {
         this.renderPipeline = renderPipeline;
         this.assetsManager = assetsManager;
@@ -71,6 +74,8 @@ public class GameManagerImpl implements GameManager {
         this.playerJumped = true;
         updateWorld();
 
+        this.slowUpdate = new Duration(Values.SLOW_UPDATE);
+
         start(); // todo change to wait for click on screen or countdown or so
     }
 
@@ -92,8 +97,25 @@ public class GameManagerImpl implements GameManager {
         pause = false;
     }
 
+    @Override
+    public void resumeUpdateSlow() {
+        resumeUpdate();
+
+        slowUpdate.reset();
+        slowUpdate.start();
+    }
+
+    @Override
+    public void gameOver() {
+        player.gameOver();
+    }
+
     public void update(float dt) {
         if(pause) return;
+        if(!slowUpdate.addTimeStampDiff()) {
+            float percentDone = slowUpdate.getPercentDone();
+            dt *= percentDone;
+        }
 
         if(Gdx.app.getType() == Application.ApplicationType.Android)
             player.updateVelocityX(Gdx.input.getAccelerometerX());

@@ -4,7 +4,7 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.utils.viewport.Viewport;
-import com.jumping.game.util.UIManager;
+import com.jumping.game.util.interfaces.UIManager;
 
 public class UIManagerImpl implements UIManager, GameUIController {
     private final Stage stage;

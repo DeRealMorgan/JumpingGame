@@ -10,10 +10,14 @@ import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import com.jumping.game.assets.AssetsManager;
-import com.jumping.game.util.UIManager;
+import com.jumping.game.util.ScreenName;
+import com.jumping.game.util.interfaces.ScreenManager;
+import com.jumping.game.util.interfaces.UIManager;
 import com.jumping.game.util.Values;
 
 public class UIManagerImpl implements UIManager {
+    private final ScreenManager screenManager;
+
     private final Stage stage;
 
     private Table contentTable, backgroundTable, uiTableLeft, uiTableRight, uiTableBottom, energyTable;
@@ -21,12 +25,14 @@ public class UIManagerImpl implements UIManager {
 
     private Character character;
 
-    private Hand hand;
+    private HandPetting hand;
     private Shower shower;
 
     private final static float BOTTOM_PADDING = 100, TOP_PADDING = 100, SIDE_PADDING = 50;
 
-    public UIManagerImpl(Viewport viewport, SpriteBatch batch, AssetsManager assetsManager) {
+    public UIManagerImpl(Viewport viewport, SpriteBatch batch, AssetsManager assetsManager,
+                         ScreenManager screenManager) {
+        this.screenManager = screenManager;
         this.stage = new Stage(viewport, batch);
 
         createUI(assetsManager);
@@ -126,6 +132,13 @@ public class UIManagerImpl implements UIManager {
         minigameBtnStyle.down = assetsManager.getDrawable(Values.MINIGAME_BTN);
         minigameBtnStyle.up = minigameBtnStyle.down;
         minigameBtn = new Button(minigameBtnStyle);
+        minigameBtn.addListener(new ClickListener() {
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                setUiVisible(false);
+                showMinigame();
+            }
+        });
 
         uiTableBottom.add(showerBtn).size(Values.BTN_SIZE).growX();
         uiTableBottom.add(foodBtn).size(Values.BTN_SIZE).growX();
@@ -134,11 +147,27 @@ public class UIManagerImpl implements UIManager {
 
         //stage.setDebugAll(true);
 
-        hand = new Hand(assetsManager);
+        hand = new HandPetting(assetsManager, this::pettingDone);
         hand.addAll(contentTable);
 
-        shower = new Shower(assetsManager);
+        shower = new Shower(assetsManager, this::showerDone);
         shower.addAll(contentTable);
+
+        contentTable.pack();
+        hand.position();
+        shower.position();
+    }
+
+    private void showerDone() {
+        setUiVisible(true);
+    }
+
+    private void pettingDone() {
+        setUiVisible(true);
+    }
+
+    private void showMinigame() {
+        screenManager.setScreen(ScreenName.MINIGAME_SCREEN);
     }
 
     @Override
@@ -165,17 +194,17 @@ public class UIManagerImpl implements UIManager {
                 uiTableLeft.setTouchable(Touchable.childrenOnly);
                 uiTableRight.setTouchable(Touchable.childrenOnly);
 
-                uiTableBottom.addAction(Actions.fadeIn(1));
-                uiTableLeft.addAction(Actions.fadeIn(1));
-                uiTableRight.addAction(Actions.fadeIn(1));
+                uiTableBottom.addAction(Actions.sequence(Actions.visible(true), Actions.fadeIn(1)));
+                uiTableLeft.addAction(Actions.sequence(Actions.visible(true), Actions.fadeIn(1)));
+                uiTableRight.addAction(Actions.sequence(Actions.visible(true), Actions.fadeIn(1)));
             } else {
                 uiTableBottom.setTouchable(Touchable.disabled);
                 uiTableLeft.setTouchable(Touchable.disabled);
                 uiTableRight.setTouchable(Touchable.disabled);
 
-                uiTableBottom.addAction(Actions.fadeOut(1));
-                uiTableLeft.addAction(Actions.fadeOut(1));
-                uiTableRight.addAction(Actions.fadeOut(1));
+                uiTableBottom.addAction(Actions.sequence(Actions.fadeOut(1), Actions.visible(false)));
+                uiTableLeft.addAction(Actions.sequence(Actions.fadeOut(1), Actions.visible(false)));
+                uiTableRight.addAction(Actions.sequence(Actions.fadeOut(1), Actions.visible(false)));
             }
         }
     }

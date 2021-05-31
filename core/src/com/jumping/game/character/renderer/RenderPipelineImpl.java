@@ -6,7 +6,7 @@ import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.utils.viewport.ExtendViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
-import com.jumping.game.util.UIManager;
+import com.jumping.game.util.interfaces.UIManager;
 import com.jumping.game.util.Values;
 
 public class RenderPipelineImpl implements RenderPipeline {

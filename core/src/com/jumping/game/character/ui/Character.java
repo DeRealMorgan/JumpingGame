@@ -117,12 +117,13 @@ public class Character {
         rightArmContainer.padLeft(500).padBottom(150);
         leftLegContainer.padRight(200).padTop(400);
         rightLegContainer.padLeft(200).padTop(400);
-        hairImg.padBottom(400);
-        leftEarImg.padBottom(350).padLeft(-270);
         rightEarImg.padBottom(350).padLeft(270);
         noseImg.padTop(80);
         mouthImg.padTop(290);
         eyeImg.padBottom(150);
+        hairImg.center();
+        hairImg.padBottom(400);
+        leftEarImg.padBottom(350).padLeft(50);
 
         leftArm.pack();
         rightArm.pack();
@@ -132,7 +133,6 @@ public class Character {
         bodyImg.pack();
         leftEarImg.pack();
         rightEarImg.pack();
-        hairImg.pack();
 
         leftArm.setTransform(true);
         rightArm.setTransform(true);
@@ -151,6 +151,8 @@ public class Character {
         leftEarImg.setOrigin(Align.bottom);
         leftEarImg.getActor().setOrigin(Align.bottom);
         rightEarImg.getActor().setOrigin(Align.bottom);
+
+        //stage.setDebugAll(true);
     }
 
     private Container<Image> getImg(SpriteDrawable drawable) {

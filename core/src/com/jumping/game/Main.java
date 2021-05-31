@@ -3,11 +3,14 @@ package com.jumping.game;
 import com.badlogic.gdx.Gdx;
 import com.jumping.game.assets.AssetsManagerImpl;
 import com.jumping.game.character.CharacterScreen;
+import com.jumping.game.game.GameScreen;
 import com.jumping.game.util.Game;
 import com.jumping.game.util.GameState;
+import com.jumping.game.util.ScreenName;
 import com.jumping.game.util.interfaces.RenderPipeline;
+import com.jumping.game.util.interfaces.ScreenManager;
 
-public class Main extends Game {
+public class Main extends Game implements ScreenManager {
 	private RenderPipeline renderPipeline;
 	private GameState gameState;
 	private AssetsManagerImpl assetsManager;
@@ -26,18 +29,29 @@ public class Main extends Game {
 		// todo start with loading screen!
 		this.assetsManager.loadAll();
 
-
-		/*GameScreen gameScreen = new GameScreen(assetsManager);
-		setScreen(gameScreen);
-		this.renderPipeline = gameScreen.getRenderPipeline();*/
-
-		CharacterScreen characterScreen = new CharacterScreen(assetsManager);
-		setScreen(characterScreen);
-		this.renderPipeline = characterScreen.getRenderPipeline();
+		setScreen(ScreenName.CHARACTER_SCREEN);
 	}
 
 	public void permissionGranted(int code) {
 
+	}
+
+	@Override
+	public void setScreen(ScreenName name) {
+		switch (name) {
+			case MINIGAME_SCREEN:
+				GameScreen gameScreen = new GameScreen(assetsManager);
+				setScreen(gameScreen);
+				this.renderPipeline = gameScreen.getRenderPipeline();
+				break;
+			case CHARACTER_SCREEN:
+				CharacterScreen characterScreen = new CharacterScreen(assetsManager, this);
+				setScreen(characterScreen);
+				this.renderPipeline = characterScreen.getRenderPipeline();
+				break;
+		}
+
+		resize(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
 	}
 
 	@Override

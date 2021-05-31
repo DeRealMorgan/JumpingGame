@@ -29,15 +29,15 @@ public class PhysicsEngineImpl implements PhysicsEngine {
         Rectangle r1 = new Rectangle(player.getX(), player.getY(), player.getWidth(), player.getHeight());
 
         Rectangle r2 = new Rectangle(0, 0, 0, 0);
+
+        entityList.removeIf(PhysicsEntity::isRemove);
+
         for(PhysicsEntity e : entityList) {
             if(e == player) continue;
 
             if(e.canCollide() && r2.set(e.getX(), e.getY(), e.getWidth(), e.getHeight()).overlaps(r1))
                 player.onCollision(e);
-
         }
-
-
     }
 
     public static boolean isColliding(PhysicsEntity e, PhysicsEntity e1) {

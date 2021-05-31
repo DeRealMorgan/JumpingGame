@@ -10,6 +10,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.utils.Align;
 import com.jumping.game.game.GameManager;
 import com.jumping.game.assets.AssetsManager;
+import com.jumping.game.game.elements.MathAttachment;
 import com.jumping.game.game.ui.GameUIController;
 import com.jumping.game.util.MathUtils;
 import com.jumping.game.util.Values;
@@ -24,6 +25,7 @@ public class MathControllerImpl implements MathController {
     private String[] addStringList, subStringList, mulStringList, divStringList;
 
     private MathExercise currentExercise;
+    private MathAttachment attachment;
 
     private String answerString = "";
 
@@ -63,6 +65,7 @@ public class MathControllerImpl implements MathController {
             @Override
             public boolean keyTyped(char character) {
                 if(Character.isDigit(character)) digitTyped(character);
+                if(answerString.isEmpty() && character == '-') digitTyped(character);
                 return true;
             }
         });
@@ -82,10 +85,24 @@ public class MathControllerImpl implements MathController {
         Gdx.input.setOnscreenKeyboardVisible(false);
 
         if(currentExercise.isCorrect(answerString)) {
-            // todo
+            answerCorrect();
+            attachment.remove();
         } else {
-            // todo
+            answerWrong();
         }
+
+        answerString = "";
+    }
+
+    private void answerCorrect() {
+        gameManager.resumeUpdateSlow();
+        contentTable.remove();
+    }
+
+    private void answerWrong() {
+        gameManager.resumeUpdate();
+        contentTable.remove();
+        gameManager.gameOver();
     }
 
     private void digitTyped(char c) {
@@ -113,7 +130,8 @@ public class MathControllerImpl implements MathController {
     }
 
     @Override
-    public void showMathExercise() {
+    public void showMathExercise(MathAttachment attachment) {
+        this.attachment = attachment;
         loadExercise();
 
         gameManager.pauseUpdate();
