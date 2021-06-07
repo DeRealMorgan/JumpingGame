@@ -7,6 +7,7 @@ import com.jumping.game.game.GameScreen;
 import com.jumping.game.util.Game;
 import com.jumping.game.util.GameState;
 import com.jumping.game.util.ScreenName;
+import com.jumping.game.util.interfaces.GoogleFit;
 import com.jumping.game.util.interfaces.RenderPipeline;
 import com.jumping.game.util.interfaces.ScreenManager;
 
@@ -16,9 +17,11 @@ public class Main extends Game implements ScreenManager {
 	private AssetsManagerImpl assetsManager;
 
 	private boolean essentialPermissionsGranted;
+	private GoogleFit googleFit;
 
-	public Main(boolean essentialPermissionsGranted) {
+	public Main(boolean essentialPermissionsGranted, GoogleFit googleFit) {
 		this.essentialPermissionsGranted = essentialPermissionsGranted;
+		this.googleFit = googleFit;
 	}
 
 	@Override
@@ -40,7 +43,7 @@ public class Main extends Game implements ScreenManager {
 	public void setScreen(ScreenName name) {
 		switch (name) {
 			case MINIGAME_SCREEN:
-				GameScreen gameScreen = new GameScreen(assetsManager);
+				GameScreen gameScreen = new GameScreen(assetsManager, this);
 				setScreen(gameScreen);
 				this.renderPipeline = gameScreen.getRenderPipeline();
 				break;

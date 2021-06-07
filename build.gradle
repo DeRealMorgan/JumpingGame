@@ -11,8 +11,6 @@ buildscript {
     dependencies {
         classpath 'com.android.tools.build:gradle:3.5.4'
         classpath 'com.mobidevelop.robovm:robovm-gradle-plugin:2.3.12'
-        
-
     }
 }
 
@@ -77,6 +75,8 @@ project(":android") {
         api "de.tomgrill.gdxfacebook:gdx-facebook-android:1.4.1"
         api "de.tomgrill.gdxdialogs:gdx-dialogs-android:1.2.5"
         api "de.golfgl.gdxgamesvcs:gdx-gamesvcs-android-gpgs:1.0.2"
+        implementation 'com.google.android.gms:play-services-fitness:20.0.0'
+        implementation 'com.google.android.gms:play-services-auth:19.0.0'
         
     }
 }

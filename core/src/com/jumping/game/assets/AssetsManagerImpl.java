@@ -12,6 +12,7 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
+import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.ui.TextField;
 import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
 import com.badlogic.gdx.scenes.scene2d.utils.NinePatchDrawable;
@@ -26,8 +27,9 @@ public class AssetsManagerImpl implements AssetsManager, Disposable {
     private final TextureAtlas atlas;
     private final Skin skin;
 
-    private final Label.LabelStyle labelStyleBig;
+    private final Label.LabelStyle labelStyleBig, labelStyleHuge;
     private final TextField.TextFieldStyle textFieldStyleBig;
+    private final TextButton.TextButtonStyle textBtnStyle;
 
     // todo use AssetManager
     public AssetsManagerImpl() {
@@ -53,10 +55,21 @@ public class AssetsManagerImpl implements AssetsManager, Disposable {
         labelStyleBig = new Label.LabelStyle();
         labelStyleBig.font = font;
 
+        fontParameter.size = Values.FONT_SIZE_HUGE;
+        BitmapFont fontHuge = fontGenerator.generateFont(fontParameter);
+        labelStyleHuge = new Label.LabelStyle();
+        labelStyleHuge.font = fontHuge;
+
         textFieldStyleBig = new TextField.TextFieldStyle();
         textFieldStyleBig.cursor = getDrawable(Values.CURSOR);
         textFieldStyleBig.font = font;
         textFieldStyleBig.fontColor = Values.FONT_COLOR;
+
+        textBtnStyle = new TextButton.TextButtonStyle();
+        textBtnStyle.up = get9Drawable(Values.BTN_UP);
+        textBtnStyle.down = get9Drawable(Values.BTN_DOWN);
+        textBtnStyle.font = font;
+
     }
 
     public void update(float dt) {
@@ -117,8 +130,18 @@ public class AssetsManagerImpl implements AssetsManager, Disposable {
     }
 
     @Override
+    public Label.LabelStyle labelStyleHuge() {
+        return labelStyleHuge;
+    }
+
+    @Override
     public TextField.TextFieldStyle textFieldStyleBig() {
         return textFieldStyleBig;
+    }
+
+    @Override
+    public TextButton.TextButtonStyle textBtnStyle() {
+        return textBtnStyle;
     }
 
     @Override

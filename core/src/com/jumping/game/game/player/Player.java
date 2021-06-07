@@ -40,6 +40,7 @@ public class Player implements PhysicsEntity {
         velocityVec.y += gravityY;
         sprite.addToPosition(velocityVec.x * dt, velocityVec.y * dt);
         highestY = Math.max(highestY, getY());
+        playerListener.scoreChanged((int)highestY);
 
         float playerWidth2 = sprite.getWidth()/2;
         float midX = sprite.getX() + playerWidth2;
@@ -47,7 +48,6 @@ public class Player implements PhysicsEntity {
             sprite.setX(-playerWidth2);
         else if(midX < 0)
             sprite.setX(Values.WORLD_WIDTH-playerWidth2);
-
     }
 
     public void updateVelocityX(float velocityX) {

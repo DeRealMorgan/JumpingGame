@@ -4,17 +4,18 @@ import com.jumping.game.assets.AssetsManager;
 import com.jumping.game.game.renderer.RenderPipeline;
 import com.jumping.game.game.renderer.RenderPipelineImpl;
 import com.jumping.game.util.interfaces.Screen;
+import com.jumping.game.util.interfaces.ScreenManager;
 
 public class GameScreen implements Screen {
     private final RenderPipelineImpl renderPipeline;
     private final GameManagerImpl gameManager;
     private final AssetsManager assetsManager;
 
-    public GameScreen(AssetsManager assetsManager) {
+    public GameScreen(AssetsManager assetsManager, ScreenManager screenManager) {
         this.renderPipeline = new RenderPipelineImpl();
         this.assetsManager = assetsManager;
 
-        this.gameManager = new GameManagerImpl(renderPipeline, assetsManager);
+        this.gameManager = new GameManagerImpl(renderPipeline, assetsManager, screenManager);
     }
 
     @Override

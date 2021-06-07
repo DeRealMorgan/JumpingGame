@@ -13,7 +13,7 @@ public class Values {
     public static final int SPACE_BELOW_TILE_Y = WORLD_HEIGHT/20; // how much of world below player tile is on screen
 
     public static final int SLOW_UPDATE = 3000; // for how long game will be slowed down after math exercise
-    public static final int EXERCISE_PADDING = 50;
+    public static final int EXERCISE_PADDING = 50, PADDING_BIG = 50, PADDING = 30;
 
     public static final int TILE_WIDTH_NORMAL = 250,
             TILE_HEIGHT_NORMAL = 30;
@@ -22,7 +22,7 @@ public class Values {
     public static final int MATH_ATTACHMENT_WIDTH = 150, MATH_ATTACHMENT_HEIGHT = 110;
 
     public static final int FONT_BORDER_WIDTH = 2,
-            FONT_SIZE = 80;
+            FONT_SIZE = 80, FONT_SIZE_HUGE = 120;
     public static final Color FONT_COLOR = Color.valueOf("fafafa");
 
     public static final String ATLAS_NAME = "Game.atlas";
@@ -37,7 +37,10 @@ public class Values {
             SHOWER_BTN = "showerIcon",
             FOOD_BTN = "foodIcon",
             PET_BTN = "petIcon",
-            MINIGAME_BTN = "minigameIcon";
+            MINIGAME_BTN = "minigameIcon",
+            OVERLAY_BACKGROUND = "overlay_back",
+            BTN_UP = "btn_up",
+            BTN_DOWN = "btn_down";
     public static final String FALLBACK_TEXTURE = "fallback_texture.jpg";
     public static final String EXERCISE_BACKGROUND = "exercise_back";
 
@@ -55,7 +58,7 @@ public class Values {
 
     public static final String HAND = "hand_pet", SHOWER = "shower_head",
             HEARTS = "hearts", SOAP = "soap", SOAP_BUBBLE = "soap_bubble",
-            WATER_DROPS = "water_drops";
+            WATER_DROPS = "water_drops", CRUMBS = "crumbs";
 
     public static final float BTN_SIZE = CHARACTER_WORLD_WIDTH/8;
 
@@ -65,11 +68,10 @@ public class Values {
     public static final float PLAYER_JUMP_VELOCITY_Y = 1200;
 
     public static final long HEART_COOLDOWN = 500; // heart cooldown in ms
-    public static final long PET_DURATION = 15000;
+    public static final long PET_DURATION = 10000;
     public static final long SOAPWATER_COOLDOWN = 700; // in ms
-    public static final long SHOWER_DURATION = 10000;
-    public static final long SOAP_DURATION = 10000;
-
+    public static final long FOOD_DURATION = 10000;
+    public static final long CRUMB_COOLDOWN = 400;
 
     public static final float TILE_DISTANCE_Y = 400;
 
@@ -86,7 +88,13 @@ public class Values {
             MUL_EXERCISE_FILE = "exercise_mul.txt",
             DIV_EXERCISE_FILE = "exercise_div.txt";
 
-    public static final String ANSWER_TEXT = "Answer: ";
+    public static final String ANSWER_TEXT = "Answer: ",
+            GAME_OVER = "GAME OVER",
+            PAUSE = "PAUSE",
+            SCORE = "Score: ",
+            MATH_SCORE = "Math Score: ",
+            BACK = "BACK",
+            REPLAY = "PLAY AGAIN";
 
     public static final String NEW_LINE = "\n";
 

@@ -2,6 +2,7 @@ package com.jumping.game.character.ui;
 
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.scenes.scene2d.actions.Actions;
 import com.badlogic.gdx.scenes.scene2d.ui.Container;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.Stack;
@@ -123,7 +124,7 @@ public class Character {
         eyeImg.padBottom(150);
         hairImg.center();
         hairImg.padBottom(400);
-        leftEarImg.padBottom(350).padLeft(50);
+        leftEarImg.padBottom(350).padLeft(-250);
 
         leftArm.pack();
         rightArm.pack();
@@ -149,10 +150,15 @@ public class Character {
         rightLeg.setOrigin(Align.topLeft);
         head.setOrigin(Align.bottom);
         leftEarImg.setOrigin(Align.bottom);
-        leftEarImg.getActor().setOrigin(Align.bottom);
-        rightEarImg.getActor().setOrigin(Align.bottom);
+        leftEarImg.setOrigin(Align.bottomRight);
+        rightEarImg.setOrigin(Align.bottomLeft);
 
-        //stage.setDebugAll(true);
+        leftArm.addAction(Actions.sequence(Actions.delay(1), Actions.forever(
+                Actions.sequence(Actions.rotateTo(-10, 2), Actions.rotateTo(10, 4)))));
+        rightArm.addAction(Actions.forever(Actions.sequence(Actions.rotateTo(10, 2),
+                Actions.rotateTo(-10, 4))));
+        rightLeg.addAction(Actions.sequence(Actions.delay(1), Actions.forever(Actions.sequence(
+                Actions.moveBy(0, 10, 1), Actions.moveBy(0, -10, 2)))));
     }
 
     private Container<Image> getImg(SpriteDrawable drawable) {

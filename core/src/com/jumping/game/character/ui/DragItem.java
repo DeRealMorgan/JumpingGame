@@ -21,15 +21,22 @@ public abstract class DragItem implements DragListener {
         dragItemImg.setOrigin(Align.center);
 
         assetsManager.addInputProcessor(this);
-        hide();
+        hideInstantly();
     }
 
     public void show() {
+        dragItemImg.getColor().a = 0;
         dragItemImg.setVisible(true);
+        dragItemImg.addAction(Actions.fadeIn(.2f));
         isPresent = true;
     }
 
     public void hide() {
+        dragItemImg.addAction(Actions.sequence(Actions.fadeOut(.3f), Actions.visible(false)));
+        isPresent = false;
+    }
+
+    public void hideInstantly() {
         dragItemImg.setVisible(false);
         isPresent = false;
     }

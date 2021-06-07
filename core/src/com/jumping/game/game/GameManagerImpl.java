@@ -13,11 +13,12 @@ import com.jumping.game.game.math.MathControllerImpl;
 import com.jumping.game.game.physics.PhysicsEngineImpl;
 import com.jumping.game.game.physics.PhysicsEntity;
 import com.jumping.game.game.player.Player;
-import com.jumping.game.game.ui.UIManagerImpl;
 import com.jumping.game.game.renderer.RenderPipeline;
+import com.jumping.game.game.ui.UIManagerImpl;
 import com.jumping.game.util.MathUtils;
 import com.jumping.game.util.Values;
 import com.jumping.game.util.ZSprite;
+import com.jumping.game.util.interfaces.ScreenManager;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -36,6 +37,7 @@ public class GameManagerImpl implements GameManager {
 
     private final Player player;
     private boolean playerJumped;
+    private int correctMathCount, score;
 
     private final List<Tile> tileList;
     private final List<ZSprite> tileSpriteList;
@@ -46,20 +48,21 @@ public class GameManagerImpl implements GameManager {
     private float tileDistY = 50;
     private float tileSpawnRate = 2.75f;
 
-    private boolean pause;
+    private boolean pause, stop;
 
     private Duration slowUpdate;
 
-    public GameManagerImpl(RenderPipeline renderPipeline, AssetsManager assetsManager) {
+    public GameManagerImpl(RenderPipeline renderPipeline, AssetsManager assetsManager, ScreenManager screenManager) {
         this.renderPipeline = renderPipeline;
         this.assetsManager = assetsManager;
 
         this.physicsEngine = new PhysicsEngineImpl();
 
-        this.uiManager = new UIManagerImpl(this.renderPipeline.getUIViewport(), this.renderPipeline.getBatch());
+        this.uiManager = new UIManagerImpl(this.renderPipeline.getUIViewport(), this.renderPipeline.getBatch(),
+                assetsManager, screenManager);
         this.renderPipeline.setUiManager(uiManager);
 
-        this.mathController = new MathControllerImpl(this, uiManager, assetsManager);
+        this.mathController = new MathControllerImpl(this, uiManager, assetsManager, this::mathCorrect);
 
         this.tileList = new ArrayList<>();
         this.tileSpriteList = new ArrayList<>();
@@ -107,11 +110,26 @@ public class GameManagerImpl implements GameManager {
 
     @Override
     public void gameOver() {
+        stop = true;
         player.gameOver();
+        uiManager.getGameOverUI().show();
+        physicsEngine.stop();
+    }
+
+    public void mathCorrect() {
+        ++correctMathCount;
+        uiManager.getGameOverUI().setMathScore(correctMathCount);
+    }
+
+    @Override
+    public void scoreChanged(int score) {
+        this.score = Math.max(this.score, score);
+        uiManager.getGameOverUI().setScore(this.score);
     }
 
     public void update(float dt) {
-        if(pause) return;
+        uiManager.update(dt);
+        if(pause || stop) return;
         if(!slowUpdate.addTimeStampDiff()) {
             float percentDone = slowUpdate.getPercentDone();
             dt *= percentDone;
@@ -130,6 +148,7 @@ public class GameManagerImpl implements GameManager {
 
         physicsEngine.update(dt);
         physicsEngine.handlePlayerCollisions(player);
+        if(player.getTop() < renderPipeline.getGameCamBottomY()) gameOver();
 
         if(playerJumped) {
             playerJumped = false;
@@ -203,7 +222,7 @@ public class GameManagerImpl implements GameManager {
             tiles.add(t);
             lastTile = t;
 
-            if(MathUtils.getTrue(mathAttachmentProbability)) {
+            if(MathUtils.getTrue(mathAttachmentProbability)) { // TODO REMOVE TRUE
                 MathAttachment attachment = new MathAttachment(assetsManager, mathController);
                 t.setAttachment(attachment);
             }

@@ -4,4 +4,5 @@ import com.badlogic.gdx.scenes.scene2d.ui.Table;
 
 public interface GameUIController {
     void showMathDialog(Table t);
+    GameOverUI getGameOverUI();
 }

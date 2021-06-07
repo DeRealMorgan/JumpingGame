@@ -4,13 +4,21 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.utils.viewport.Viewport;
+import com.jumping.game.assets.AssetsManager;
+import com.jumping.game.util.interfaces.ScreenManager;
 import com.jumping.game.util.interfaces.UIManager;
 
 public class UIManagerImpl implements UIManager, GameUIController {
     private final Stage stage;
 
-    public UIManagerImpl(Viewport viewport, SpriteBatch batch) {
-        this.stage = new Stage(viewport, batch);
+    private final GameOverUI gameOverUI;
+
+    public UIManagerImpl(Viewport viewport, SpriteBatch batch, AssetsManager assetsManager, ScreenManager screenManager) {
+        stage = new Stage(viewport, batch);
+        assetsManager.addInputProcessor(stage);
+
+        gameOverUI = new GameOverUI(assetsManager, screenManager);
+        gameOverUI.addToStage(stage);
     }
 
     @Override
@@ -22,6 +30,11 @@ public class UIManagerImpl implements UIManager, GameUIController {
     public void showMathDialog(Table t) {
         stage.addActor(t);
         t.setVisible(true);
+    }
+
+    @Override
+    public GameOverUI getGameOverUI() {
+        return gameOverUI;
     }
 
     @Override

@@ -13,6 +13,8 @@ public interface PhysicsEngine {
 
     void handlePlayerCollisions(PhysicsEntity player);
 
+    void stop();
+
     default float getGravityY() {
         return Values.GRAVITY;
     }

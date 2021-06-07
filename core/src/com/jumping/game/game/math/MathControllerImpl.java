@@ -29,9 +29,15 @@ public class MathControllerImpl implements MathController {
 
     private String answerString = "";
 
-    public MathControllerImpl(GameManager gameManager, GameUIController controller, AssetsManager assetsManager) {
+    private boolean active;
+
+    private Runnable onCorrectMath;
+
+    public MathControllerImpl(GameManager gameManager, GameUIController controller, AssetsManager assetsManager,
+                              Runnable onCorrectMath) {
         this.gameManager = gameManager;
         this.controller = controller;
+        this.onCorrectMath = onCorrectMath;
 
         this.addStringList = loadList(Values.ADD_EXERCISE_FILE); // todo maybe async?
         this.subStringList = loadList(Values.SUB_EXERCISE_FILE);
@@ -54,6 +60,8 @@ public class MathControllerImpl implements MathController {
         assetsManager.addInputProcessor(new InputAdapter() {
             @Override
             public boolean keyUp(int keycode) {
+                if(!active) return false;
+
                 if(keycode == Input.Keys.BACK || keycode == Input.Keys.ENTER)
                     closeKeyboard();
                 if(keycode == Input.Keys.DEL)
@@ -64,6 +72,8 @@ public class MathControllerImpl implements MathController {
 
             @Override
             public boolean keyTyped(char character) {
+                if(!active) return false;
+
                 if(Character.isDigit(character)) digitTyped(character);
                 if(answerString.isEmpty() && character == '-') digitTyped(character);
                 return true;
@@ -92,17 +102,30 @@ public class MathControllerImpl implements MathController {
         }
 
         answerString = "";
+        updateAnswer();
     }
 
     private void answerCorrect() {
         gameManager.resumeUpdateSlow();
+        onCorrectMath.run();
+        removeContent();
+    }
+
+    private void removeContent() {
+        active = false;
         contentTable.remove();
+    }
+
+    private void addContent() {
+        active = true;
+        controller.showMathDialog(contentTable);
     }
 
     private void answerWrong() {
         gameManager.resumeUpdate();
-        contentTable.remove();
         gameManager.gameOver();
+
+        removeContent();
     }
 
     private void digitTyped(char c) {
@@ -135,12 +158,9 @@ public class MathControllerImpl implements MathController {
         loadExercise();
 
         gameManager.pauseUpdate();
-        controller.showMathDialog(contentTable);
+        addContent();
+
         Gdx.input.setOnscreenKeyboardVisible(true, Input.OnscreenKeyboardType.NumberPad);
-    }
-
-    private void buildContentTable() {
-
     }
 
     private void loadExercise() {

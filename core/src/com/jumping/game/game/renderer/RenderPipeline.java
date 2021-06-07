@@ -2,8 +2,8 @@ package com.jumping.game.game.renderer;
 
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.utils.viewport.Viewport;
-import com.jumping.game.util.interfaces.UIManager;
 import com.jumping.game.util.ZSprite;
+import com.jumping.game.util.interfaces.UIManager;
 
 import java.util.Collection;
 
@@ -25,4 +25,5 @@ public interface RenderPipeline extends com.jumping.game.util.interfaces.RenderP
 
     Viewport getUIViewport();
     SpriteBatch getBatch();
+
 }
