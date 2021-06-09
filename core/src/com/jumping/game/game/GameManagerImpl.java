@@ -65,7 +65,8 @@ public class GameManagerImpl implements GameManager {
                 assetsManager, screenManager, this::onUIPause, this::onUIResume);
         this.renderPipeline.setUiManager(uiManager);
 
-        this.mathController = new MathControllerImpl(this, uiManager, assetsManager, this::mathCorrect);
+        this.mathController = new MathControllerImpl(this, assetsManager, this::mathCorrect);
+        this.mathController.addToStage(uiManager.getStage());
 
         this.tileList = new ArrayList<>();
         this.tileSpriteList = new ArrayList<>();

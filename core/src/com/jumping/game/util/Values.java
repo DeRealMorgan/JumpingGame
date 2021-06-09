@@ -122,6 +122,7 @@ public class Values {
             SCORE = "Score: ",
             MATH_SCORE = "Math Score: ",
             BACK = "BACK",
+            CONTINUE = "CONTINUE",
             REPLAY = "PLAY AGAIN";
 
     public static final String NEW_LINE = "\n";

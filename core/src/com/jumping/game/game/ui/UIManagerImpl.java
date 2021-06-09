@@ -19,11 +19,11 @@ public class UIManagerImpl implements UIManager, GameUIController {
         stage = new Stage(viewport, batch);
         assetsManager.addInputProcessor(stage);
 
-        gameOverUI = new GameOverUI(assetsManager, screenManager);
-        gameOverUI.addToStage(stage);
-
         gameOverlayUI = new GameOverlayUI(assetsManager, onPause);
         gameOverlayUI.addToStage(stage);
+
+        gameOverUI = new GameOverUI(assetsManager, screenManager);
+        gameOverUI.addToStage(stage);
 
         pauseUI = new PauseUI(assetsManager, screenManager, onResume);
         pauseUI.addToStage(stage);
@@ -68,6 +68,11 @@ public class UIManagerImpl implements UIManager, GameUIController {
 
     @Override
     public void resize(int w, int h) {
+    }
+
+    @Override
+    public Stage getStage() {
+        return stage;
     }
 
     @Override

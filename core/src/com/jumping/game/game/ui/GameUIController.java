@@ -1,9 +1,11 @@
 package com.jumping.game.game.ui;
 
-import com.badlogic.gdx.scenes.scene2d.ui.Table;
+import com.badlogic.gdx.scenes.scene2d.Stage;
 
 public interface GameUIController {
     GameOverUI getGameOverUI();
     GameOverlayUI getGameOverlayUI();
     PauseUI getPauseUI();
+
+    Stage getStage();
 }

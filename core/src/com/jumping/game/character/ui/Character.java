@@ -110,7 +110,7 @@ public class Character {
 
         characterTbl = new Table();
         characterTbl.setFillParent(true);
-        characterTbl.add(new Container<>(character).fill()).padTop(200).grow();
+        characterTbl.add(new Container<>(character).fill()).padTop(100).grow();
         stage.addActor(characterTbl);
 
         headContainer.padBottom(650);
@@ -124,7 +124,7 @@ public class Character {
         eyeImg.padBottom(150);
         hairImg.center();
         hairImg.padBottom(400);
-        leftEarImg.padBottom(350).padLeft(-250);
+        leftEarImg.padBottom(350).padLeft(50);
 
         leftArm.pack();
         rightArm.pack();
@@ -149,7 +149,6 @@ public class Character {
         leftLeg.setOrigin(Align.topRight);
         rightLeg.setOrigin(Align.topLeft);
         head.setOrigin(Align.bottom);
-        leftEarImg.setOrigin(Align.bottom);
         leftEarImg.setOrigin(Align.bottomRight);
         rightEarImg.setOrigin(Align.bottomLeft);
 

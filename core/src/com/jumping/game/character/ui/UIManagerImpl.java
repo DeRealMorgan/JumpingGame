@@ -29,7 +29,7 @@ public class UIManagerImpl implements UIManager {
     private Shower shower;
     private FoodItem food;
 
-    private final static float BOTTOM_PADDING = 100, TOP_PADDING = 100, SIDE_PADDING = 50;
+    private final static float BOTTOM_PADDING = 40, TOP_PADDING = 40, SIDE_PADDING = 40;
 
     public UIManagerImpl(Viewport viewport, SpriteBatch batch, AssetsManager assetsManager,
                          ScreenManager screenManager) {

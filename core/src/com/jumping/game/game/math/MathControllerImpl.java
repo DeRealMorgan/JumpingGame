@@ -14,7 +14,6 @@ import com.badlogic.gdx.utils.TimeUtils;
 import com.jumping.game.assets.AssetsManager;
 import com.jumping.game.game.GameManager;
 import com.jumping.game.game.elements.MathAttachment;
-import com.jumping.game.game.ui.GameUIController;
 import com.jumping.game.util.MathUtils;
 import com.jumping.game.util.Values;
 import com.jumping.game.util.interfaces.VoidRunnableInt;
@@ -26,7 +25,6 @@ public class MathControllerImpl implements MathController {
     private Image clockImg;
 
     private GameManager gameManager;
-    private GameUIController controller;
 
     private String[] addStringList, subStringList, mulStringList, divStringList;
 
@@ -41,10 +39,9 @@ public class MathControllerImpl implements MathController {
 
     private VoidRunnableInt onCorrectMath;
 
-    public MathControllerImpl(GameManager gameManager, GameUIController controller, AssetsManager assetsManager,
+    public MathControllerImpl(GameManager gameManager, AssetsManager assetsManager,
                               VoidRunnableInt onCorrectMath) {
         this.gameManager = gameManager;
-        this.controller = controller;
         this.onCorrectMath = onCorrectMath;
 
         this.addStringList = loadList(Values.ADD_EXERCISE_FILE); // todo maybe async?
@@ -67,8 +64,8 @@ public class MathControllerImpl implements MathController {
         timerLabel.setAlignment(Align.center);
 
         timerTable = new Table();
-        timerTable.add(clockImg);
-        timerTable.add(timerLabel).row();
+        timerTable.add(clockImg).left();
+        timerTable.add(timerLabel).left().row();
 
         exerciseLabel = new Label("", assetsManager.labelStyleBig());
         exerciseLabel.setAlignment(Align.center);
@@ -100,11 +97,11 @@ public class MathControllerImpl implements MathController {
         answerLabel.setAlignment(Align.center);
 
         exerciseTable = new Table();
+        exerciseTable.add(timerTable).growX().left().pad(Values.EXERCISE_PADDING).row();
         exerciseTable.add(exerciseLabel).row();
         exerciseTable.add(answerLabel).growX().row();
         exerciseTable.background(assetsManager.get9Drawable(Values.EXERCISE_BACKGROUND));
 
-        contentTable.add(timerTable).top().growX().left().pad(Values.EXERCISE_PADDING).row();
         contentTable.add(exerciseTable).top().growX().pad(Values.EXERCISE_PADDING).row();
     }
 
@@ -161,6 +158,7 @@ public class MathControllerImpl implements MathController {
     }
 
     private void addContent() {
+        contentTable.setVisible(true);
         active = true;
     }
 

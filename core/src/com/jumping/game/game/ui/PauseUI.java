@@ -19,10 +19,12 @@ public class PauseUI {
     private Table contentTable, screenTable;
     private Label pauseLabel, scoreLabel, mathLabel;
     private TextButton continueBtn, backBtn;
+    private Runnable onResume;
 
     public PauseUI(AssetsManager assetsManager, ScreenManager screenManager, Runnable onResume) {
         buildUI(assetsManager);
         this.screenManager = screenManager;
+        this.onResume = onResume;
     }
 
     private void buildUI(AssetsManager assetsManager) {
@@ -52,11 +54,12 @@ public class PauseUI {
                 screenManager.setScreen(ScreenName.CHARACTER_SCREEN);
             }
         });
-        continueBtn = new TextButton(Values.REPLAY, assetsManager.textBtnStyle());
+        continueBtn = new TextButton(Values.CONTINUE, assetsManager.textBtnStyle());
         continueBtn.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                screenManager.setScreen(ScreenName.MINIGAME_SCREEN);
+                hide();
+                onResume.run();
             }
         });
 
@@ -87,6 +90,6 @@ public class PauseUI {
 
     private void hide() {
         screenTable.setTouchable(Touchable.disabled);
-        screenTable.addAction(Actions.sequence(Actions.visible(false), Actions.fadeOut(.5f)));
+        screenTable.addAction(Actions.sequence(Actions.visible(false)));
     }
 }
