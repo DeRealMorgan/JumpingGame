@@ -16,6 +16,7 @@ public interface AssetsManager {
     Drawable get9Drawable(String name);
     SpriteDrawable getSpriteDrawable(String name);
 
+    Label.LabelStyle labelStyle();
     Label.LabelStyle labelStyleBig();
     Label.LabelStyle labelStyleHuge();
     TextField.TextFieldStyle textFieldStyleBig();
@@ -23,4 +24,5 @@ public interface AssetsManager {
 
     void addInputProcessor(InputProcessor processor);
     void removeInputProcessor(InputProcessor processor);
+    void clearInputProcessors();
 }

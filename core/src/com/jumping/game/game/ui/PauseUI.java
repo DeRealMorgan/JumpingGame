@@ -20,7 +20,7 @@ public class PauseUI {
     private Label pauseLabel, scoreLabel, mathLabel;
     private TextButton continueBtn, backBtn;
 
-    public PauseUI(AssetsManager assetsManager, ScreenManager screenManager) {
+    public PauseUI(AssetsManager assetsManager, ScreenManager screenManager, Runnable onResume) {
         buildUI(assetsManager);
         this.screenManager = screenManager;
     }
@@ -53,7 +53,7 @@ public class PauseUI {
             }
         });
         continueBtn = new TextButton(Values.REPLAY, assetsManager.textBtnStyle());
-        contentTable.addListener(new ClickListener() {
+        continueBtn.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 screenManager.setScreen(ScreenName.MINIGAME_SCREEN);
@@ -72,11 +72,11 @@ public class PauseUI {
         stage.addActor(screenTable);
     }
 
-    public void setScore(int score) {
+    public void updateScore(int score) {
         scoreLabel.setText(Values.SCORE + score);
     }
 
-    public void setMathScore(int score) {
+    public void updateMathScore(int score) {
         mathLabel.setText(Values.MATH_SCORE + score);
     }
 

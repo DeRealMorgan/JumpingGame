@@ -12,6 +12,7 @@ public class Values {
 
     public static final int SPACE_BELOW_TILE_Y = WORLD_HEIGHT/20; // how much of world below player tile is on screen
 
+    public static final int MATH_TIME = 30000; // how much time for giving an answer to a math exercise
     public static final int SLOW_UPDATE = 3000; // for how long game will be slowed down after math exercise
     public static final int EXERCISE_PADDING = 50, PADDING_BIG = 50, PADDING = 30;
 
@@ -21,9 +22,16 @@ public class Values {
             PLAYER_HEIGHT = 200;
     public static final int MATH_ATTACHMENT_WIDTH = 150, MATH_ATTACHMENT_HEIGHT = 110;
 
+    public static final int SPACING = 20, EDGE_DISTANCE = 50;
+    public static final float FADE_OVERLAY_DUR = 1f;
+
     public static final int FONT_BORDER_WIDTH = 2,
-            FONT_SIZE = 80, FONT_SIZE_HUGE = 120;
+            FONT_SIZE = 50, FONT_SIZE_BIG = 80, FONT_SIZE_HUGE = 120;
     public static final Color FONT_COLOR = Color.valueOf("fafafa");
+
+    public static final String PREFERENCES = "APP_PREFS";
+    public static final String NOTIFY_CHANNEL_ID = "basic_notification_channel";
+    public static final CharSequence NOTIFY_CHANNEL_NAME = "Items Benachrichtigung";
 
     public static final String ATLAS_NAME = "Game.atlas";
     public static final String PLAYER_SPRITE = "player",
@@ -37,7 +45,10 @@ public class Values {
             SHOWER_BTN = "showerIcon",
             FOOD_BTN = "foodIcon",
             PET_BTN = "petIcon",
+            CLOSE_BTN = "closeIcon",
             MINIGAME_BTN = "minigameIcon",
+            PAUSE_BTN = "pauseIcon",
+            CLOCK_ICON = "clockIcon",
             OVERLAY_BACKGROUND = "overlay_back",
             BTN_UP = "btn_up",
             BTN_DOWN = "btn_down";
@@ -59,8 +70,25 @@ public class Values {
     public static final String HAND = "hand_pet", SHOWER = "shower_head",
             HEARTS = "hearts", SOAP = "soap", SOAP_BUBBLE = "soap_bubble",
             WATER_DROPS = "water_drops", CRUMBS = "crumbs";
+    public static final String FOOD_BACON = "food_bacon",
+            FOOD_BANANA = "food_banana", FOOD_APPLE = "food_apple";
 
-    public static final float BTN_SIZE = CHARACTER_WORLD_WIDTH/8;
+    public static final String BLANK_IMG = "blank_img",
+            MENU_BACK = "menu_back",
+            WINDOW_BANNER = "window_banner";
+
+    public static final Color OVERLAY_BACK_COLOR = Color.valueOf("B2B8FF");
+
+    public static final String TREATS_WORK = "treats_worker";
+    public static final String TREAT_NOTIFICATION_TITLE = "Item found!";
+    public static final String TREAT_NOTIFICATION_TEXT = "Tap me and see what you just found!";
+    public static final int TREAT_CHECK_TIME_DELTA = 5; // minutes between checks
+    public static final int TREAT_START = 5000;
+    public static final int TREAT_INTERVAL = 2500;
+
+    public static final String STEP_COUNT = "step_count", STEP_COUNT_TIME = "step_count_timestamp";
+
+    public static final float BTN_SIZE = CHARACTER_WORLD_WIDTH/8, BTN_SIZE_SMALL = 50;
 
     public static final float GRAVITY = -1200;
 
@@ -71,7 +99,7 @@ public class Values {
     public static final long PET_DURATION = 10000;
     public static final long SOAPWATER_COOLDOWN = 700; // in ms
     public static final long FOOD_DURATION = 10000;
-    public static final long CRUMB_COOLDOWN = 400;
+    public static final long CRUMB_COOLDOWN = 700;
 
     public static final float TILE_DISTANCE_Y = 400;
 

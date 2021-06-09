@@ -7,4 +7,6 @@ public interface GameManager extends PlayerListener {
     void resumeUpdate();
     void resumeUpdateSlow();
     void gameOver();
+    void enablePause();
+    void disablePause();
 }

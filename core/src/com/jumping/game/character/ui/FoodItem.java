@@ -1,5 +1,6 @@
 package com.jumping.game.character.ui;
 
+import com.badlogic.gdx.math.Interpolation;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.scenes.scene2d.actions.Actions;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
@@ -23,8 +24,8 @@ public class FoodItem extends DragItem {
 
     private FoodItemListener listener;
 
-    public FoodItem(AssetsManager assetsManager, String foodName, FoodItemListener listener) {
-        super(assetsManager, foodName);
+    public FoodItem(AssetsManager assetsManager, FoodItemListener listener) {
+        super(assetsManager, Values.FOOD_BACON);
 
         this.listener = listener;
 
@@ -57,7 +58,8 @@ public class FoodItem extends DragItem {
         }
     }
 
-    public void showHearts(Rectangle headBounds) {
+    public void showCrumbs(Rectangle headBounds) {
+        if(!moving) return;
         if(lastFoodEffect + 100000 < System.currentTimeMillis()) { // effect long gone
             lastFoodEffect = System.currentTimeMillis() + Values.CRUMB_COOLDOWN;
             return;
@@ -65,8 +67,10 @@ public class FoodItem extends DragItem {
 
         if(lastFoodEffect + Values.CRUMB_COOLDOWN < System.currentTimeMillis()) {
             Image img = crumbsList.get(currentIndex);
-            img.setPosition(headBounds.x + headBounds.width/2, headBounds.y + headBounds.height/2, Align.center);
-            img.addAction(Actions.sequence(Actions.visible(true), Actions.parallel(Actions.sequence(Actions.delay(1), Actions.fadeOut(1)), Actions.moveBy(MathUtils.getRandomX(-300, 300), -800)), Actions.visible(false)));
+            img.setPosition(headBounds.x + headBounds.width/2, headBounds.y + headBounds.height/2 - 150, Align.center);
+            img.addAction(Actions.sequence(Actions.visible(true), Actions.fadeIn(.3f),
+                            Actions.moveBy(MathUtils.getRandomX(-300, 300), -1000, 1.7f, Interpolation.pow4),
+                    Actions.fadeOut(.5f), Actions.visible(false)));
 
             currentIndex = (currentIndex+1)%crumbsList.size();
             lastFoodEffect = System.currentTimeMillis();

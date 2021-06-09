@@ -27,6 +27,7 @@ public class UIManagerImpl implements UIManager {
 
     private HandPetting hand;
     private Shower shower;
+    private FoodItem food;
 
     private final static float BOTTOM_PADDING = 100, TOP_PADDING = 100, SIDE_PADDING = 50;
 
@@ -115,6 +116,13 @@ public class UIManagerImpl implements UIManager {
         foodBtnStyle.down = assetsManager.getDrawable(Values.FOOD_BTN);
         foodBtnStyle.up = foodBtnStyle.down;
         foodBtn = new Button(foodBtnStyle);
+        foodBtn.addListener(new ClickListener() {
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                setUiVisible(false);
+                food.show();
+            }
+        });
 
         Button.ButtonStyle petBtnStyle = new Button.ButtonStyle();
         petBtnStyle.down = assetsManager.getDrawable(Values.PET_BTN);
@@ -153,9 +161,13 @@ public class UIManagerImpl implements UIManager {
         shower = new Shower(assetsManager, this::showerDone);
         shower.addAll(contentTable);
 
+        food = new FoodItem(assetsManager, this::foodDone);
+        food.addAll(contentTable);
+
         contentTable.pack();
         hand.position();
         shower.position();
+        food.position();
     }
 
     private void showerDone() {
@@ -163,6 +175,10 @@ public class UIManagerImpl implements UIManager {
     }
 
     private void pettingDone() {
+        setUiVisible(true);
+    }
+
+    private void foodDone() {
         setUiVisible(true);
     }
 
@@ -180,6 +196,8 @@ public class UIManagerImpl implements UIManager {
         if(shower.isPresent() && character.isOverlappingBody(shower.getBounds()))
             shower.showEffect(character.getBodyBounds());
 
+        if(food.isPresent() && character.isOverlappingHead(food.getBounds()))
+            food.showCrumbs(character.getHeadBounds());
     }
 
     @Override

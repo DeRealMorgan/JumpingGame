@@ -27,7 +27,7 @@ public class AssetsManagerImpl implements AssetsManager, Disposable {
     private final TextureAtlas atlas;
     private final Skin skin;
 
-    private final Label.LabelStyle labelStyleBig, labelStyleHuge;
+    private final Label.LabelStyle labelStyle, labelStyleBig, labelStyleHuge;
     private final TextField.TextFieldStyle textFieldStyleBig;
     private final TextButton.TextButtonStyle textBtnStyle;
 
@@ -52,8 +52,13 @@ public class AssetsManagerImpl implements AssetsManager, Disposable {
         fontParameter.size = Values.FONT_SIZE;
 
         BitmapFont font = fontGenerator.generateFont(fontParameter);
+        labelStyle = new Label.LabelStyle();
+        labelStyle.font = font;
+
+        fontParameter.size = Values.FONT_SIZE_BIG;
+        BitmapFont fontBig = fontGenerator.generateFont(fontParameter);
         labelStyleBig = new Label.LabelStyle();
-        labelStyleBig.font = font;
+        labelStyleBig.font = fontBig;
 
         fontParameter.size = Values.FONT_SIZE_HUGE;
         BitmapFont fontHuge = fontGenerator.generateFont(fontParameter);
@@ -92,6 +97,11 @@ public class AssetsManagerImpl implements AssetsManager, Disposable {
     }
 
     @Override
+    public void clearInputProcessors() {
+        inputMultiplexer.clear();
+    }
+
+    @Override
     public Sprite getSprite(String name) {
         TextureAtlas.AtlasRegion region = atlas.findRegion(name); // todo remove: only debug
         if(region == null) return new Sprite(fallbackTexture);
@@ -122,6 +132,11 @@ public class AssetsManagerImpl implements AssetsManager, Disposable {
     @Override
     public SpriteDrawable getSpriteDrawable(String name) {
         return new SpriteDrawable(getSprite(name));
+    }
+
+    @Override
+    public Label.LabelStyle labelStyle() {
+        return labelStyle;
     }
 
     @Override

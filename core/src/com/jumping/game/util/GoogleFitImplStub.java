@@ -12,4 +12,9 @@ public class GoogleFitImplStub implements GoogleFit {
     public int getStepCountYesterday() {
         return 0;
     }
+
+    @Override
+    public int getStepCountLast24() {
+        return 0;
+    }
 }

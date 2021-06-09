@@ -6,14 +6,14 @@ filter: Nearest, Nearest
 repeat: none
 achievementsIcon
   rotate: false
-  xy: 1852, 669
+  xy: 1571, 55
   size: 64, 64
   orig: 64, 64
   offset: 0, 0
   index: -1
 btn_down
   rotate: false
-  xy: 1505, 55
+  xy: 1571, 121
   size: 64, 64
   split: 16, 15, 16, 17
   orig: 64, 64
@@ -21,9 +21,16 @@ btn_down
   index: -1
 btn_up
   rotate: false
-  xy: 1769, 90
+  xy: 1703, 24
   size: 64, 64
   split: 16, 15, 16, 17
+  orig: 64, 64
+  offset: 0, 0
+  index: -1
+clockIcon
+  rotate: false
+  xy: 1835, 90
+  size: 64, 64
   orig: 64, 64
   offset: 0, 0
   index: -1
@@ -43,7 +50,7 @@ cursor
   index: -1
 energyProgressBar
   rotate: false
-  xy: 1571, 121
+  xy: 1852, 669
   size: 64, 64
   orig: 64, 64
   offset: 0, 0
@@ -58,7 +65,7 @@ exercise_back
   index: -1
 foodIcon
   rotate: false
-  xy: 910, 47
+  xy: 976, 47
   size: 64, 64
   orig: 64, 64
   offset: 0, 0
@@ -93,7 +100,7 @@ hand_pet
   index: -1
 hearts
   rotate: false
-  xy: 1208, 640
+  xy: 647, 395
   size: 320, 225
   orig: 320, 225
   offset: 0, 0
@@ -114,12 +121,19 @@ math
   index: -1
 minigameIcon
   rotate: false
-  xy: 976, 47
+  xy: 1703, 90
   size: 64, 64
   orig: 64, 64
   offset: 0, 0
   index: -1
 overlay_back
+  rotate: false
+  xy: 1505, 55
+  size: 64, 64
+  orig: 64, 64
+  offset: 0, 0
+  index: -1
+pauseIcon
   rotate: false
   xy: 1852, 735
   size: 64, 64
@@ -128,7 +142,7 @@ overlay_back
   index: -1
 petIcon
   rotate: false
-  xy: 1637, 55
+  xy: 910, 47
   size: 64, 64
   orig: 64, 64
   offset: 0, 0
@@ -219,14 +233,14 @@ player
   index: -1
 shopIcon
   rotate: false
-  xy: 1703, 90
+  xy: 1769, 90
   size: 64, 64
   orig: 64, 64
   offset: 0, 0
   index: -1
 showerIcon
   rotate: false
-  xy: 1571, 55
+  xy: 1637, 55
   size: 64, 64
   orig: 64, 64
   offset: 0, 0
@@ -247,7 +261,7 @@ soap
   index: -1
 soap_bubble
   rotate: false
-  xy: 647, 395
+  xy: 1530, 640
   size: 320, 225
   orig: 320, 225
   offset: 0, 0
@@ -261,7 +275,7 @@ tile
   index: -1
 water_drops
   rotate: false
-  xy: 1530, 640
+  xy: 1208, 640
   size: 320, 225
   orig: 320, 225
   offset: 0, 0

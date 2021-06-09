@@ -14,6 +14,7 @@ import com.jumping.game.game.physics.PhysicsEngineImpl;
 import com.jumping.game.game.physics.PhysicsEntity;
 import com.jumping.game.game.player.Player;
 import com.jumping.game.game.renderer.RenderPipeline;
+import com.jumping.game.game.ui.PauseUI;
 import com.jumping.game.game.ui.UIManagerImpl;
 import com.jumping.game.util.MathUtils;
 import com.jumping.game.util.Values;
@@ -52,14 +53,16 @@ public class GameManagerImpl implements GameManager {
 
     private Duration slowUpdate;
 
-    public GameManagerImpl(RenderPipeline renderPipeline, AssetsManager assetsManager, ScreenManager screenManager) {
+    public GameManagerImpl(RenderPipeline renderPipeline, AssetsManager assetsManager,
+                           ScreenManager screenManager) {
+        assetsManager.clearInputProcessors();
         this.renderPipeline = renderPipeline;
         this.assetsManager = assetsManager;
 
         this.physicsEngine = new PhysicsEngineImpl();
 
         this.uiManager = new UIManagerImpl(this.renderPipeline.getUIViewport(), this.renderPipeline.getBatch(),
-                assetsManager, screenManager);
+                assetsManager, screenManager, this::onUIPause, this::onUIResume);
         this.renderPipeline.setUiManager(uiManager);
 
         this.mathController = new MathControllerImpl(this, uiManager, assetsManager, this::mathCorrect);
@@ -90,6 +93,26 @@ public class GameManagerImpl implements GameManager {
         player.start();
     }
 
+    private void onUIPause() {
+        pauseUpdate();
+        PauseUI pauseUI = uiManager.getPauseUI();
+        pauseUI.show();
+    }
+
+    private void onUIResume() {
+        resumeUpdate();
+    }
+
+    @Override
+    public void disablePause() {
+        uiManager.getGameOverlayUI().disable();
+    }
+
+    @Override
+    public void enablePause() {
+        uiManager.getGameOverlayUI().enable();
+    }
+
     @Override
     public void pauseUpdate() {
         pause = true;
@@ -116,18 +139,19 @@ public class GameManagerImpl implements GameManager {
         physicsEngine.stop();
     }
 
-    public void mathCorrect() {
-        ++correctMathCount;
-        uiManager.getGameOverUI().setMathScore(correctMathCount);
+    public void mathCorrect(int timeLeftS) {
+        correctMathCount += 1000 + timeLeftS*10;
+        uiManager.updateMathScore(correctMathCount);
     }
 
     @Override
     public void scoreChanged(int score) {
         this.score = Math.max(this.score, score);
-        uiManager.getGameOverUI().setScore(this.score);
+        uiManager.updateScore(this.score);
     }
 
     public void update(float dt) {
+        mathController.update(dt);
         uiManager.update(dt);
         if(pause || stop) return;
         if(!slowUpdate.addTimeStampDiff()) {

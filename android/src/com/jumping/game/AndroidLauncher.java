@@ -1,6 +1,9 @@
 package com.jumping.game;
 
 import android.Manifest;
+import android.app.NotificationChannel;
+import android.app.NotificationManager;
+import android.content.Context;
 import android.content.pm.PackageManager;
 import android.os.Build;
 import android.os.Bundle;
@@ -14,6 +17,7 @@ import com.google.android.gms.fitness.FitnessOptions;
 import com.google.android.gms.fitness.data.*;
 import com.google.android.gms.fitness.request.DataReadRequest;
 import com.jumping.game.util.Values;
+import com.jumping.game.util.interfaces.GoogleFit;
 
 import java.time.*;
 import java.util.List;
@@ -21,7 +25,7 @@ import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.stream.Collectors;
 
-public class AndroidLauncher extends AndroidApplication {
+public class AndroidLauncher extends AndroidApplication implements GoogleFit {
 	private Main main;
 	@Override
 	protected void onCreate (Bundle savedInstanceState) {
@@ -29,7 +33,8 @@ public class AndroidLauncher extends AndroidApplication {
 		AndroidApplicationConfiguration config = new AndroidApplicationConfiguration();
 		boolean essentialPermsGranted = requestPermissions();
 
-		main = new Main(essentialPermsGranted);
+		initNotificationChannels();
+		main = new Main(essentialPermsGranted, this);
 		initialize(main, config);
 	}
 
@@ -57,6 +62,7 @@ public class AndroidLauncher extends AndroidApplication {
 		return essentialGranted;
 	}
 
+	@Override
 	public int getStepCountToday() {
 		ZonedDateTime startTime = LocalDate.now().atStartOfDay(ZoneId.systemDefault());
 		ZonedDateTime endTime = LocalDateTime.now().atZone(ZoneId.systemDefault());
@@ -64,9 +70,18 @@ public class AndroidLauncher extends AndroidApplication {
 		return getSteps(startTime, endTime);
 	}
 
+	@Override
 	public int getStepCountYesterday() {
 		ZonedDateTime startTime = LocalDate.now().atStartOfDay(ZoneId.systemDefault()).minusDays(1);
 		ZonedDateTime endTime = LocalDateTime.now().atZone(ZoneId.systemDefault()).with(LocalTime.MAX);
+
+		return getSteps(startTime, endTime);
+	}
+
+	@Override
+	public int getStepCountLast24() {
+		ZonedDateTime startTime = LocalDateTime.now().atZone(ZoneId.systemDefault()).minusDays(1);
+		ZonedDateTime endTime = LocalDateTime.now().atZone(ZoneId.systemDefault());
 
 		return getSteps(startTime, endTime);
 	}
@@ -107,5 +122,17 @@ public class AndroidLauncher extends AndroidApplication {
 				);
 
 		return totalSteps.get();
+	}
+
+	private void initNotificationChannels() {
+		NotificationManager notificationManager =
+				(NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
+
+		int importance = NotificationManager.IMPORTANCE_DEFAULT;
+		NotificationChannel notificationChannel = new NotificationChannel(Values.NOTIFY_CHANNEL_ID,
+				Values.NOTIFY_CHANNEL_NAME, importance);
+		notificationChannel.enableLights(false);
+		notificationChannel.enableVibration(false);
+		notificationManager.createNotificationChannel(notificationChannel);
 	}
 }

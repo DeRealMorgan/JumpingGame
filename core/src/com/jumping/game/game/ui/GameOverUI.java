@@ -74,11 +74,11 @@ public class GameOverUI {
         stage.addActor(screenTable);
     }
 
-    public void setScore(int score) {
+    public void updateScore(int score) {
         scoreLabel.setText(Values.SCORE + score);
     }
 
-    public void setMathScore(int score) {
+    public void updateMathScore(int score) {
         mathLabel.setText(Values.MATH_SCORE + score);
     }
 

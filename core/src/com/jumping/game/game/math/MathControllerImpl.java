@@ -4,20 +4,26 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.InputAdapter;
 import com.badlogic.gdx.files.FileHandle;
+import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.Touchable;
+import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.utils.Align;
-import com.jumping.game.game.GameManager;
+import com.badlogic.gdx.utils.TimeUtils;
 import com.jumping.game.assets.AssetsManager;
+import com.jumping.game.game.GameManager;
 import com.jumping.game.game.elements.MathAttachment;
 import com.jumping.game.game.ui.GameUIController;
 import com.jumping.game.util.MathUtils;
 import com.jumping.game.util.Values;
+import com.jumping.game.util.interfaces.VoidRunnableInt;
 
 public class MathControllerImpl implements MathController {
-    private Table contentTable, exerciseTable;
-    private Label exerciseLabel, answerLabel;
+    private Table contentTable, exerciseTable, timerTable;
+    private Label timerLabel, exerciseLabel, answerLabel;
+
+    private Image clockImg;
 
     private GameManager gameManager;
     private GameUIController controller;
@@ -31,10 +37,12 @@ public class MathControllerImpl implements MathController {
 
     private boolean active;
 
-    private Runnable onCorrectMath;
+    private long endTime;
+
+    private VoidRunnableInt onCorrectMath;
 
     public MathControllerImpl(GameManager gameManager, GameUIController controller, AssetsManager assetsManager,
-                              Runnable onCorrectMath) {
+                              VoidRunnableInt onCorrectMath) {
         this.gameManager = gameManager;
         this.controller = controller;
         this.onCorrectMath = onCorrectMath;
@@ -53,6 +61,14 @@ public class MathControllerImpl implements MathController {
         contentTable.setVisible(false);
         contentTable.setTouchable(Touchable.disabled);
         contentTable.top();
+
+        clockImg = new Image(assetsManager.getDrawable(Values.CLOCK_ICON));
+        timerLabel = new Label(getTimeString(), assetsManager.labelStyleBig());
+        timerLabel.setAlignment(Align.center);
+
+        timerTable = new Table();
+        timerTable.add(clockImg);
+        timerTable.add(timerLabel).row();
 
         exerciseLabel = new Label("", assetsManager.labelStyleBig());
         exerciseLabel.setAlignment(Align.center);
@@ -88,12 +104,16 @@ public class MathControllerImpl implements MathController {
         exerciseTable.add(answerLabel).growX().row();
         exerciseTable.background(assetsManager.get9Drawable(Values.EXERCISE_BACKGROUND));
 
+        contentTable.add(timerTable).top().growX().left().pad(Values.EXERCISE_PADDING).row();
         contentTable.add(exerciseTable).top().growX().pad(Values.EXERCISE_PADDING).row();
     }
 
-    private void closeKeyboard() {
-        Gdx.input.setOnscreenKeyboardVisible(false);
+    public void addToStage(Stage s) {
+        s.addActor(contentTable);
+    }
 
+    private void closeKeyboard() {
+        gameManager.enablePause();
         if(currentExercise.isCorrect(answerString)) {
             answerCorrect();
             attachment.remove();
@@ -105,20 +125,43 @@ public class MathControllerImpl implements MathController {
         updateAnswer();
     }
 
+    public void update(float dt) {
+        if(active) {
+            updateLabel();
+            if(isTimerOver()) {
+                Gdx.input.setOnscreenKeyboardVisible(false);
+                answerWrong();
+                gameManager.enablePause();
+            }
+        }
+    }
+
+    private void updateLabel() {
+        timerLabel.setText(getTimeString());
+    }
+
+    private boolean isTimerOver() {
+        return endTime <= TimeUtils.millis();
+    }
+
+    private String getTimeString() {
+        int s = (int)Math.max(0, (endTime-TimeUtils.millis())/1000);
+        if(s >= 10) return "00:" + s;
+        else return "00:0" + s;
+    }
+
     private void answerCorrect() {
         gameManager.resumeUpdateSlow();
-        onCorrectMath.run();
+        onCorrectMath.run((int)(endTime-TimeUtils.millis())/1000);
         removeContent();
     }
 
     private void removeContent() {
-        active = false;
-        contentTable.remove();
+        contentTable.setVisible(false);
     }
 
     private void addContent() {
         active = true;
-        controller.showMathDialog(contentTable);
     }
 
     private void answerWrong() {
@@ -158,6 +201,7 @@ public class MathControllerImpl implements MathController {
         loadExercise();
 
         gameManager.pauseUpdate();
+        gameManager.disablePause();
         addContent();
 
         Gdx.input.setOnscreenKeyboardVisible(true, Input.OnscreenKeyboardType.NumberPad);
@@ -169,6 +213,7 @@ public class MathControllerImpl implements MathController {
         String[] list = getExerciseList(MathUtils.getRandomX(0, 3));
         currentExercise = new MathExercise(list[MathUtils.getRandomX(0, list.length-1)]);
 
+        endTime = TimeUtils.millis() + Values.MATH_TIME;
         exerciseLabel.setText(currentExercise.getExerciseQuestion());
     }
 
