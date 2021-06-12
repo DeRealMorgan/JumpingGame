@@ -22,11 +22,11 @@ public class Values {
             PLAYER_HEIGHT = 200;
     public static final int MATH_ATTACHMENT_WIDTH = 150, MATH_ATTACHMENT_HEIGHT = 110;
 
-    public static final int SPACING = 20, EDGE_DISTANCE = 50;
+    public static final int SPACING = 20, SPACING_SMALL = 10, EDGE_DISTANCE = 50;
     public static final float FADE_OVERLAY_DUR = 1f;
 
     public static final int FONT_BORDER_WIDTH = 2,
-            FONT_SIZE = 50, FONT_SIZE_BIG = 80, FONT_SIZE_HUGE = 120;
+            FONT_SIZE_SMALL = 30, FONT_SIZE = 50, FONT_SIZE_BIG = 80, FONT_SIZE_HUGE = 120;
     public static final Color FONT_COLOR = Color.valueOf("fafafa");
 
     public static final String PREFERENCES = "APP_PREFS";
@@ -73,11 +73,31 @@ public class Values {
     public static final String FOOD_BACON = "food_bacon",
             FOOD_BANANA = "food_banana", FOOD_APPLE = "food_apple";
 
+    public static final int ITEM_COUNT = 12,
+            SHOP_ROW_AMOUNT = 3;
+    public static final String COIN = "coin",
+            SHOP_ITEM = "shop_item_",
+            SHOP_ITEM_BACK = "shop_item_back";
+
     public static final String BLANK_IMG = "blank_img",
             MENU_BACK = "menu_back",
             WINDOW_BANNER = "window_banner";
 
+    public static final String CONSENT_HEADER = "Zustimmung", CONSENT_BODY = "Diese App ist ein Projekt für die Techniche Universität München.\n" +
+            "Während dem Spielen werden anonymisiert Daten gesammelt und verarbeitet.";
+    public static final String SHOP_HEADER = "Shop";
+
+    public static final String OK = "OK", AGREE = "Ich stimme zu.";
+
     public static final Color OVERLAY_BACK_COLOR = Color.valueOf("B2B8FF");
+
+    public static final String PROGRESSBAR_FRONT_GREEN = "progressbar_front_green",
+            PROGRESSBAR_FRONT_RED = "progressbar_front_red",
+            PROGRESSBAR_BACK = "progressbar_back",
+            PROGRESSBAR_FRONT = "progressbar_front";
+
+    public static final String CHECKBOX_UNCHECKED = "checkbox_unchecked",
+            CHECKBOX_CHECKED = "checkbox_checked";
 
     public static final String TREATS_WORK = "treats_worker";
     public static final String TREAT_NOTIFICATION_TITLE = "Item found!";
@@ -87,6 +107,9 @@ public class Values {
     public static final int TREAT_INTERVAL = 2500;
 
     public static final String STEP_COUNT = "step_count", STEP_COUNT_TIME = "step_count_timestamp";
+
+    public static final String STEPS_PROGRESS1 = " von ", STEPS_PROGRESS2 = " Schritten";
+    public static final int MAX_STEPS = 10000;
 
     public static final float BTN_SIZE = CHARACTER_WORLD_WIDTH/8, BTN_SIZE_SMALL = 50;
 

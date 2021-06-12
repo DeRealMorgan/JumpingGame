@@ -231,6 +231,38 @@ player
   orig: 200, 200
   offset: 0, 0
   index: -1
+progressbar_back
+  rotate: false
+  xy: 1282, 197
+  size: 3, 33
+  split: 0, 0, 0, 0
+  orig: 3, 33
+  offset: 0, 0
+  index: -1
+progressbar_front
+  rotate: false
+  xy: 1922, 1124
+  size: 3, 33
+  split: 0, 0, 0, 0
+  orig: 3, 33
+  offset: 0, 0
+  index: -1
+progressbar_front_green
+  rotate: false
+  xy: 1901, 121
+  size: 3, 33
+  split: 0, 0, 0, 0
+  orig: 3, 33
+  offset: 0, 0
+  index: -1
+progressbar_front_red
+  rotate: false
+  xy: 1042, 78
+  size: 3, 33
+  split: 0, 0, 0, 0
+  orig: 3, 33
+  offset: 0, 0
+  index: -1
 shopIcon
   rotate: false
   xy: 1769, 90

@@ -16,6 +16,7 @@ public interface AssetsManager {
     Drawable get9Drawable(String name);
     SpriteDrawable getSpriteDrawable(String name);
 
+    Label.LabelStyle labelStyleSmall();
     Label.LabelStyle labelStyle();
     Label.LabelStyle labelStyleBig();
     Label.LabelStyle labelStyleHuge();

@@ -197,10 +197,8 @@ public class GameManagerImpl implements GameManager {
         sort();
         float bottomY = renderPipeline.getGameCamBottomY();
         for(int i = tileList.size()-1; i >= 0; --i) {
-            if(tileList.get(i).getMaxYPos() < bottomY) {
-                tileList.remove(i); // todo maybe reuse?
-                break; // all tiles below screen are removed
-            }
+            if(tileList.get(i).getMaxYPos() < bottomY) //todo bug - lowest platform not removed
+                tileList.remove(i);
         }
 
         generatePlatforms();

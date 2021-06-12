@@ -6,24 +6,34 @@ import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.Touchable;
 import com.badlogic.gdx.scenes.scene2d.actions.Actions;
 import com.badlogic.gdx.scenes.scene2d.ui.Button;
+import com.badlogic.gdx.scenes.scene2d.ui.Label;
+import com.badlogic.gdx.scenes.scene2d.ui.ProgressBar;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
+import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import com.jumping.game.assets.AssetsManager;
 import com.jumping.game.util.ScreenName;
+import com.jumping.game.util.Values;
 import com.jumping.game.util.interfaces.ScreenManager;
 import com.jumping.game.util.interfaces.UIManager;
-import com.jumping.game.util.Values;
 
 public class UIManagerImpl implements UIManager {
     private final ScreenManager screenManager;
 
     private final Stage stage;
 
-    private Table contentTable, backgroundTable, uiTableLeft, uiTableRight, uiTableBottom, energyTable;
-    private Button shopBtn, achievementsBtn, worldsBtn, leaderboardBtn, showerBtn, foodBtn, petBtn, minigameBtn;
+    private Table contentTable, backgroundTable, uiTableLeft, uiTableRight, uiTableBottom, progressTable;
+    private Table showerTable, foodTable, petTable, minigameTable;
+    private Button shopBtn, achievementsBtn, worldsBtn, leaderboardBtn;
+    private Button showerBtn, foodBtn, petBtn, minigameBtn;
 
     private Character character;
+    private Label progressLabel;
+    private ProgressBar progressBar, showerProgressbar, foodProgressbar, petProgressbar, minigameProgressbar;
+    private Drawable progressbarRed, progressbarGreen;
+
+    private int stepsToday;
 
     private HandPetting hand;
     private Shower shower;
@@ -69,11 +79,6 @@ public class UIManagerImpl implements UIManager {
         uiTableBottom.padBottom(BOTTOM_PADDING);
         stage.addActor(uiTableBottom);
 
-        energyTable = new Table();
-        energyTable.setFillParent(true);
-        energyTable.top();
-        stage.addActor(energyTable);
-
         Button.ButtonStyle shopBtnStyle = new Button.ButtonStyle();
         shopBtnStyle.down = assetsManager.getDrawable(Values.SHOP_BTN);
         shopBtnStyle.up = shopBtnStyle.down;
@@ -84,7 +89,7 @@ public class UIManagerImpl implements UIManager {
         worldsBtnStyle.up = worldsBtnStyle.down;
         worldsBtn = new Button(worldsBtnStyle);
 
-        uiTableLeft.add(shopBtn).size(Values.BTN_SIZE).row();
+        uiTableLeft.add(shopBtn).size(Values.BTN_SIZE).padBottom(20f).row();
         uiTableLeft.add(worldsBtn).size(Values.BTN_SIZE).row();
 
         Button.ButtonStyle achievementsBtnStyle = new Button.ButtonStyle();
@@ -97,9 +102,28 @@ public class UIManagerImpl implements UIManager {
         leaderboardBtnStyle.up = leaderboardBtnStyle.down;
         leaderboardBtn = new Button(leaderboardBtnStyle);
 
-        uiTableRight.add(achievementsBtn).size(Values.BTN_SIZE).row();
+        uiTableRight.add(achievementsBtn).size(Values.BTN_SIZE).padBottom(20f).row();
         uiTableRight.add(leaderboardBtn).size(Values.BTN_SIZE).row();
 
+        progressbarRed = assetsManager.get9Drawable(Values.PROGRESSBAR_FRONT_RED);
+        progressbarGreen = assetsManager.get9Drawable(Values.PROGRESSBAR_FRONT_GREEN);
+
+        ProgressBar.ProgressBarStyle progressBarStyle = new ProgressBar.ProgressBarStyle();
+        progressBarStyle.background = assetsManager.get9Drawable(Values.PROGRESSBAR_BACK);
+        progressBarStyle.knob = progressbarRed;
+
+        ProgressBar.ProgressBarStyle progressbarStyleSmall = new ProgressBar.ProgressBarStyle();
+        progressbarStyleSmall.background = assetsManager.get9Drawable(Values.PROGRESSBAR_BACK);
+        progressbarStyleSmall.knob = assetsManager.get9Drawable(Values.PROGRESSBAR_FRONT);
+
+        showerProgressbar = new ProgressBar(0, 100, 1, false, progressbarStyleSmall);
+        foodProgressbar = new ProgressBar(0, 100, 1, false, progressbarStyleSmall);
+        petProgressbar = new ProgressBar(0, 100, 1, false, progressbarStyleSmall);
+        minigameProgressbar = new ProgressBar(0, 100, 1, false, progressbarStyleSmall);
+
+        progressTable = new Table();
+        progressLabel = new Label(stepsToday + Values.STEPS_PROGRESS1 + Values.MAX_STEPS + Values.STEPS_PROGRESS2, assetsManager.labelStyleSmall());
+        progressBar = new ProgressBar(0, 100, 100, false, progressBarStyle);
         Button.ButtonStyle showerBtnStyle = new Button.ButtonStyle();
         showerBtnStyle.down = assetsManager.getDrawable(Values.SHOWER_BTN);
         showerBtnStyle.up = showerBtnStyle.down;
@@ -111,6 +135,9 @@ public class UIManagerImpl implements UIManager {
                 shower.show();
             }
         });
+
+        progressTable.add(progressBar).center().growX().padLeft(100).padRight(100).padBottom(10).row();
+        progressTable.add(progressLabel).center().expandX().row();
 
         Button.ButtonStyle foodBtnStyle = new Button.ButtonStyle();
         foodBtnStyle.down = assetsManager.getDrawable(Values.FOOD_BTN);
@@ -148,10 +175,25 @@ public class UIManagerImpl implements UIManager {
             }
         });
 
-        uiTableBottom.add(showerBtn).size(Values.BTN_SIZE).growX();
-        uiTableBottom.add(foodBtn).size(Values.BTN_SIZE).growX();
-        uiTableBottom.add(petBtn).size(Values.BTN_SIZE).growX();
-        uiTableBottom.add(minigameBtn).size(Values.BTN_SIZE).growX();
+        showerTable = new Table();
+        foodTable = new Table();
+        petTable = new Table();
+        minigameTable = new Table();
+
+        showerTable.add(showerBtn).size(Values.BTN_SIZE).row();
+        showerTable.add(showerProgressbar).width(Values.BTN_SIZE).height(Values.BTN_SIZE/5f).padTop(20f);
+        foodTable.add(foodBtn).size(Values.BTN_SIZE).row();
+        foodTable.add(foodProgressbar).width(Values.BTN_SIZE).height(Values.BTN_SIZE/5f).padTop(20f);
+        petTable.add(petBtn).size(Values.BTN_SIZE).row();
+        petTable.add(petProgressbar).width(Values.BTN_SIZE).height(Values.BTN_SIZE/5f).padTop(20f);
+        minigameTable.add(minigameBtn).size(Values.BTN_SIZE).row();
+        minigameTable.add(minigameProgressbar).width(Values.BTN_SIZE).height(Values.BTN_SIZE/5f).padTop(20f);
+
+        uiTableBottom.add(progressTable).growX().colspan(4).padBottom(20).row();
+        uiTableBottom.add(showerTable).growX();
+        uiTableBottom.add(foodTable).growX();
+        uiTableBottom.add(petTable).growX();
+        uiTableBottom.add(minigameTable).growX();
 
         //stage.setDebugAll(true);
 

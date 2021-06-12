@@ -110,6 +110,7 @@ public class MathControllerImpl implements MathController {
     }
 
     private void closeKeyboard() {
+        Gdx.input.setOnscreenKeyboardVisible(false);
         gameManager.enablePause();
         if(currentExercise.isCorrect(answerString)) {
             answerCorrect();
