@@ -20,6 +20,11 @@ public final class DataUtils {
         userDataFileHandleLoc = Gdx.files.local("HexWormsGame/usr.data");
     }
 
+    public static void firstStart() {
+        UserData userData = new UserData(-1);
+        DataUtils.userDataFileHandleLoc.writeString(Base64Coder.encodeString(json.toJson(userData)), false);
+    }
+
     public static UserData getUserData() {
         if(userData == null)
             userData = json.fromJson(UserData.class, Base64Coder.decodeString(userDataFileHandleLoc.readString()));

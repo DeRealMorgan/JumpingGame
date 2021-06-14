@@ -110,7 +110,7 @@ public class Character {
 
         characterTbl = new Table();
         characterTbl.setFillParent(true);
-        characterTbl.add(new Container<>(character).fill()).padTop(100).grow();
+        characterTbl.add(new Container<>(character).fill()).padTop(120).grow();
         stage.addActor(characterTbl);
 
         headContainer.padBottom(650);

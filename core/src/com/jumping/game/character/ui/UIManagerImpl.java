@@ -5,20 +5,17 @@ import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.Touchable;
 import com.badlogic.gdx.scenes.scene2d.actions.Actions;
-import com.badlogic.gdx.scenes.scene2d.ui.Button;
-import com.badlogic.gdx.scenes.scene2d.ui.Label;
-import com.badlogic.gdx.scenes.scene2d.ui.ProgressBar;
-import com.badlogic.gdx.scenes.scene2d.ui.Table;
+import com.badlogic.gdx.scenes.scene2d.ui.*;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import com.jumping.game.assets.AssetsManager;
-import com.jumping.game.util.ScreenName;
-import com.jumping.game.util.Values;
+import com.jumping.game.util.*;
 import com.jumping.game.util.interfaces.ScreenManager;
+import com.jumping.game.util.interfaces.ShopListener;
 import com.jumping.game.util.interfaces.UIManager;
 
-public class UIManagerImpl implements UIManager {
+public class UIManagerImpl implements UIManager, ShopListener {
     private final ScreenManager screenManager;
 
     private final Stage stage;
@@ -32,6 +29,9 @@ public class UIManagerImpl implements UIManager {
     private Label progressLabel;
     private ProgressBar progressBar, showerProgressbar, foodProgressbar, petProgressbar, minigameProgressbar;
     private Drawable progressbarRed, progressbarGreen;
+
+    private ShopOverlay shopOverlay;
+    private UIBar uiBar;
 
     private int stepsToday;
 
@@ -64,13 +64,13 @@ public class UIManagerImpl implements UIManager {
         uiTableLeft = new Table();
         uiTableLeft.setFillParent(true);
         uiTableLeft.top().left();
-        uiTableLeft.padTop(TOP_PADDING).padLeft(SIDE_PADDING);
+        uiTableLeft.padTop(TOP_PADDING*3+10).padLeft(SIDE_PADDING);
         stage.addActor(uiTableLeft);
 
         uiTableRight = new Table();
         uiTableRight.setFillParent(true);
         uiTableRight.top().right();
-        uiTableRight.padTop(TOP_PADDING).padRight(SIDE_PADDING);
+        uiTableRight.padTop(TOP_PADDING*3+10).padRight(SIDE_PADDING);
         stage.addActor(uiTableRight);
 
         uiTableBottom = new Table();
@@ -83,6 +83,12 @@ public class UIManagerImpl implements UIManager {
         shopBtnStyle.down = assetsManager.getDrawable(Values.SHOP_BTN);
         shopBtnStyle.up = shopBtnStyle.down;
         shopBtn = new Button(shopBtnStyle);
+        shopBtn.addListener(new ClickListener() {
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                shopOverlay.show();
+            }
+        });
 
         Button.ButtonStyle worldsBtnStyle = new Button.ButtonStyle();
         worldsBtnStyle.down = assetsManager.getDrawable(Values.WORLDS_BTN);
@@ -105,16 +111,25 @@ public class UIManagerImpl implements UIManager {
         uiTableRight.add(achievementsBtn).size(Values.BTN_SIZE).padBottom(20f).row();
         uiTableRight.add(leaderboardBtn).size(Values.BTN_SIZE).row();
 
+        int minH = 50;
         progressbarRed = assetsManager.get9Drawable(Values.PROGRESSBAR_FRONT_RED);
         progressbarGreen = assetsManager.get9Drawable(Values.PROGRESSBAR_FRONT_GREEN);
 
+        progressbarRed.setMinHeight(minH);
+        progressbarGreen.setMinHeight(minH);
+        progressbarRed.setMinWidth(0);
+        progressbarGreen.setMinWidth(0);
+
         ProgressBar.ProgressBarStyle progressBarStyle = new ProgressBar.ProgressBarStyle();
         progressBarStyle.background = assetsManager.get9Drawable(Values.PROGRESSBAR_BACK);
+        progressBarStyle.background.setMinHeight(minH);
         progressBarStyle.knob = progressbarRed;
 
         ProgressBar.ProgressBarStyle progressbarStyleSmall = new ProgressBar.ProgressBarStyle();
         progressbarStyleSmall.background = assetsManager.get9Drawable(Values.PROGRESSBAR_BACK);
+        progressbarStyleSmall.background.setMinHeight(15);
         progressbarStyleSmall.knob = assetsManager.get9Drawable(Values.PROGRESSBAR_FRONT);
+        progressbarStyleSmall.knob.setMinWidth(0);
 
         showerProgressbar = new ProgressBar(0, 100, 1, false, progressbarStyleSmall);
         foodProgressbar = new ProgressBar(0, 100, 1, false, progressbarStyleSmall);
@@ -124,6 +139,7 @@ public class UIManagerImpl implements UIManager {
         progressTable = new Table();
         progressLabel = new Label(stepsToday + Values.STEPS_PROGRESS1 + Values.MAX_STEPS + Values.STEPS_PROGRESS2, assetsManager.labelStyleSmall());
         progressBar = new ProgressBar(0, 100, 100, false, progressBarStyle);
+
         Button.ButtonStyle showerBtnStyle = new Button.ButtonStyle();
         showerBtnStyle.down = assetsManager.getDrawable(Values.SHOWER_BTN);
         showerBtnStyle.up = showerBtnStyle.down;
@@ -136,8 +152,13 @@ public class UIManagerImpl implements UIManager {
             }
         });
 
-        progressTable.add(progressBar).center().growX().padLeft(100).padRight(100).padBottom(10).row();
-        progressTable.add(progressLabel).center().expandX().row();
+        Table progressBarTable = new Table();
+        progressBarTable.add(progressBar).fill().grow().padLeft(50).padRight(50);
+
+        Table progressLabelTabel = new Table();
+        progressLabelTabel.add(progressLabel);
+
+        progressTable.stack(progressBarTable, progressLabelTabel).growX();
 
         Button.ButtonStyle foodBtnStyle = new Button.ButtonStyle();
         foodBtnStyle.down = assetsManager.getDrawable(Values.FOOD_BTN);
@@ -181,15 +202,15 @@ public class UIManagerImpl implements UIManager {
         minigameTable = new Table();
 
         showerTable.add(showerBtn).size(Values.BTN_SIZE).row();
-        showerTable.add(showerProgressbar).width(Values.BTN_SIZE).height(Values.BTN_SIZE/5f).padTop(20f);
+        showerTable.add(showerProgressbar).width(Values.BTN_SIZE).height(Values.BTN_SIZE/7f).padTop(5f);
         foodTable.add(foodBtn).size(Values.BTN_SIZE).row();
-        foodTable.add(foodProgressbar).width(Values.BTN_SIZE).height(Values.BTN_SIZE/5f).padTop(20f);
+        foodTable.add(foodProgressbar).width(Values.BTN_SIZE).height(Values.BTN_SIZE/7f).padTop(5f);
         petTable.add(petBtn).size(Values.BTN_SIZE).row();
-        petTable.add(petProgressbar).width(Values.BTN_SIZE).height(Values.BTN_SIZE/5f).padTop(20f);
+        petTable.add(petProgressbar).width(Values.BTN_SIZE).height(Values.BTN_SIZE/7f).padTop(5f);
         minigameTable.add(minigameBtn).size(Values.BTN_SIZE).row();
-        minigameTable.add(minigameProgressbar).width(Values.BTN_SIZE).height(Values.BTN_SIZE/5f).padTop(20f);
+        minigameTable.add(minigameProgressbar).width(Values.BTN_SIZE).height(Values.BTN_SIZE/7f).padTop(5f);
 
-        uiTableBottom.add(progressTable).growX().colspan(4).padBottom(20).row();
+        uiTableBottom.add(progressTable).growX().colspan(4).padBottom(30).row();
         uiTableBottom.add(showerTable).growX();
         uiTableBottom.add(foodTable).growX();
         uiTableBottom.add(petTable).growX();
@@ -210,6 +231,19 @@ public class UIManagerImpl implements UIManager {
         hand.position();
         shower.position();
         food.position();
+
+        shopOverlay = new ShopOverlay(assetsManager, this);
+        stage.addActor(shopOverlay.table);
+
+        ConsentOverlay consentOverlay = new ConsentOverlay(assetsManager);
+        stage.addActor(consentOverlay.table);
+
+        if(!DataUtils.getUserData().hasPrivacyConsent())
+            consentOverlay.showInstantly();
+
+        uiBar = new UIBar(assetsManager);
+        stage.addActor(uiBar.table);
+        updateUIBar();
     }
 
     private void showerDone() {
@@ -267,6 +301,29 @@ public class UIManagerImpl implements UIManager {
                 uiTableRight.addAction(Actions.sequence(Actions.fadeOut(1), Actions.visible(false)));
             }
         }
+    }
+
+    private void updateUIBar() {
+        UserData data = DataUtils.getUserData();
+        uiBar.setCoins(data.getCoins());
+        uiBar.setMath(data.getMath());
+        uiBar.setLvl(data.getLvl());
+    }
+
+    @Override
+    public void buy(int item, int cost) {
+        UserData data = DataUtils.getUserData();
+        data.equipItem(item);
+        data.subCoins(cost);
+        DataUtils.storeUserData();
+
+        updateUIBar();
+        // TODO
+    }
+
+    @Override
+    public void equip(int item) {
+        //TODO
     }
 
     public void show() {

@@ -14,7 +14,7 @@ public class Values {
 
     public static final int MATH_TIME = 30000; // how much time for giving an answer to a math exercise
     public static final int SLOW_UPDATE = 3000; // for how long game will be slowed down after math exercise
-    public static final int EXERCISE_PADDING = 50, PADDING_BIG = 50, PADDING = 30;
+    public static final int EXERCISE_PADDING = 50, PADDING_BIG = 50, PADDING = 30, PADDING_SMALL = 15;
 
     public static final int TILE_WIDTH_NORMAL = 250,
             TILE_HEIGHT_NORMAL = 30;
@@ -49,6 +49,8 @@ public class Values {
             MINIGAME_BTN = "minigameIcon",
             PAUSE_BTN = "pauseIcon",
             CLOCK_ICON = "clockIcon",
+            LVL_ICON = "lvlIcon",
+            MATH_ICON = "mathIcon",
             OVERLAY_BACKGROUND = "overlay_back",
             BTN_UP = "btn_up",
             BTN_DOWN = "btn_down";
@@ -73,15 +75,17 @@ public class Values {
     public static final String FOOD_BACON = "food_bacon",
             FOOD_BANANA = "food_banana", FOOD_APPLE = "food_apple";
 
-    public static final int ITEM_COUNT = 12,
+    public static final int ITEM_COUNT = 9,
             SHOP_ROW_AMOUNT = 3;
     public static final String COIN = "coin",
-            SHOP_ITEM = "shop_item_",
+            SHOP_ITEM = "_shop_item",
             SHOP_ITEM_BACK = "shop_item_back";
 
     public static final String BLANK_IMG = "blank_img",
             MENU_BACK = "menu_back",
-            WINDOW_BANNER = "window_banner";
+            WINDOW_BANNER = "window_banner",
+            BOUGHT_BACK = "bought_back",
+            DISABLED_BACK = "disabled_back";
 
     public static final String CONSENT_HEADER = "Zustimmung", CONSENT_BODY = "Diese App ist ein Projekt für die Techniche Universität München.\n" +
             "Während dem Spielen werden anonymisiert Daten gesammelt und verarbeitet.";
@@ -98,6 +102,8 @@ public class Values {
 
     public static final String CHECKBOX_UNCHECKED = "checkbox_unchecked",
             CHECKBOX_CHECKED = "checkbox_checked";
+
+    public static final String LVL = "Lvl ", BOUGHT = "Gekauft";
 
     public static final String TREATS_WORK = "treats_worker";
     public static final String TREAT_NOTIFICATION_TITLE = "Item found!";

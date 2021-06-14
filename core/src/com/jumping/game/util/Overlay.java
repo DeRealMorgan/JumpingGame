@@ -40,7 +40,7 @@ public abstract class Overlay {
         table.add(wrapperTable).growX().padRight(Values.EDGE_DISTANCE*2).padLeft(Values.EDGE_DISTANCE).center();
 
         contentTable = new Table();
-        headerLabel = new Label(headerString, manager.labelStyleBig());
+        headerLabel = new Label(headerString, manager.labelStyle());
         headerLabel.setAlignment(Align.center);
         headerTable = new Table();
         headerTable.add(headerLabel).padTop(Values.SPACING*.5f).padBottom(Values.SPACING*.5f);

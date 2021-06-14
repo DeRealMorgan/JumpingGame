@@ -4,6 +4,7 @@ import com.badlogic.gdx.Gdx;
 import com.jumping.game.assets.AssetsManagerImpl;
 import com.jumping.game.character.CharacterScreen;
 import com.jumping.game.game.GameScreen;
+import com.jumping.game.util.DataUtils;
 import com.jumping.game.util.Game;
 import com.jumping.game.util.GameState;
 import com.jumping.game.util.ScreenName;
@@ -26,6 +27,11 @@ public class Main extends Game implements ScreenManager {
 
 	@Override
 	public void create() {
+		DataUtils.init();
+		DataUtils.firstStart();
+		DataUtils.getUserData();
+		DataUtils.storeUserData();
+
 		this.gameState = GameState.ACTIVE;
 		this.assetsManager = new AssetsManagerImpl();
 

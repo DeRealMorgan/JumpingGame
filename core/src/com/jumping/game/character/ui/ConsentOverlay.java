@@ -23,7 +23,7 @@ public class ConsentOverlay extends Overlay {
     public ConsentOverlay(AssetsManager assetsManager) {
         super(assetsManager, Values.CONSENT_HEADER);
 
-        policyLabel = new Label(Values.CONSENT_BODY, assetsManager.labelStyle());
+        policyLabel = new Label(Values.CONSENT_BODY, assetsManager.labelStyleSmall());
         policyLabel.setWrap(true);
         policyLabel.setAlignment(Align.center);
         policyPane = new ScrollPane(policyLabel);
@@ -55,7 +55,7 @@ public class ConsentOverlay extends Overlay {
             }
         });
 
-        agreeLabel = new Label(Values.AGREE, assetsManager.labelStyle());
+        agreeLabel = new Label(Values.AGREE, assetsManager.labelStyleSmall());
         agreeLabel.setAlignment(Align.center);
 
         contentTable.add(policyPane).width(Values.BTN_SIZE*5.6f).height(Values.BTN_SIZE*4f)
