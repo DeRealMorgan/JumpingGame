@@ -41,7 +41,7 @@ public class RenderPipelineImpl implements RenderPipeline {
         this.gameCam.position.set(gameViewport.getWorldWidth()/2, gameViewport.getWorldHeight()/2, 0);
 
         this.uiCam = new OrthographicCamera();
-        this.uiViewport = new FitViewport(Values.MIN_WORLD_WIDTH, Values.MIN_WORLD_HEIGHT, this.uiCam);
+        this.uiViewport = new FitViewport(Values.CHARACTER_WORLD_WIDTH, Values.CHARACTER_WORLD_HEIGHT, this.uiCam);
         this.uiCam.position.set(uiViewport.getWorldWidth()/2, uiViewport.getWorldHeight()/2, 0);
 
         this.nextCameraPos = new Vector3(gameCam.position.x, gameCam.position.y, 0);
@@ -65,6 +65,10 @@ public class RenderPipelineImpl implements RenderPipeline {
         Gdx.gl.glClearColor(0.75f, 0.75f, 0.75f, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
+        uiViewport.apply();
+        batch.setProjectionMatrix(uiCam.combined);
+        uiManager.drawUIBottom();
+
         gameViewport.apply();
         batch.setProjectionMatrix(gameCam.combined);
         batch.begin();
@@ -73,7 +77,7 @@ public class RenderPipelineImpl implements RenderPipeline {
 
         uiViewport.apply();
         batch.setProjectionMatrix(uiCam.combined);
-        uiManager.drawUI();
+        uiManager.drawUITop();
     }
 
     public void resize(int width, int height) {

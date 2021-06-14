@@ -45,7 +45,7 @@ public class UserData {
         boughtWorlds = new ArrayList<>();
         equipedItems = new ArrayList<>();
 
-        equipedWorld = -1;
+        equipedWorld = 0;
     }
 
     public void setLvl(int lvl) {

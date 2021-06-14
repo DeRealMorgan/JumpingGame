@@ -53,6 +53,8 @@ public class UIManagerImpl implements UIManager, ShopListener {
         assetsManager.addInputProcessor(stage);
         backgroundTable = new Table();
         backgroundTable.setFillParent(true);
+
+        backgroundTable.background(assetsManager.getBackground(DataUtils.getUserData().getEquipedWorld() + Values.BACKGROUND));
         stage.addActor(backgroundTable);
 
         character = new Character(assetsManager, stage);
@@ -331,9 +333,12 @@ public class UIManagerImpl implements UIManager, ShopListener {
     }
 
     @Override
-    public void drawUI() {
+    public void drawUIBottom() {
         stage.draw();
     }
+
+    @Override
+    public void drawUITop() {}
 
     @Override
     public void dispose() {

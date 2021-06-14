@@ -3,6 +3,9 @@ package com.jumping.game.util;
 import com.badlogic.gdx.graphics.Color;
 
 public class Values {
+    public static final String DATA_PATH = "dataPath",
+            SHARED_PREF = "healthAppPrefs";
+
     public static final int MIN_WORLD_WIDTH = 1000, MAX_WORLD_WIDTH = 1000,
             MIN_WORLD_HEIGHT = 2000, MAX_WORLD_HEIGHT = 100000;
     public static final int CHARACTER_WORLD_WIDTH = 800, CHARACTER_WORLD_HEIGHT = 1400;
@@ -22,7 +25,7 @@ public class Values {
             PLAYER_HEIGHT = 200;
     public static final int MATH_ATTACHMENT_WIDTH = 150, MATH_ATTACHMENT_HEIGHT = 110;
 
-    public static final int SPACING = 20, SPACING_SMALL = 10, EDGE_DISTANCE = 50;
+    public static final int SPACING = 20, SPACING_SMALL = 10, EDGE_DISTANCE = 50, TOP_PADDING_UI_GAME = 100;
     public static final float FADE_OVERLAY_DUR = 1f;
 
     public static final int FONT_BORDER_WIDTH = 2,
@@ -79,7 +82,8 @@ public class Values {
             SHOP_ROW_AMOUNT = 3;
     public static final String COIN = "coin",
             SHOP_ITEM = "_shop_item",
-            SHOP_ITEM_BACK = "shop_item_back";
+            SHOP_ITEM_BACK = "shop_item_back",
+            BACKGROUND = "_background.png";
 
     public static final String BLANK_IMG = "blank_img",
             MENU_BACK = "menu_back",

@@ -4,31 +4,50 @@ import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import androidx.annotation.NonNull;
 import androidx.core.app.NotificationCompat;
 import androidx.work.*;
+import com.badlogic.gdx.utils.Base64Coder;
+import com.badlogic.gdx.utils.Json;
 import com.jumping.game.util.StoreProviderImpl;
+import com.jumping.game.util.UserData;
 import com.jumping.game.util.Values;
-import com.jumping.game.util.interfaces.GoogleFit;
 import com.jumping.game.util.interfaces.StoreProvider;
 
+import java.io.File;
+import java.io.IOException;
+import java.nio.file.Files;
 import java.time.*;
 import java.util.Optional;
 import java.util.concurrent.ThreadLocalRandom;
 
 public class NotificationWorker extends Worker {
-    private GoogleFit googleFit;
-
-    public NotificationWorker(@NonNull Context context, @NonNull WorkerParameters workerParams,
-                              GoogleFit googleFit) {
+    public NotificationWorker(@NonNull Context context, @NonNull WorkerParameters workerParams) {
         super(context, workerParams);
-        this.googleFit = googleFit;
     }
 
     @NonNull
     @Override
     public Result doWork() {
-        int count = googleFit.getStepCountToday();
+        Json json = new Json();
+        SharedPreferences preferences = super.getApplicationContext().getSharedPreferences(Values.SHARED_PREF, Context.MODE_PRIVATE);
+        File f = new File(preferences.getString(Values.DATA_PATH, ""));
+        if(!f.exists()) return Result.failure();
+
+        UserData d;
+        try {
+            d = json.fromJson(UserData.class, Base64Coder.decodeString(new String(Files.readAllBytes(f.toPath()))));
+        } catch (IOException e) {
+            return Result.failure();
+        }
+
+        if(d.isRunning()) {
+            startNewWorker(super.getApplicationContext());
+            return Result.success();
+        } // TODO: if application is running, it should still work
+
+        int count = AndroidLauncher.getStepCountToday(super.getApplicationContext());
         StoreProvider provider = new StoreProviderImpl();
         Optional<Integer> lastData = provider.getInt(Values.STEP_COUNT);
         Optional<Long> lastStamp = provider.getLong(Values.STEP_COUNT_TIME);
@@ -47,7 +66,7 @@ public class NotificationWorker extends Worker {
 
     private void collectItems(int lastCollectedData, int currentData) {
         if(currentData < Values.TREAT_START) {
-            startNewWorker();
+            startNewWorker(super.getApplicationContext());
             return;
         }
 
@@ -56,7 +75,7 @@ public class NotificationWorker extends Worker {
 
         if(lastCollectedData < Values.TREAT_START) {
             treat(currentInterval);
-            startNewWorker();
+            startNewWorker(super.getApplicationContext());
             return;
         }
 
@@ -65,16 +84,18 @@ public class NotificationWorker extends Worker {
         treat(currentInterval-lastInterval);
     }
 
-    private void startNewWorker() {
+    public static void startNewWorker(Context c) {
         OneTimeWorkRequest.Builder workBuilder = new OneTimeWorkRequest.Builder(NotificationWorker.class);
         workBuilder.setInitialDelay(Duration.between(LocalDateTime.now(), LocalDateTime.now().plusMinutes(Values.TREAT_CHECK_TIME_DELTA)));
 
-        WorkManager instanceWorkManager = WorkManager.getInstance(getApplicationContext());
+        WorkManager instanceWorkManager = WorkManager.getInstance(c);
         instanceWorkManager.enqueueUniqueWork(Values.TREATS_WORK, ExistingWorkPolicy.REPLACE, workBuilder.build());
     }
 
     private void treat(int amount) {
         notifyUser();
+
+        //TODO store to preferences
     }
 
     private void notifyUser() {

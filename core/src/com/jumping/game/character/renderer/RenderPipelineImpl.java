@@ -36,7 +36,8 @@ public class RenderPipelineImpl implements RenderPipeline {
 
         uiViewport.apply();
         batch.setProjectionMatrix(uiCam.combined);
-        uiManager.drawUI();
+        uiManager.drawUIBottom();
+        uiManager.drawUITop();
     }
 
     public void resize(int width, int height) {

@@ -57,17 +57,20 @@ public class MathControllerImpl implements MathController {
         contentTable.setFillParent(true);
         contentTable.setVisible(false);
         contentTable.setTouchable(Touchable.disabled);
-        contentTable.top();
+        contentTable.top().padTop(Values.TOP_PADDING_UI_GAME);
 
         clockImg = new Image(assetsManager.getDrawable(Values.CLOCK_ICON));
-        timerLabel = new Label(getTimeString(), assetsManager.labelStyleBig());
+        timerLabel = new Label(getTimeString(), assetsManager.labelStyle());
         timerLabel.setAlignment(Align.center);
 
         timerTable = new Table();
         timerTable.add(clockImg).left();
         timerTable.add(timerLabel).left().row();
 
-        exerciseLabel = new Label("", assetsManager.labelStyleBig());
+        // TODO unsichtbares bild pber ganzen Bildschirm, das auch das keyboard schließt
+        //  ui/viewport anpassen, dass bildschirm gefüllt wird
+
+        exerciseLabel = new Label("", assetsManager.labelStyle());
         exerciseLabel.setAlignment(Align.center);
 
         assetsManager.addInputProcessor(new InputAdapter() {

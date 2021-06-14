@@ -16,9 +16,7 @@ import com.jumping.game.game.player.Player;
 import com.jumping.game.game.renderer.RenderPipeline;
 import com.jumping.game.game.ui.PauseUI;
 import com.jumping.game.game.ui.UIManagerImpl;
-import com.jumping.game.util.MathUtils;
-import com.jumping.game.util.Values;
-import com.jumping.game.util.ZSprite;
+import com.jumping.game.util.*;
 import com.jumping.game.util.interfaces.ScreenManager;
 
 import java.util.ArrayList;

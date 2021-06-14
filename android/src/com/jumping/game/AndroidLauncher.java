@@ -4,6 +4,7 @@ import android.Manifest;
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.os.Build;
 import android.os.Bundle;
@@ -27,6 +28,7 @@ import java.util.stream.Collectors;
 
 public class AndroidLauncher extends AndroidApplication implements GoogleFit {
 	private Main main;
+
 	@Override
 	protected void onCreate (Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -36,12 +38,22 @@ public class AndroidLauncher extends AndroidApplication implements GoogleFit {
 		initNotificationChannels();
 		main = new Main(essentialPermsGranted, this);
 		initialize(main, config);
+
+		SharedPreferences preference = this.getSharedPreferences(Values.SHARED_PREF, Context.MODE_PRIVATE);
+		SharedPreferences.Editor editor = preference.edit();
+		editor.putString(Values.DATA_PATH, main.getDataPath());
+		editor.commit();
+		startNotificationWorker();
 	}
 
 	@Override
 	public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
 		if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED)
 			main.permissionGranted(requestCode);
+	}
+
+	private void startNotificationWorker() {
+		NotificationWorker.startNewWorker(super.getApplicationContext());
 	}
 
 	/**
@@ -64,29 +76,41 @@ public class AndroidLauncher extends AndroidApplication implements GoogleFit {
 
 	@Override
 	public int getStepCountToday() {
-		ZonedDateTime startTime = LocalDate.now().atStartOfDay(ZoneId.systemDefault());
-		ZonedDateTime endTime = LocalDateTime.now().atZone(ZoneId.systemDefault());
-
-		return getSteps(startTime, endTime);
+		return getStepCountToday(getContext());
 	}
 
 	@Override
 	public int getStepCountYesterday() {
-		ZonedDateTime startTime = LocalDate.now().atStartOfDay(ZoneId.systemDefault()).minusDays(1);
-		ZonedDateTime endTime = LocalDateTime.now().atZone(ZoneId.systemDefault()).with(LocalTime.MAX);
-
-		return getSteps(startTime, endTime);
+		return getStepCountYesterday(getContext());
 	}
 
 	@Override
 	public int getStepCountLast24() {
+		return getStepCountLast24(getContext());
+	}
+
+	public static int getStepCountToday(Context c) {
+		ZonedDateTime startTime = LocalDate.now().atStartOfDay(ZoneId.systemDefault());
+		ZonedDateTime endTime = LocalDateTime.now().atZone(ZoneId.systemDefault());
+
+		return getSteps(c, startTime, endTime);
+	}
+
+	public static int getStepCountYesterday(Context c) {
+		ZonedDateTime startTime = LocalDate.now().atStartOfDay(ZoneId.systemDefault()).minusDays(1);
+		ZonedDateTime endTime = LocalDateTime.now().atZone(ZoneId.systemDefault()).with(LocalTime.MAX);
+
+		return getSteps(c, startTime, endTime);
+	}
+
+	public static int getStepCountLast24(Context c) {
 		ZonedDateTime startTime = LocalDateTime.now().atZone(ZoneId.systemDefault()).minusDays(1);
 		ZonedDateTime endTime = LocalDateTime.now().atZone(ZoneId.systemDefault());
 
-		return getSteps(startTime, endTime);
+		return getSteps(c, startTime, endTime);
 	}
 
-	private int getSteps(ZonedDateTime startTime, ZonedDateTime endTime) {
+	private static int getSteps(Context c, ZonedDateTime startTime, ZonedDateTime endTime) {
 
 		DataSource datasource = new DataSource.Builder()
 				.setAppPackageName("com.google.android.gms")
@@ -107,7 +131,7 @@ public class AndroidLauncher extends AndroidApplication implements GoogleFit {
 				.build();
 
 		AtomicInteger totalSteps = new AtomicInteger();
-		Fitness.getHistoryClient(this, GoogleSignIn.getAccountForExtension(this, fitnessOptions))
+		Fitness.getHistoryClient(c, GoogleSignIn.getAccountForExtension(c, fitnessOptions))
 				.readData(request)
 				.addOnSuccessListener((response) -> totalSteps.set(response.getBuckets().stream()
 						.map(Bucket::getDataSets)

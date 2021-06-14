@@ -27,7 +27,7 @@ public class AssetsManagerImpl implements AssetsManager, Disposable {
     private final TextureAtlas atlas;
     private final Skin skin;
 
-    private final Label.LabelStyle labelStyleSmall, labelStyle, labelStyleBig, labelStyleHuge;
+    private final Label.LabelStyle labelStyleSmall, labelStyle, labelStyleBig;
     private final TextField.TextFieldStyle textFieldStyleBig;
     private final TextButton.TextButtonStyle textBtnStyle;
 
@@ -65,11 +65,6 @@ public class AssetsManagerImpl implements AssetsManager, Disposable {
         labelStyleBig = new Label.LabelStyle();
         labelStyleBig.font = fontBig;
 
-        fontParameter.size = Values.FONT_SIZE_HUGE;
-        BitmapFont fontHuge = fontGenerator.generateFont(fontParameter);
-        labelStyleHuge = new Label.LabelStyle();
-        labelStyleHuge.font = fontHuge;
-
         textFieldStyleBig = new TextField.TextFieldStyle();
         textFieldStyleBig.cursor = getDrawable(Values.CURSOR);
         textFieldStyleBig.font = font;
@@ -78,7 +73,7 @@ public class AssetsManagerImpl implements AssetsManager, Disposable {
         textBtnStyle = new TextButton.TextButtonStyle();
         textBtnStyle.up = get9Drawable(Values.BTN_UP);
         textBtnStyle.down = get9Drawable(Values.BTN_DOWN);
-        textBtnStyle.font = font;
+        textBtnStyle.font = fontSmall;
 
     }
 
@@ -109,7 +104,6 @@ public class AssetsManagerImpl implements AssetsManager, Disposable {
     @Override
     public Sprite getSprite(String name) {
         TextureAtlas.AtlasRegion region = atlas.findRegion(name); // todo remove: only debug
-        if(region == null) return new Sprite(fallbackTexture);
         Sprite s = new Sprite(region);
         s.setBounds(0, 0, region.getRegionWidth(), region.getRegionHeight());
 
@@ -140,6 +134,12 @@ public class AssetsManagerImpl implements AssetsManager, Disposable {
     }
 
     @Override
+    public SpriteDrawable getBackground(String name) {
+        Sprite s = new Sprite(new Texture(Gdx.files.internal(name)));
+        return new SpriteDrawable(s);
+    }
+
+    @Override
     public Label.LabelStyle labelStyleSmall() {
         return labelStyleSmall;
     }
@@ -152,11 +152,6 @@ public class AssetsManagerImpl implements AssetsManager, Disposable {
     @Override
     public Label.LabelStyle labelStyleBig() {
         return labelStyleBig;
-    }
-
-    @Override
-    public Label.LabelStyle labelStyleHuge() {
-        return labelStyleHuge;
     }
 
     @Override

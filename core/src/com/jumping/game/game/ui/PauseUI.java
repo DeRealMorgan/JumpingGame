@@ -38,13 +38,13 @@ public class PauseUI {
         screenTable.background(assetsManager.getDrawable(Values.OVERLAY_BACKGROUND));
         screenTable.add(contentTable).center();
 
-        pauseLabel = new Label(Values.PAUSE, assetsManager.labelStyleHuge());
+        pauseLabel = new Label(Values.PAUSE, assetsManager.labelStyleBig());
         pauseLabel.setAlignment(Align.center);
 
-        scoreLabel = new Label("", assetsManager.labelStyleBig());
+        scoreLabel = new Label("", assetsManager.labelStyle());
         scoreLabel.setAlignment(Align.left);
 
-        mathLabel = new Label("", assetsManager.labelStyleBig());
+        mathLabel = new Label("", assetsManager.labelStyle());
         mathLabel.setAlignment(Align.left);
 
         backBtn = new TextButton(Values.BACK, assetsManager.textBtnStyle());

@@ -116,7 +116,6 @@ public class ShopOverlay extends Overlay {
             coins[item].remove();
             itemLabels[item].remove();
 
-            close();
             nextClick = TimeUtils.millis()+500; //alle X-ms klicken erlauben
         }
     }

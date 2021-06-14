@@ -20,6 +20,8 @@ public class Main extends Game implements ScreenManager {
 	private boolean essentialPermissionsGranted;
 	private GoogleFit googleFit;
 
+	private String dataPath;
+
 	public Main(boolean essentialPermissionsGranted, GoogleFit googleFit) {
 		this.essentialPermissionsGranted = essentialPermissionsGranted;
 		this.googleFit = googleFit;
@@ -31,6 +33,7 @@ public class Main extends Game implements ScreenManager {
 		DataUtils.firstStart();
 		DataUtils.getUserData();
 		DataUtils.storeUserData();
+		this.dataPath = DataUtils.getDataPath();
 
 		this.gameState = GameState.ACTIVE;
 		this.assetsManager = new AssetsManagerImpl();
@@ -63,6 +66,12 @@ public class Main extends Game implements ScreenManager {
 		resize(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
 	}
 
+	String getDataPath() {
+		return dataPath;
+	}
+
+
+
 	@Override
 	public void render() {
 		float dt = Gdx.graphics.getDeltaTime();
@@ -93,6 +102,11 @@ public class Main extends Game implements ScreenManager {
 
 	@Override
 	public void dispose() {
+		DataUtils.getUserData().setRunning(false);
+		try {
+			DataUtils.storeUserData().join();
+		} catch (InterruptedException ignored) {}
+
 		renderPipeline.dispose();
 		super.disposeScreen();
 	}

@@ -19,9 +19,10 @@ public interface AssetsManager {
     Label.LabelStyle labelStyleSmall();
     Label.LabelStyle labelStyle();
     Label.LabelStyle labelStyleBig();
-    Label.LabelStyle labelStyleHuge();
     TextField.TextFieldStyle textFieldStyleBig();
     TextButton.TextButtonStyle textBtnStyle();
+
+    SpriteDrawable getBackground(String name);
 
     void addInputProcessor(InputProcessor processor);
     void removeInputProcessor(InputProcessor processor);

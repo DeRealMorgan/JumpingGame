@@ -369,27 +369,35 @@ worldsIcon
   index: -1
 
 Game2.png
-size: 1879, 537
+size: 2031, 521
 format: RGBA8888
 filter: Nearest, Nearest
 repeat: none
 3_shop_item_arm
   rotate: false
-  xy: 1080, 5
+  xy: 2, 216
   size: 240, 303
   orig: 240, 303
   offset: 0, 0
   index: -1
 5_shop_item_arm
   rotate: false
-  xy: 1322, 5
+  xy: 244, 216
   size: 240, 303
   orig: 240, 303
   offset: 0, 0
   index: -1
 bought_back
   rotate: false
-  xy: 1806, 266
+  xy: 413, 150
+  size: 64, 64
+  split: 7, 11, 4, 5
+  orig: 64, 64
+  offset: 0, 0
+  index: -1
+bought_equiped
+  rotate: false
+  xy: 413, 84
   size: 64, 64
   split: 7, 11, 4, 5
   orig: 64, 64
@@ -397,7 +405,7 @@ bought_back
   index: -1
 btn_up
   rotate: false
-  xy: 1806, 2
+  xy: 479, 84
   size: 64, 64
   split: 16, 15, 16, 17
   orig: 64, 64
@@ -405,98 +413,98 @@ btn_up
   index: -1
 clockIcon
   rotate: false
-  xy: 1806, 134
+  xy: 545, 150
   size: 64, 64
   orig: 64, 64
   offset: 0, 0
   index: -1
 closeIcon
   rotate: false
-  xy: 1806, 200
+  xy: 479, 150
   size: 64, 64
   orig: 64, 64
   offset: 0, 0
   index: -1
 crumbs
   rotate: false
-  xy: 1670, 332
+  xy: 2, 11
   size: 207, 203
   orig: 207, 203
   offset: 0, 0
   index: -1
 food_apple
   rotate: false
-  xy: 716, 245
+  xy: 1442, 229
   size: 355, 290
   orig: 355, 290
   offset: 0, 0
   index: -1
 food_bacon
   rotate: false
-  xy: 2, 245
+  xy: 728, 229
   size: 355, 290
   orig: 355, 290
   offset: 0, 0
   index: -1
 food_banana
   rotate: false
-  xy: 359, 245
+  xy: 1085, 229
   size: 355, 290
   orig: 355, 290
   offset: 0, 0
   index: -1
 hearts
   rotate: false
-  xy: 324, 18
+  xy: 1372, 2
   size: 320, 225
   orig: 320, 225
   offset: 0, 0
   index: -1
 mathIcon
   rotate: false
-  xy: 1806, 68
+  xy: 611, 150
   size: 64, 64
   orig: 64, 64
   offset: 0, 0
   index: -1
 pig_arm
   rotate: false
-  xy: 1564, 7
+  xy: 486, 216
   size: 240, 303
   orig: 240, 303
   offset: 0, 0
   index: -1
 pig_ear
   rotate: false
-  xy: 646, 4
+  xy: 1799, 280
   size: 230, 239
   orig: 230, 239
   offset: 0, 0
   index: -1
 pig_nose
   rotate: false
-  xy: 1395, 312
+  xy: 1694, 4
   size: 273, 223
   orig: 273, 223
   offset: 0, 0
   index: -1
 player
   rotate: false
-  xy: 878, 43
+  xy: 211, 14
   size: 200, 200
   orig: 200, 200
   offset: 0, 0
   index: -1
 soap_bubble
   rotate: false
-  xy: 1073, 310
+  xy: 1050, 2
   size: 320, 225
   orig: 320, 225
   offset: 0, 0
   index: -1
 water_drops
   rotate: false
-  xy: 2, 18
+  xy: 728, 2
   size: 320, 225
   orig: 320, 225
   offset: 0, 0

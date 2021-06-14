@@ -31,13 +31,13 @@ public class GameOverlayUI {
         screenTable.setFillParent(true);
         screenTable.setVisible(true);
         screenTable.setTouchable(Touchable.childrenOnly);
-        screenTable.top().left();
+        screenTable.top().left().padTop(Values.TOP_PADDING_UI_GAME);
         screenTable.add(contentTable).growX().fillX().expandX().top().left();
 
-        scoreLabel = new Label(Values.SCORE + "0", assetsManager.labelStyle());
+        scoreLabel = new Label(Values.SCORE + "0", assetsManager.labelStyleSmall());
         scoreLabel.setAlignment(Align.left);
 
-        mathLabel = new Label(Values.MATH_SCORE + "0", assetsManager.labelStyle());
+        mathLabel = new Label(Values.MATH_SCORE + "0", assetsManager.labelStyleSmall());
         mathLabel.setAlignment(Align.left);
 
         Button.ButtonStyle style = new Button.ButtonStyle();
@@ -53,9 +53,12 @@ public class GameOverlayUI {
             }
         });
 
-        contentTable.add(scoreLabel).left().expandX().padBottom(Values.PADDING);
-        contentTable.add(pauseBtn).right().expandX().size(Values.BTN_SIZE).padBottom(Values.PADDING).padTop(Values.PADDING).row();
-        contentTable.add(mathLabel).left().padBottom(Values.PADDING_BIG).row();
+        contentTable.add(scoreLabel).left().expandX();
+        contentTable.add(pauseBtn).right().expandX().size(Values.BTN_SIZE).padTop(Values.PADDING).row();
+        contentTable.add(mathLabel).left().padBottom(Values.PADDING).row();
+        contentTable.padLeft(Values.PADDING).padRight(Values.PADDING);
+
+        contentTable.setDebug(true, true);
 
     }
 
