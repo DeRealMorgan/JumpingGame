@@ -35,6 +35,7 @@ public class UIManagerImpl implements UIManager, ShopListener {
     private Drawable progressbarRed, progressbarGreen;
 
     private ShopOverlay shopOverlay;
+    private WorldsOverlay worldsOverlay;
     private UIBar uiBar;
 
     private int stepsToday;
@@ -101,6 +102,12 @@ public class UIManagerImpl implements UIManager, ShopListener {
         worldsBtnStyle.down = assetsManager.getDrawable(Values.WORLDS_BTN);
         worldsBtnStyle.up = worldsBtnStyle.down;
         worldsBtn = new Button(worldsBtnStyle);
+        worldsBtn.addListener(new ClickListener() {
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                worldsOverlay.show();
+            }
+        });
 
         uiTableLeft.add(shopBtn).size(Values.BTN_SIZE).padBottom(20f).row();
         uiTableLeft.add(worldsBtn).size(Values.BTN_SIZE).row();
@@ -242,6 +249,9 @@ public class UIManagerImpl implements UIManager, ShopListener {
         shopOverlay = new ShopOverlay(assetsManager, this);
         stage.addActor(shopOverlay.table);
 
+        worldsOverlay = new WorldsOverlay(assetsManager, this);
+        stage.addActor(worldsOverlay.table);
+
         ConsentOverlay consentOverlay = new ConsentOverlay(assetsManager);
         stage.addActor(consentOverlay.table);
 
@@ -331,7 +341,25 @@ public class UIManagerImpl implements UIManager, ShopListener {
     }
 
     @Override
+    public void buyWorld(int item, int cost) {
+        UserData data = DataUtils.getUserData();
+        data.equipWorld(item);
+        data.subCoins(cost);
+        DataUtils.storeUserData();
+
+        updateUIBar();
+
+        backgroundTable.background(assetsManager.getBackground(item + Values.BACKGROUND));
+        // TODO
+    }
+
+    @Override
     public void equip(int item) {
+        //TODO
+    }
+
+    @Override
+    public void equipWorld(int item) {
         //TODO
     }
 

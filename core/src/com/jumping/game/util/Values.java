@@ -78,7 +78,8 @@ public class Values {
             FOOD_BANANA = "food_banana", FOOD_APPLE = "food_apple";
 
     public static final int ITEM_COUNT = 9,
-            SHOP_ROW_AMOUNT = 3;
+            WORLD_COUNT = 4,
+            SHOP_ROW_AMOUNT = 3, WORLD_ROW_AMOUNT = 2;
     public static final String COIN = "coin",
             SHOP_ITEM = "_shop_item",
             SHOP_ITEM_ARM = "_shop_item_arm",
@@ -93,7 +94,7 @@ public class Values {
 
     public static final String CONSENT_HEADER = "Zustimmung", CONSENT_BODY = "Diese App ist ein Projekt für die Techniche Universität München.\n" +
             "Während dem Spielen werden anonymisiert Daten gesammelt und verarbeitet.";
-    public static final String SHOP_HEADER = "Shop";
+    public static final String SHOP_HEADER = "Shop", WORLDS_HEADER = "Welten";
 
     public static final String OK = "OK", AGREE = "Ich stimme zu.";
 
