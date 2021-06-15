@@ -142,8 +142,8 @@ public class Character {
         headContainer.padBottom(650);
         leftArmContainer.padRight(500).padBottom(150);
         rightArmContainer.padLeft(500).padBottom(150);
-        leftLegContainer.padRight(200).padTop(450);
-        rightLegContainer.padLeft(200).padTop(450);
+        leftLegContainer.padRight(200).padTop(420);
+        rightLegContainer.padLeft(200).padTop(420);
         rightEarImg.padBottom(350).padLeft(270);
         noseImg.padTop(80);
         mouthImg.padTop(290);

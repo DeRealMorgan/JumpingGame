@@ -51,9 +51,6 @@ public class ShopOverlay extends Overlay {
         scrollPane.setScrollingDisabled(true, false);
         contentTable.add(scrollPane).width(Values.BTN_SIZE*7f).height(Values.BTN_SIZE*10f)
                 .padBottom(Values.SPACING_SMALL).row();
-
-        itemsTable.pack();
-        resize(-1, -1);
     }
 
     private void createItems(AssetsManager assetsManager) {
@@ -125,7 +122,4 @@ public class ShopOverlay extends Overlay {
         return 0;
     }
 
-    public void resize(int width, int height) {
-        super.scaleOverlay();
-    }
 }

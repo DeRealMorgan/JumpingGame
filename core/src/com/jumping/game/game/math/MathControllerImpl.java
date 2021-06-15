@@ -4,11 +4,13 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.InputAdapter;
 import com.badlogic.gdx.files.FileHandle;
+import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.Touchable;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
+import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.TimeUtils;
 import com.jumping.game.assets.AssetsManager;
@@ -56,19 +58,26 @@ public class MathControllerImpl implements MathController {
         contentTable = new Table();
         contentTable.setFillParent(true);
         contentTable.setVisible(false);
-        contentTable.setTouchable(Touchable.disabled);
+        contentTable.setTouchable(Touchable.enabled);
         contentTable.top().padTop(Values.TOP_PADDING_UI_GAME);
+        contentTable.background(assetsManager.getDrawable(Values.OVERLAY_BACKGROUND));
+        contentTable.addListener(new ClickListener() {
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                closeKeyboard();
+            }
+        });
 
         clockImg = new Image(assetsManager.getDrawable(Values.CLOCK_ICON));
         timerLabel = new Label(getTimeString(), assetsManager.labelStyle());
         timerLabel.setAlignment(Align.center);
 
         timerTable = new Table();
+        timerTable.setTouchable(Touchable.disabled);
         timerTable.add(clockImg).left();
         timerTable.add(timerLabel).left().row();
 
-        // TODO unsichtbares bild pber ganzen Bildschirm, das auch das keyboard schließt
-        //  ui/viewport anpassen, dass bildschirm gefüllt wird
+        // todo ui/viewport anpassen, dass bildschirm gefüllt wird
 
         exerciseLabel = new Label("", assetsManager.labelStyle());
         exerciseLabel.setAlignment(Align.center);
