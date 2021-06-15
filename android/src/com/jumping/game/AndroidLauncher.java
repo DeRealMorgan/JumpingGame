@@ -19,6 +19,7 @@ import com.google.android.gms.fitness.data.*;
 import com.google.android.gms.fitness.request.DataReadRequest;
 import com.jumping.game.util.Values;
 import com.jumping.game.util.interfaces.GoogleFit;
+import com.jumping.game.util.interfaces.StoreProvider;
 
 import java.time.*;
 import java.util.List;
@@ -26,7 +27,7 @@ import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.stream.Collectors;
 
-public class AndroidLauncher extends AndroidApplication implements GoogleFit {
+public class AndroidLauncher extends AndroidApplication implements GoogleFit, StoreProvider {
 	private Main main;
 
 	@Override
@@ -36,13 +37,9 @@ public class AndroidLauncher extends AndroidApplication implements GoogleFit {
 		boolean essentialPermsGranted = requestPermissions();
 
 		initNotificationChannels();
-		main = new Main(essentialPermsGranted, this);
+		main = new Main(essentialPermsGranted, this, this);
 		initialize(main, config);
 
-		SharedPreferences preference = this.getSharedPreferences(Values.SHARED_PREF, Context.MODE_PRIVATE);
-		SharedPreferences.Editor editor = preference.edit();
-		editor.putString(Values.DATA_PATH, main.getDataPath());
-		editor.commit();
 		startNotificationWorker();
 	}
 
@@ -72,6 +69,20 @@ public class AndroidLauncher extends AndroidApplication implements GoogleFit {
 		}
 
 		return essentialGranted;
+	}
+
+	@Override
+	public void store(String name, String val) {
+		SharedPreferences preferences = super.getApplicationContext().getSharedPreferences(Values.SHARED_PREF, Context.MODE_PRIVATE);
+		SharedPreferences.Editor editor = preferences.edit();
+		editor.putString(name, val);
+		editor.commit();
+	}
+
+	@Override
+	public String load(String name) {
+		SharedPreferences preferences = super.getApplicationContext().getSharedPreferences(Values.SHARED_PREF, Context.MODE_PRIVATE);
+		return preferences.getString(name, "");
 	}
 
 	@Override

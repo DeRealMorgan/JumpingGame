@@ -14,9 +14,13 @@ import com.jumping.game.util.*;
 import com.jumping.game.util.interfaces.ScreenManager;
 import com.jumping.game.util.interfaces.ShopListener;
 import com.jumping.game.util.interfaces.UIManager;
+import com.jumping.game.util.store.DataUtils;
+import com.jumping.game.util.store.UserData;
+import com.jumping.game.util.ui.UIBar;
 
 public class UIManagerImpl implements UIManager, ShopListener {
     private final ScreenManager screenManager;
+    private final AssetsManager assetsManager;
 
     private final Stage stage;
 
@@ -44,6 +48,7 @@ public class UIManagerImpl implements UIManager, ShopListener {
     public UIManagerImpl(Viewport viewport, SpriteBatch batch, AssetsManager assetsManager,
                          ScreenManager screenManager) {
         this.screenManager = screenManager;
+        this.assetsManager = assetsManager;
         this.stage = new Stage(viewport, batch);
 
         createUI(assetsManager);
@@ -320,6 +325,8 @@ public class UIManagerImpl implements UIManager, ShopListener {
         DataUtils.storeUserData();
 
         updateUIBar();
+
+        character.equipCloth(item, assetsManager);
         // TODO
     }
 

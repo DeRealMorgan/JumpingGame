@@ -1,4 +1,4 @@
-package com.jumping.game.util;
+package com.jumping.game.util.ui;
 
 
 import com.badlogic.gdx.scenes.scene2d.EventListener;

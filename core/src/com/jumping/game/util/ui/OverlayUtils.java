@@ -1,8 +1,10 @@
-package com.jumping.game.util;
+package com.jumping.game.util.ui;
 
 import com.badlogic.gdx.scenes.scene2d.Touchable;
 import com.badlogic.gdx.scenes.scene2d.actions.AlphaAction;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
+import com.jumping.game.util.Values;
+
 public final class OverlayUtils {
     public static void show(Table table) {
         table.getColor().a = 0f;

@@ -4,7 +4,7 @@ import com.badlogic.gdx.graphics.Color;
 
 public class Values {
     public static final String DATA_PATH = "dataPath",
-            SHARED_PREF = "healthAppPrefs";
+            SHARED_PREF = "healthAppPrefs", USER_DATA = "userData";
 
     public static final int MIN_WORLD_WIDTH = 1000, MAX_WORLD_WIDTH = 1000,
             MIN_WORLD_HEIGHT = 2000, MAX_WORLD_HEIGHT = 100000;
@@ -32,7 +32,6 @@ public class Values {
             FONT_SIZE_SMALL = 30, FONT_SIZE = 50, FONT_SIZE_BIG = 80, FONT_SIZE_HUGE = 120;
     public static final Color FONT_COLOR = Color.valueOf("fafafa");
 
-    public static final String PREFERENCES = "APP_PREFS";
     public static final String NOTIFY_CHANNEL_ID = "basic_notification_channel";
     public static final CharSequence NOTIFY_CHANNEL_NAME = "Items Benachrichtigung";
 
@@ -82,6 +81,7 @@ public class Values {
             SHOP_ROW_AMOUNT = 3;
     public static final String COIN = "coin",
             SHOP_ITEM = "_shop_item",
+            SHOP_ITEM_ARM = "_shop_item_arm",
             SHOP_ITEM_BACK = "shop_item_back",
             BACKGROUND = "_background.png";
 
@@ -112,7 +112,7 @@ public class Values {
     public static final String TREATS_WORK = "treats_worker";
     public static final String TREAT_NOTIFICATION_TITLE = "Item found!";
     public static final String TREAT_NOTIFICATION_TEXT = "Tap me and see what you just found!";
-    public static final int TREAT_CHECK_TIME_DELTA = 5; // minutes between checks
+    public static final int TREAT_CHECK_TIME_DELTA = 15; // seconds between checks // todo adjust
     public static final int TREAT_START = 5000;
     public static final int TREAT_INTERVAL = 2500;
 

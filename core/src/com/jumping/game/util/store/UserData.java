@@ -1,4 +1,4 @@
-package com.jumping.game.util;
+package com.jumping.game.util.store;
 
 
 import java.util.ArrayList;
@@ -23,6 +23,9 @@ public class UserData {
     private boolean privacyConsent;
     private boolean showTutorial;
     private boolean isRunning;
+
+    private int lastStepCount;
+    private long lastStepStamp;
 
     /**
      * Json
@@ -117,6 +120,14 @@ public class UserData {
         isRunning = running;
     }
 
+    public void setLastStepCount(int lastStepCount) {
+        this.lastStepCount = lastStepCount;
+    }
+
+    public void setLastStepStamp(long lastStepStamp) {
+        this.lastStepStamp = lastStepStamp;
+    }
+
     public boolean playMusic() {
         return playMusic;
     }
@@ -147,6 +158,14 @@ public class UserData {
 
     public int getTotalSteps() {
         return totalSteps;
+    }
+
+    public int getLastStepCount() {
+        return lastStepCount;
+    }
+
+    public long getLastStepStamp() {
+        return lastStepStamp;
     }
 
     public List<Integer> getBoughtItems() {

@@ -2,6 +2,7 @@ package com.jumping.game.util;
 
 import com.jumping.game.util.interfaces.RenderPipeline;
 import com.jumping.game.util.interfaces.Screen;
+import com.jumping.game.util.ui.EmptyRenderPipelineImpl;
 
 public class EmptyScreen implements Screen {
     private EmptyRenderPipelineImpl renderPipeline;

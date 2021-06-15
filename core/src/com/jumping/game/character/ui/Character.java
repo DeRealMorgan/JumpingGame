@@ -19,30 +19,40 @@ public class Character {
 
     private Stack character;
     private Container<Stack> leftArmContainer, rightArmContainer, leftLegContainer,
-            rightLegContainer, headContainer;
-    private Stack leftArm, rightArm, leftLeg, rightLeg, head;
+            rightLegContainer, headContainer, bodyContainer;
+    private Stack leftArm, rightArm, leftLeg, rightLeg, head, body;
 
     private Container<Image> leftLegImg, rightLegImg, leftFootImg, rightFootImg,
             bodyImg,
             leftArmImg, rightArmImg, leftHandImg, rightHandImg,
             headImg, eyeImg, noseImg,
             leftEarImg, rightEarImg, mouthImg, hairImg;
+    private Container<Image> leftLegClothing, rightLegClothing, leftFootClothing, rightFootClothing,
+            bodyClothing,
+            leftArmClothing, rightArmClothing,
+            headClothing;
 
     public Character(AssetsManager assetsManager, Stage stage) {
         leftLegImg = getImg(assetsManager.getSpriteDrawable(Values.PIG_LEG));
+        leftLegClothing = getImg(assetsManager.getSpriteDrawable(Values.PIG_LEG));
         SpriteDrawable rightLegTexture = assetsManager.getSpriteDrawable(Values.PIG_LEG);
         rightLegTexture.getSprite().setFlip(true, false);
         rightLegImg = getImg(rightLegTexture);
+        rightLegClothing = getImg(rightLegTexture);
 
         leftFootImg = getImg(assetsManager.getSpriteDrawable(Values.PIG_FOOT));
+        leftFootClothing = getImg(assetsManager.getSpriteDrawable(Values.PIG_FOOT));
         SpriteDrawable rightFootTexture = assetsManager.getSpriteDrawable(Values.PIG_FOOT);
         rightFootTexture.getSprite().setFlip(true, false);
         rightFootImg = getImg(rightFootTexture);
+        rightFootClothing = getImg(rightFootTexture);
 
         leftArmImg = getImg(assetsManager.getSpriteDrawable(Values.PIG_ARM));
+        leftArmClothing = getImg(assetsManager.getSpriteDrawable(Values.PIG_ARM));
         SpriteDrawable rightArmTexture = assetsManager.getSpriteDrawable(Values.PIG_ARM);
         rightArmTexture.getSprite().setFlip(true, false);
         rightArmImg = getImg(rightArmTexture);
+        rightArmClothing = getImg(rightArmTexture);
 
         leftHandImg = getImg(assetsManager.getSpriteDrawable(Values.PIG_HAND));
         SpriteDrawable rightHandTexture = assetsManager.getSpriteDrawable(Values.PIG_HAND);
@@ -57,7 +67,9 @@ public class Character {
         rightEarImg = getImg(rightEarTexture);
 
         headImg = getImg(assetsManager.getSpriteDrawable(Values.PIG_HEAD));
+        headClothing = getImg(assetsManager.getSpriteDrawable(Values.PIG_HEAD));
         bodyImg = getImg(assetsManager.getSpriteDrawable(Values.PIG_BODY));
+        bodyClothing = getImg(assetsManager.getSpriteDrawable(Values.PIG_BODY));
         noseImg = getImg(assetsManager.getSpriteDrawable(Values.PIG_NOSE));
         mouthImg = getImg(assetsManager.getSpriteDrawable(Values.PIG_MOUTH));
         hairImg = getImg(assetsManager.getSpriteDrawable(Values.PIG_HAIR));
@@ -67,34 +79,48 @@ public class Character {
         leftLeg = new Stack();
         rightLeg = new Stack();
         head = new Stack();
+        body = new Stack();
 
         leftArmContainer = new Container<>(leftArm);
         rightArmContainer = new Container<>(rightArm);
         leftLegContainer = new Container<>(leftLeg);
         rightLegContainer = new Container<>(rightLeg);
         headContainer = new Container<>(head);
+        bodyContainer = new Container<>(body);
 
         leftArm.add(leftArmImg);
+        leftArm.add(leftArmClothing);
         leftArm.add(leftHandImg);
         leftHandImg.bottom();
 
         rightArm.add(rightArmImg);
+        rightArm.add(rightArmClothing);
         rightArm.add(rightHandImg);
         rightHandImg.bottom();
 
         leftLeg.add(leftLegImg);
+        leftLeg.add(leftLegClothing);
         leftLeg.add(leftFootImg);
+        leftLeg.add(leftFootClothing);
         leftFootImg.bottom();
+        leftFootClothing.bottom();
 
         rightLeg.add(rightLegImg);
+        rightLeg.add(rightLegClothing);
         rightLeg.add(rightFootImg);
+        rightLeg.add(rightFootClothing);
         rightFootImg.bottom();
+        rightFootClothing.bottom();
+
+        body.add(bodyImg);
+        body.add(bodyClothing);
 
         head.setTransform(true);
         head.add(leftEarImg);
         head.add(rightEarImg);
         head.add(hairImg);
         head.add(headImg);
+        head.add(headClothing);
         head.add(eyeImg);
         head.add(mouthImg);
         head.add(noseImg);
@@ -105,7 +131,7 @@ public class Character {
         character.add(rightLegContainer);
         character.add(leftArmContainer);
         character.add(rightArmContainer);
-        character.add(bodyImg);
+        character.add(bodyContainer);
         character.add(headContainer);
 
         characterTbl = new Table();
@@ -116,8 +142,8 @@ public class Character {
         headContainer.padBottom(650);
         leftArmContainer.padRight(500).padBottom(150);
         rightArmContainer.padLeft(500).padBottom(150);
-        leftLegContainer.padRight(200).padTop(400);
-        rightLegContainer.padLeft(200).padTop(400);
+        leftLegContainer.padRight(200).padTop(450);
+        rightLegContainer.padLeft(200).padTop(450);
         rightEarImg.padBottom(350).padLeft(270);
         noseImg.padTop(80);
         mouthImg.padTop(290);
@@ -131,7 +157,7 @@ public class Character {
         leftLeg.pack();
         rightLeg.pack();
         head.pack();
-        bodyImg.pack();
+        body.pack();
         leftEarImg.pack();
         rightEarImg.pack();
 
@@ -158,6 +184,29 @@ public class Character {
                 Actions.rotateTo(-10, 4))));
         rightLeg.addAction(Actions.sequence(Actions.delay(1), Actions.forever(Actions.sequence(
                 Actions.moveBy(0, 10, 1), Actions.moveBy(0, -10, 2)))));
+    }
+
+    public void equipCloth(int item, AssetsManager assetsManager) {
+        switch (ClothPiece.bodyPart(item)) {
+            case HEAD:
+                headClothing.getActor().setDrawable(assetsManager.getSpriteDrawable(item+Values.SHOP_ITEM));
+                return;
+            case BODY:
+                bodyClothing.getActor().setDrawable(assetsManager.getSpriteDrawable(item+Values.SHOP_ITEM));
+                leftArmClothing.getActor().setDrawable(assetsManager.getSpriteDrawable(item+Values.SHOP_ITEM_ARM));
+                SpriteDrawable rightArmDrawable = assetsManager.getSpriteDrawable(item+Values.SHOP_ITEM_ARM);
+                rightArmDrawable.getSprite().setFlip(true, false);
+                rightArmClothing.getActor().setDrawable(rightArmDrawable);
+                return;
+            case LEGS:
+                leftLegClothing.getActor().setDrawable(assetsManager.getSpriteDrawable(item+Values.SHOP_ITEM));
+                SpriteDrawable rightLegDrawable = assetsManager.getSpriteDrawable(item+Values.SHOP_ITEM);
+                rightLegDrawable.getSprite().setFlip(true, false);
+                rightLegClothing.getActor().setDrawable(rightLegDrawable);
+                return;
+            case SHOES:
+                return;
+        }
     }
 
     private Container<Image> getImg(SpriteDrawable drawable) {

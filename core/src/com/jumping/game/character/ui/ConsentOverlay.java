@@ -8,9 +8,9 @@ import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.Align;
 import com.jumping.game.assets.AssetsManager;
-import com.jumping.game.util.DataUtils;
-import com.jumping.game.util.Overlay;
-import com.jumping.game.util.ToggleButton;
+import com.jumping.game.util.store.DataUtils;
+import com.jumping.game.util.ui.Overlay;
+import com.jumping.game.util.ui.ToggleButton;
 import com.jumping.game.util.Values;
 
 public class ConsentOverlay extends Overlay {

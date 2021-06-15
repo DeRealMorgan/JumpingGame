@@ -1,4 +1,4 @@
-package com.jumping.game.util;
+package com.jumping.game.util.ui;
 
 import com.jumping.game.util.interfaces.RenderPipeline;
 

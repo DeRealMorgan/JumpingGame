@@ -1,4 +1,4 @@
-package com.jumping.game.util;
+package com.jumping.game.util.ui;
 import com.badlogic.gdx.scenes.scene2d.Touchable;
 import com.badlogic.gdx.scenes.scene2d.ui.Button;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
@@ -6,6 +6,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.utils.Align;
 import com.jumping.game.assets.AssetsManager;
+import com.jumping.game.util.Values;
 
 public abstract class Overlay {
     public Table table;
@@ -37,7 +38,7 @@ public abstract class Overlay {
 
         Table wrapperTable = new Table();
         wrapperTable.background(manager.getDrawable(Values.MENU_BACK));
-        table.add(wrapperTable).growX().padRight(Values.EDGE_DISTANCE*2).padLeft(Values.EDGE_DISTANCE).center();
+        table.add(wrapperTable).growX().padRight(Values.EDGE_DISTANCE*2).padLeft(Values.EDGE_DISTANCE*2).center();
 
         contentTable = new Table();
         headerLabel = new Label(headerString, manager.labelStyle());

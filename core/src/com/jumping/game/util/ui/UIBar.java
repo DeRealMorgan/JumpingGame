@@ -1,10 +1,11 @@
-package com.jumping.game.util;
+package com.jumping.game.util.ui;
 
 import com.badlogic.gdx.scenes.scene2d.Touchable;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.jumping.game.assets.AssetsManager;
+import com.jumping.game.util.Values;
 
 public class UIBar {
     public Table table;

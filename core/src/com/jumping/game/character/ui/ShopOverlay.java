@@ -12,8 +12,8 @@ import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.Scaling;
 import com.badlogic.gdx.utils.TimeUtils;
 import com.jumping.game.assets.AssetsManager;
-import com.jumping.game.util.DataUtils;
-import com.jumping.game.util.Overlay;
+import com.jumping.game.util.store.DataUtils;
+import com.jumping.game.util.ui.Overlay;
 import com.jumping.game.util.Values;
 import com.jumping.game.util.interfaces.ShopListener;
 

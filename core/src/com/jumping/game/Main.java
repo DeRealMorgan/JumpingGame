@@ -4,7 +4,8 @@ import com.badlogic.gdx.Gdx;
 import com.jumping.game.assets.AssetsManagerImpl;
 import com.jumping.game.character.CharacterScreen;
 import com.jumping.game.game.GameScreen;
-import com.jumping.game.util.DataUtils;
+import com.jumping.game.util.interfaces.StoreProvider;
+import com.jumping.game.util.store.DataUtils;
 import com.jumping.game.util.Game;
 import com.jumping.game.util.GameState;
 import com.jumping.game.util.ScreenName;
@@ -19,21 +20,20 @@ public class Main extends Game implements ScreenManager {
 
 	private boolean essentialPermissionsGranted;
 	private GoogleFit googleFit;
+	private StoreProvider storeProvider;
 
-	private String dataPath;
-
-	public Main(boolean essentialPermissionsGranted, GoogleFit googleFit) {
+	public Main(boolean essentialPermissionsGranted, GoogleFit googleFit, StoreProvider storeProvider) {
 		this.essentialPermissionsGranted = essentialPermissionsGranted;
 		this.googleFit = googleFit;
+		this.storeProvider = storeProvider;
 	}
 
 	@Override
 	public void create() {
-		DataUtils.init();
+		DataUtils.init(storeProvider);
 		DataUtils.firstStart();
 		DataUtils.getUserData();
 		DataUtils.storeUserData();
-		this.dataPath = DataUtils.getDataPath();
 
 		this.gameState = GameState.ACTIVE;
 		this.assetsManager = new AssetsManagerImpl();
@@ -65,12 +65,6 @@ public class Main extends Game implements ScreenManager {
 
 		resize(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
 	}
-
-	String getDataPath() {
-		return dataPath;
-	}
-
-
 
 	@Override
 	public void render() {

@@ -10,17 +10,14 @@ import androidx.core.app.NotificationCompat;
 import androidx.work.*;
 import com.badlogic.gdx.utils.Base64Coder;
 import com.badlogic.gdx.utils.Json;
-import com.jumping.game.util.StoreProviderImpl;
-import com.jumping.game.util.UserData;
 import com.jumping.game.util.Values;
-import com.jumping.game.util.interfaces.StoreProvider;
+import com.jumping.game.util.store.UserData;
 
-import java.io.File;
-import java.io.IOException;
-import java.nio.file.Files;
-import java.time.*;
-import java.util.Optional;
+import java.time.Instant;
+import java.time.ZoneId;
+import java.time.ZonedDateTime;
 import java.util.concurrent.ThreadLocalRandom;
+import java.util.concurrent.TimeUnit;
 
 public class NotificationWorker extends Worker {
     public NotificationWorker(@NonNull Context context, @NonNull WorkerParameters workerParams) {
@@ -30,41 +27,39 @@ public class NotificationWorker extends Worker {
     @NonNull
     @Override
     public Result doWork() {
+        System.out.println("worker started");
         Json json = new Json();
+
         SharedPreferences preferences = super.getApplicationContext().getSharedPreferences(Values.SHARED_PREF, Context.MODE_PRIVATE);
-        File f = new File(preferences.getString(Values.DATA_PATH, ""));
-        if(!f.exists()) return Result.failure();
 
         UserData d;
-        try {
-            d = json.fromJson(UserData.class, Base64Coder.decodeString(new String(Files.readAllBytes(f.toPath()))));
-        } catch (IOException e) {
-            return Result.failure();
-        }
+        System.out.println(preferences.contains(Values.USER_DATA));
+        d = json.fromJson(UserData.class, Base64Coder.decodeString(preferences.getString(Values.USER_DATA, "")));
 
-        if(d.isRunning()) {
+        if(d.isRunning() && false) { // TODO DEBUG: REMOVE && false
             startNewWorker(super.getApplicationContext());
             return Result.success();
         } // TODO: if application is running, it should still work
 
         int count = AndroidLauncher.getStepCountToday(super.getApplicationContext());
-        StoreProvider provider = new StoreProviderImpl();
-        Optional<Integer> lastData = provider.getInt(Values.STEP_COUNT);
-        Optional<Long> lastStamp = provider.getLong(Values.STEP_COUNT_TIME);
+        int lastData = d.getLastStepCount();
+        long lastStamp = d.getLastStepStamp();
 
-        Instant i = Instant.ofEpochSecond(lastStamp.get());
+        Instant i = Instant.ofEpochSecond(lastStamp);
         ZonedDateTime time = ZonedDateTime.ofInstant(i, ZoneId.systemDefault());
 
         ZonedDateTime today = ZonedDateTime.now(ZoneId.systemDefault());
         if(time.getYear() != today.getYear() || time.getDayOfYear() < today.getDayOfYear()) // after midnight
             collectItems(0, count);
         else if(time.getYear() == today.getYear() && time.getDayOfYear() == today.getDayOfYear())
-            collectItems(lastData.get(), count);
+            collectItems(lastData, count);
 
         return Result.success();
     }
 
     private void collectItems(int lastCollectedData, int currentData) {
+        treat(1);//TODO REMOVE DEBUG
+
         if(currentData < Values.TREAT_START) {
             startNewWorker(super.getApplicationContext());
             return;
@@ -86,7 +81,7 @@ public class NotificationWorker extends Worker {
 
     public static void startNewWorker(Context c) {
         OneTimeWorkRequest.Builder workBuilder = new OneTimeWorkRequest.Builder(NotificationWorker.class);
-        workBuilder.setInitialDelay(Duration.between(LocalDateTime.now(), LocalDateTime.now().plusMinutes(Values.TREAT_CHECK_TIME_DELTA)));
+        workBuilder.setInitialDelay(Values.TREAT_CHECK_TIME_DELTA, TimeUnit.SECONDS);
 
         WorkManager instanceWorkManager = WorkManager.getInstance(c);
         instanceWorkManager.enqueueUniqueWork(Values.TREATS_WORK, ExistingWorkPolicy.REPLACE, workBuilder.build());

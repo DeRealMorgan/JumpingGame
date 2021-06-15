@@ -4,6 +4,7 @@ import com.badlogic.gdx.backends.lwjgl.LwjglApplication;
 import com.badlogic.gdx.backends.lwjgl.LwjglApplicationConfiguration;
 import com.jumping.game.Main;
 import com.jumping.game.util.GoogleFitImplStub;
+import com.jumping.game.util.StoreProviderStub;
 
 public class DesktopLauncher {
 	public static void main (String[] arg) {
@@ -13,6 +14,7 @@ public class DesktopLauncher {
 		config.height = 700;
 		config.x = 0;
 		config.y = 0;
-		new LwjglApplication(new Main(false, new GoogleFitImplStub()), config);
+		new LwjglApplication(new Main(false, new GoogleFitImplStub(),
+				new StoreProviderStub()), config);
 	}
 }
