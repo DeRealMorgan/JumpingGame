@@ -8,6 +8,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.ui.TextField;
 import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
 import com.badlogic.gdx.scenes.scene2d.utils.SpriteDrawable;
+import com.jumping.game.util.Musics;
 
 public interface AssetsManager {
     TextureRegion getTextureRegion(String name);
@@ -27,4 +28,6 @@ public interface AssetsManager {
     void addInputProcessor(InputProcessor processor);
     void removeInputProcessor(InputProcessor processor);
     void clearInputProcessors();
+
+    Musics getMusics();
 }

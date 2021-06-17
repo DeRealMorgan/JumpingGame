@@ -18,10 +18,14 @@ import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
 import com.badlogic.gdx.scenes.scene2d.utils.NinePatchDrawable;
 import com.badlogic.gdx.scenes.scene2d.utils.SpriteDrawable;
 import com.badlogic.gdx.utils.Disposable;
+import com.jumping.game.util.Musics;
+import com.jumping.game.util.Sounds;
 import com.jumping.game.util.Values;
 
 public class AssetsManagerImpl implements AssetsManager, Disposable {
     private final InputMultiplexer inputMultiplexer;
+
+    private final Musics musics;
 
     private final Texture fallbackTexture;
     private final TextureAtlas atlas;
@@ -75,6 +79,9 @@ public class AssetsManagerImpl implements AssetsManager, Disposable {
         textBtnStyle.down = get9Drawable(Values.BTN_DOWN);
         textBtnStyle.font = fontSmall;
 
+
+        this.musics = new Musics();
+        Sounds.init();
     }
 
     public void update(float dt) {
@@ -162,6 +169,11 @@ public class AssetsManagerImpl implements AssetsManager, Disposable {
     @Override
     public TextButton.TextButtonStyle textBtnStyle() {
         return textBtnStyle;
+    }
+
+    @Override
+    public Musics getMusics() {
+        return musics;
     }
 
     @Override

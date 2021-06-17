@@ -4,14 +4,17 @@ import com.badlogic.gdx.Gdx;
 import com.jumping.game.assets.AssetsManagerImpl;
 import com.jumping.game.character.CharacterScreen;
 import com.jumping.game.game.GameScreen;
-import com.jumping.game.util.interfaces.StoreProvider;
-import com.jumping.game.util.store.DataUtils;
-import com.jumping.game.util.Game;
-import com.jumping.game.util.GameState;
-import com.jumping.game.util.ScreenName;
+import com.jumping.game.util.*;
 import com.jumping.game.util.interfaces.GoogleFit;
 import com.jumping.game.util.interfaces.RenderPipeline;
 import com.jumping.game.util.interfaces.ScreenManager;
+import com.jumping.game.util.interfaces.StoreProvider;
+import com.jumping.game.util.store.DataUtils;
+import com.jumping.game.util.store.UserData;
+
+import java.util.concurrent.TimeUnit;
+import java.util.concurrent.locks.Condition;
+import java.util.concurrent.locks.ReentrantLock;
 
 public class Main extends Game implements ScreenManager {
 	private RenderPipeline renderPipeline;
@@ -21,6 +24,16 @@ public class Main extends Game implements ScreenManager {
 	private boolean essentialPermissionsGranted;
 	private GoogleFit googleFit;
 	private StoreProvider storeProvider;
+
+	private ScreenName currentScreen;
+
+	private ReentrantLock lock = new ReentrantLock();
+	private Condition waitCondition = lock.newCondition();
+
+	private Thread stepRefreshThread;
+	private long nextStepRefresh;
+
+	private Musics musics;
 
 	public Main(boolean essentialPermissionsGranted, GoogleFit googleFit, StoreProvider storeProvider) {
 		this.essentialPermissionsGranted = essentialPermissionsGranted;
@@ -42,14 +55,48 @@ public class Main extends Game implements ScreenManager {
 		this.assetsManager.loadAll();
 
 		setScreen(ScreenName.CHARACTER_SCREEN);
+
+		startGoogleFitRefresh();
 	}
 
 	public void permissionGranted(int code) {
 
 	}
 
+	private void startGoogleFitRefresh() {
+		stepRefreshThread = new Thread(this::runGoogleFitRefresh);
+		stepRefreshThread.start();
+
+	}
+
+	private void runGoogleFitRefresh() {
+		while(gameState == GameState.ACTIVE) {
+			if (nextStepRefresh <= System.currentTimeMillis()) {
+				int steps = googleFit.getStepCountToday();
+				UserData data = DataUtils.getUserData();
+				data.setLastStepCount(steps);
+				data.setLastStepStamp(System.currentTimeMillis());
+				if (currentScreen == ScreenName.CHARACTER_SCREEN) {
+					((CharacterScreen) getScreen()).currentSteps(steps);
+				}
+
+				nextStepRefresh = System.currentTimeMillis() + Values.REFRESH_STEPS_INTERVAL;
+			} else {
+				try {
+					lock.lockInterruptibly();
+					waitCondition.await(nextStepRefresh - System.currentTimeMillis(), TimeUnit.MILLISECONDS);
+				} catch (InterruptedException e) {
+					return;
+				} finally {
+					if (lock.isHeldByCurrentThread()) lock.unlock();
+				}
+			}
+		}
+	}
+
 	@Override
 	public void setScreen(ScreenName name) {
+		currentScreen = name;
 		switch (name) {
 			case MINIGAME_SCREEN:
 				GameScreen gameScreen = new GameScreen(assetsManager, this);
@@ -86,12 +133,18 @@ public class Main extends Game implements ScreenManager {
 	public void pause() {
 		gameState = GameState.PAUSED;
 		super.pauseScreen();
+
+		stepRefreshThread.interrupt();
+		System.out.println("lol1");
 	}
 
 	@Override
 	public void resume() {
+		System.out.println("Lol");
 		gameState = GameState.ACTIVE;
 		super.resumeScreen();
+
+		startGoogleFitRefresh();
 	}
 
 	@Override

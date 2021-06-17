@@ -27,7 +27,6 @@ public class NotificationWorker extends Worker {
     @NonNull
     @Override
     public Result doWork() {
-        System.out.println("worker started");
         Json json = new Json();
 
         SharedPreferences preferences = super.getApplicationContext().getSharedPreferences(Values.SHARED_PREF, Context.MODE_PRIVATE);
@@ -36,7 +35,7 @@ public class NotificationWorker extends Worker {
         System.out.println(preferences.contains(Values.USER_DATA));
         d = json.fromJson(UserData.class, Base64Coder.decodeString(preferences.getString(Values.USER_DATA, "")));
 
-        if(d.isRunning() && false) { // TODO DEBUG: REMOVE && false
+        if(d.isRunning()) {
             startNewWorker(super.getApplicationContext());
             return Result.success();
         } // TODO: if application is running, it should still work
@@ -64,7 +63,6 @@ public class NotificationWorker extends Worker {
             startNewWorker(super.getApplicationContext());
             return;
         }
-
 
         int currentInterval = (currentData-Values.TREAT_START)/Values.TREAT_INTERVAL + 1;
 

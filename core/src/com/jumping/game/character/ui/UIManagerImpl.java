@@ -5,12 +5,17 @@ import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.Touchable;
 import com.badlogic.gdx.scenes.scene2d.actions.Actions;
-import com.badlogic.gdx.scenes.scene2d.ui.*;
+import com.badlogic.gdx.scenes.scene2d.ui.Button;
+import com.badlogic.gdx.scenes.scene2d.ui.Label;
+import com.badlogic.gdx.scenes.scene2d.ui.ProgressBar;
+import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import com.jumping.game.assets.AssetsManager;
-import com.jumping.game.util.*;
+import com.jumping.game.util.ScreenName;
+import com.jumping.game.util.Sounds;
+import com.jumping.game.util.Values;
 import com.jumping.game.util.interfaces.ScreenManager;
 import com.jumping.game.util.interfaces.ShopListener;
 import com.jumping.game.util.interfaces.UIManager;
@@ -21,12 +26,11 @@ import com.jumping.game.util.ui.UIBar;
 public class UIManagerImpl implements UIManager, ShopListener {
     private final ScreenManager screenManager;
     private final AssetsManager assetsManager;
-
     private final Stage stage;
 
     private Table contentTable, backgroundTable, uiTableLeft, uiTableRight, uiTableBottom, progressTable;
     private Table showerTable, foodTable, petTable, minigameTable;
-    private Button shopBtn, achievementsBtn, worldsBtn, leaderboardBtn;
+    private Button shopBtn, achievementsBtn, worldsBtn, settingsBtn;
     private Button showerBtn, foodBtn, petBtn, minigameBtn;
 
     private Character character;
@@ -36,6 +40,7 @@ public class UIManagerImpl implements UIManager, ShopListener {
 
     private ShopOverlay shopOverlay;
     private WorldsOverlay worldsOverlay;
+    private SettingsOverlay settingsOverlay;
     private UIBar uiBar;
 
     private int stepsToday;
@@ -53,6 +58,7 @@ public class UIManagerImpl implements UIManager, ShopListener {
         this.stage = new Stage(viewport, batch);
 
         createUI(assetsManager);
+
     }
 
     private void createUI(AssetsManager assetsManager) {
@@ -94,6 +100,7 @@ public class UIManagerImpl implements UIManager, ShopListener {
         shopBtn.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
+                Sounds.click();
                 shopOverlay.show();
             }
         });
@@ -105,6 +112,7 @@ public class UIManagerImpl implements UIManager, ShopListener {
         worldsBtn.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
+                Sounds.click();
                 worldsOverlay.show();
             }
         });
@@ -117,13 +125,20 @@ public class UIManagerImpl implements UIManager, ShopListener {
         achievementsBtnStyle.up = achievementsBtnStyle.down;
         achievementsBtn = new Button(achievementsBtnStyle);
 
-        Button.ButtonStyle leaderboardBtnStyle = new Button.ButtonStyle();
-        leaderboardBtnStyle.down = assetsManager.getDrawable(Values.LEADERBOARD_BTN);
-        leaderboardBtnStyle.up = leaderboardBtnStyle.down;
-        leaderboardBtn = new Button(leaderboardBtnStyle);
+        Button.ButtonStyle settingsBtnStyle = new Button.ButtonStyle();
+        settingsBtnStyle.down = assetsManager.getDrawable(Values.SETTINGS_BTN);
+        settingsBtnStyle.up = settingsBtnStyle.down;
+        settingsBtn = new Button(settingsBtnStyle);
+        settingsBtn.addListener(new ClickListener() {
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                Sounds.click();
+                settingsOverlay.show();
+            }
+        });
 
-        uiTableRight.add(achievementsBtn).size(Values.BTN_SIZE).padBottom(20f).row();
-        uiTableRight.add(leaderboardBtn).size(Values.BTN_SIZE).row();
+        uiTableRight.add(settingsBtn).size(Values.BTN_SIZE).padBottom(20f).row();
+        uiTableRight.add(achievementsBtn).size(Values.BTN_SIZE).row();
 
         int minH = 50;
         progressbarRed = assetsManager.get9Drawable(Values.PROGRESSBAR_FRONT_RED);
@@ -161,6 +176,7 @@ public class UIManagerImpl implements UIManager, ShopListener {
         showerBtn.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
+                Sounds.click();
                 setUiVisible(false);
                 shower.show();
             }
@@ -181,6 +197,7 @@ public class UIManagerImpl implements UIManager, ShopListener {
         foodBtn.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
+                Sounds.click();
                 setUiVisible(false);
                 food.show();
             }
@@ -193,6 +210,7 @@ public class UIManagerImpl implements UIManager, ShopListener {
         petBtn.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
+                Sounds.click();
                 setUiVisible(false);
                 hand.show();
             }
@@ -205,6 +223,7 @@ public class UIManagerImpl implements UIManager, ShopListener {
         minigameBtn.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
+                Sounds.click();
                 setUiVisible(false);
                 showMinigame();
             }
@@ -252,6 +271,9 @@ public class UIManagerImpl implements UIManager, ShopListener {
         worldsOverlay = new WorldsOverlay(assetsManager, this);
         stage.addActor(worldsOverlay.table);
 
+        settingsOverlay = new SettingsOverlay(assetsManager);
+        stage.addActor(settingsOverlay.table);
+
         ConsentOverlay consentOverlay = new ConsentOverlay(assetsManager);
         stage.addActor(consentOverlay.table);
 
@@ -261,6 +283,10 @@ public class UIManagerImpl implements UIManager, ShopListener {
         uiBar = new UIBar(assetsManager);
         stage.addActor(uiBar.table);
         updateUIBar();
+    }
+
+    public void currentSteps(int steps) {
+        progressBar.setValue(steps);
     }
 
     private void showerDone() {

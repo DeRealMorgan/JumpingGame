@@ -8,10 +8,11 @@ import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.Align;
 import com.jumping.game.assets.AssetsManager;
+import com.jumping.game.util.Sounds;
+import com.jumping.game.util.Values;
 import com.jumping.game.util.store.DataUtils;
 import com.jumping.game.util.ui.Overlay;
 import com.jumping.game.util.ui.ToggleButton;
-import com.jumping.game.util.Values;
 
 public class ConsentOverlay extends Overlay {
     private ScrollPane policyPane;
@@ -38,6 +39,7 @@ public class ConsentOverlay extends Overlay {
         okButton.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
+                Sounds.click();
                 DataUtils.getUserData().setPrivacyConsent(true);
                 DataUtils.storeUserData();
                 close();
@@ -51,6 +53,7 @@ public class ConsentOverlay extends Overlay {
         agreeButton.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
+                Sounds.click();
                 agreeButtonClicked();
             }
         });

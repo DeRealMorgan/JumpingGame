@@ -6,6 +6,7 @@ import com.badlogic.gdx.scenes.scene2d.Touchable;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
+import com.jumping.game.util.Sounds;
 
 /**
  * ToggleButton allows to have a button in two states -> set and unset
@@ -23,6 +24,7 @@ public class ToggleButton {
         image.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
+                Sounds.click();
                 ToggleButton.this.clicked();
             }
         });

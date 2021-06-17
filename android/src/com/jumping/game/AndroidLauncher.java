@@ -101,7 +101,7 @@ public class AndroidLauncher extends AndroidApplication implements GoogleFit, St
 	}
 
 	public static int getStepCountToday(Context c) {
-		ZonedDateTime startTime = LocalDate.now().atStartOfDay(ZoneId.systemDefault());
+		ZonedDateTime startTime = LocalDate.now().atStartOfDay(ZoneId.systemDefault()).minusDays(5); // remove minus days
 		ZonedDateTime endTime = LocalDateTime.now().atZone(ZoneId.systemDefault());
 
 		return getSteps(c, startTime, endTime);
@@ -123,6 +123,7 @@ public class AndroidLauncher extends AndroidApplication implements GoogleFit, St
 
 	private static int getSteps(Context c, ZonedDateTime startTime, ZonedDateTime endTime) {
 
+		System.out.println("requesting steps");
 		DataSource datasource = new DataSource.Builder()
 				.setAppPackageName("com.google.android.gms")
 				.setDataType(DataType.TYPE_STEP_COUNT_DELTA)
@@ -156,6 +157,7 @@ public class AndroidLauncher extends AndroidApplication implements GoogleFit, St
 						.stream().mapToInt((d) -> d.getValue(Field.FIELD_STEPS).asInt()).sum())
 				);
 
+		System.out.println("current steps: " + totalSteps.get());
 		return totalSteps.get();
 	}
 

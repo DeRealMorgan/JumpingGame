@@ -21,6 +21,10 @@ public class CharacterScreen implements Screen {
         this.renderPipeline.setUiManager(this.uiManager);
     }
 
+    public void currentSteps(int steps) {
+        uiManager.currentSteps(steps);
+    }
+
     @Override
     public void show() {
         uiManager.show();

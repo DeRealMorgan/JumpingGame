@@ -17,6 +17,7 @@ import com.jumping.game.assets.AssetsManager;
 import com.jumping.game.game.GameManager;
 import com.jumping.game.game.elements.MathAttachment;
 import com.jumping.game.util.MathUtils;
+import com.jumping.game.util.Sounds;
 import com.jumping.game.util.Values;
 import com.jumping.game.util.interfaces.VoidRunnableInt;
 
@@ -64,6 +65,7 @@ public class MathControllerImpl implements MathController {
         contentTable.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
+                Sounds.click();
                 closeKeyboard();
             }
         });

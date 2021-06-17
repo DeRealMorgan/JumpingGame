@@ -1,89 +1,97 @@
 
 Game.png
-size: 2047, 2044
+size: 2047, 2048
 format: RGBA8888
 filter: Nearest, Nearest
 repeat: none
+0_food
+  rotate: false
+  xy: 1292, 617
+  size: 355, 355
+  orig: 355, 355
+  offset: 0, 0
+  index: -1
 0_shop_item
   rotate: false
-  xy: 563, 9
+  xy: 563, 13
   size: 559, 535
   orig: 559, 535
   offset: 0, 0
   index: -1
 1_shop_item
   rotate: false
-  xy: 1292, 970
+  xy: 1292, 974
   size: 559, 535
   orig: 559, 535
   offset: 0, 0
   index: -1
 2_shop_item
   rotate: false
-  xy: 2, 9
+  xy: 2, 13
   size: 559, 535
   orig: 559, 535
   offset: 0, 0
   index: -1
 3_shop_item
   rotate: false
-  xy: 2, 546
+  xy: 2, 550
   size: 643, 747
   orig: 643, 747
   offset: 0, 0
   index: -1
 4_shop_item
   rotate: false
-  xy: 647, 546
+  xy: 647, 1299
   size: 643, 747
   orig: 643, 747
   offset: 0, 0
   index: -1
 4_shop_item_arm
   rotate: false
-  xy: 1680, 272
+  xy: 1649, 669
   size: 240, 303
   orig: 240, 303
   offset: 0, 0
   index: -1
 5_shop_item
   rotate: false
-  xy: 647, 1295
+  xy: 647, 550
   size: 643, 747
   orig: 643, 747
   offset: 0, 0
   index: -1
-6_shop_item
-  rotate: false
-  xy: 1402, 184
-  size: 276, 391
-  orig: 276, 391
-  offset: 0, 0
-  index: -1
 7_shop_item
   rotate: false
-  xy: 1570, 577
+  xy: 1402, 224
   size: 276, 391
   orig: 276, 391
   offset: 0, 0
   index: -1
 8_shop_item
   rotate: false
-  xy: 1124, 153
+  xy: 1680, 276
   size: 276, 391
   orig: 276, 391
   offset: 0, 0
   index: -1
 achievementsIcon
   rotate: false
-  xy: 1922, 502
+  xy: 1957, 837
   size: 64, 64
+  orig: 64, 64
+  offset: 0, 0
+  index: -1
+bought_back
+  rotate: false
+  xy: 1965, 177
+  size: 64, 64
+  split: 7, 11, 4, 5
   orig: 64, 64
   offset: 0, 0
   index: -1
 btn_down
   rotate: false
-  xy: 1980, 766
+  xy: 1891, 903
   size: 64, 64
   split: 16, 15, 16, 17
   orig: 64, 64
@@ -91,7 +99,7 @@ btn_down
   index: -1
 checkbox_checked
   rotate: false
-  xy: 1914, 766
+  xy: 1726, 39
   size: 64, 64
   split: 7, 44, 4, 46
   orig: 64, 64
@@ -99,30 +107,37 @@ checkbox_checked
   index: -1
 checkbox_unchecked
   rotate: false
-  xy: 1922, 436
+  xy: 1957, 771
   size: 64, 64
   split: 7, 44, 4, 46
   pad: 7, 45, 4, 46
   orig: 64, 64
   offset: 0, 0
   index: -1
+closeIcon
+  rotate: false
+  xy: 1965, 111
+  size: 64, 64
+  orig: 64, 64
+  offset: 0, 0
+  index: -1
 coin
   rotate: false
-  xy: 1914, 700
+  xy: 1858, 39
   size: 64, 64
   orig: 64, 64
   offset: 0, 0
   index: -1
 cursor
   rotate: false
-  xy: 1292, 565
+  xy: 1649, 657
   size: 10, 10
   orig: 10, 10
   offset: 0, 0
   index: -1
 disabled_back
   rotate: false
-  xy: 1941, 238
+  xy: 1958, 507
   size: 64, 64
   split: 7, 11, 4, 5
   orig: 64, 64
@@ -130,14 +145,14 @@ disabled_back
   index: -1
 energyProgressBar
   rotate: false
-  xy: 1980, 700
+  xy: 1957, 969
   size: 64, 64
   orig: 64, 64
   offset: 0, 0
   index: -1
 exercise_back
   rotate: false
-  xy: 1848, 634
+  xy: 1792, 39
   size: 64, 64
   split: 7, 11, 4, 5
   orig: 64, 64
@@ -145,42 +160,35 @@ exercise_back
   index: -1
 foodIcon
   rotate: false
-  xy: 1922, 304
+  xy: 1958, 639
   size: 64, 64
   orig: 64, 64
   offset: 0, 0
   index: -1
 hand_pet
   rotate: false
-  xy: 1853, 1762
+  xy: 1853, 1766
   size: 192, 280
   orig: 192, 280
   offset: 0, 0
   index: -1
 leaderboardIcon
   rotate: false
-  xy: 1980, 634
+  xy: 1891, 837
   size: 64, 64
   orig: 64, 64
   offset: 0, 0
   index: -1
 lvlIcon
   rotate: false
-  xy: 1972, 40
+  xy: 1958, 309
   size: 64, 64
   orig: 64, 64
   offset: 0, 0
   index: -1
-math
-  rotate: false
-  xy: 1402, 15
-  size: 200, 167
-  orig: 200, 167
-  offset: 0, 0
-  index: -1
 menu_back
   rotate: false
-  xy: 1848, 766
+  xy: 1528, 3
   size: 64, 64
   split: 7, 11, 4, 5
   orig: 64, 64
@@ -188,106 +196,112 @@ menu_back
   index: -1
 minigameIcon
   rotate: false
-  xy: 1941, 172
+  xy: 1958, 441
+  size: 64, 64
+  orig: 64, 64
+  offset: 0, 0
+  index: -1
+musicIconOff
+  rotate: false
+  xy: 1957, 903
+  size: 64, 64
+  orig: 64, 64
+  offset: 0, 0
+  index: -1
+musicIconOn
+  rotate: false
+  xy: 1891, 705
   size: 64, 64
   orig: 64, 64
   offset: 0, 0
   index: -1
 overlay_back
   rotate: false
-  xy: 1906, 35
+  xy: 1891, 969
   size: 64, 64
   orig: 64, 64
   offset: 0, 0
   index: -1
 blank_img
   rotate: false
-  xy: 1906, 35
+  xy: 1891, 969
   size: 64, 64
   orig: 64, 64
   offset: 0, 0
   index: -1
 pauseIcon
   rotate: false
-  xy: 1914, 634
+  xy: 1924, 39
   size: 64, 64
   orig: 64, 64
   offset: 0, 0
   index: -1
 petIcon
   rotate: false
-  xy: 1922, 370
+  xy: 1957, 705
   size: 64, 64
   orig: 64, 64
   offset: 0, 0
   index: -1
 pig_body
   rotate: false
-  xy: 2, 1295
+  xy: 2, 1299
   size: 643, 747
   orig: 643, 747
   offset: 0, 0
   index: -1
 pig_eyes
   rotate: false
-  xy: 1853, 915
+  xy: 1354, 36
   size: 172, 114
   orig: 172, 114
   offset: 0, 0
   index: -1
 pig_foot
   rotate: false
-  xy: 1680, 101
+  xy: 1704, 105
   size: 259, 169
   orig: 259, 169
   offset: 0, 0
   index: -1
 pig_hair
   rotate: false
-  xy: 1124, 2
+  xy: 1124, 6
   size: 228, 149
   orig: 228, 149
   offset: 0, 0
   index: -1
 pig_hand
   rotate: false
-  xy: 1853, 1031
+  xy: 1853, 1035
   size: 190, 165
   orig: 190, 165
   offset: 0, 0
   index: -1
 pig_head
   rotate: false
-  xy: 1292, 1507
+  xy: 1292, 1511
   size: 559, 535
   orig: 559, 535
   offset: 0, 0
   index: -1
 pig_leg
   rotate: false
-  xy: 1292, 577
+  xy: 1124, 157
   size: 276, 391
   orig: 276, 391
   offset: 0, 0
   index: -1
 pig_mouth
   rotate: false
-  xy: 1848, 832
+  xy: 1528, 69
   size: 152, 81
   orig: 152, 81
   offset: 0, 0
   index: -1
-progressbar_back
-  rotate: false
-  xy: 1848, 950
-  size: 3, 8
-  split: 0, 0, 0, 0
-  orig: 3, 8
-  offset: 0, 0
-  index: -1
 progressbar_front
   rotate: false
-  xy: 1848, 960
+  xy: 1680, 266
   size: 3, 8
   split: 0, 0, 0, 0
   orig: 3, 8
@@ -295,7 +309,7 @@ progressbar_front
   index: -1
 progressbar_front_green
   rotate: false
-  xy: 1848, 930
+  xy: 1682, 142
   size: 3, 8
   split: 0, 0, 0, 0
   orig: 3, 8
@@ -303,22 +317,29 @@ progressbar_front_green
   index: -1
 progressbar_front_red
   rotate: false
-  xy: 1848, 940
+  xy: 1420, 26
   size: 3, 8
   split: 0, 0, 0, 0
   orig: 3, 8
   offset: 0, 0
   index: -1
+settingsIcon
+  rotate: false
+  xy: 1965, 243
+  size: 64, 64
+  orig: 64, 64
+  offset: 0, 0
+  index: -1
 shopIcon
   rotate: false
-  xy: 1941, 106
+  xy: 1958, 375
   size: 64, 64
   orig: 64, 64
   offset: 0, 0
   index: -1
 shop_item_back
   rotate: false
-  xy: 1604, 118
+  xy: 1292, 551
   size: 64, 64
   split: 7, 11, 4, 5
   orig: 64, 64
@@ -326,35 +347,73 @@ shop_item_back
   index: -1
 showerIcon
   rotate: false
-  xy: 1922, 568
+  xy: 1891, 771
   size: 64, 64
   orig: 64, 64
   offset: 0, 0
   index: -1
 shower_head
   rotate: false
-  xy: 1853, 1480
+  xy: 1853, 1484
   size: 192, 280
   orig: 192, 280
+  offset: 0, 0
+  index: -1
+slider_bar
+  rotate: false
+  xy: 1358, 607
+  size: 3, 8
+  split: 0, 0, 0, 0
+  orig: 3, 8
+  offset: 0, 0
+  index: -1
+progressbar_back
+  rotate: false
+  xy: 1358, 607
+  size: 3, 8
+  split: 0, 0, 0, 0
+  orig: 3, 8
+  offset: 0, 0
+  index: -1
+slider_knob
+  rotate: false
+  xy: 2, 3
+  size: 8, 8
+  split: 0, 0, 0, 0
+  orig: 8, 8
   offset: 0, 0
   index: -1
 soap
   rotate: false
-  xy: 1853, 1198
+  xy: 1853, 1202
   size: 192, 280
   orig: 192, 280
   offset: 0, 0
   index: -1
+soundsIconOff
+  rotate: false
+  xy: 1660, 3
+  size: 64, 64
+  orig: 64, 64
+  offset: 0, 0
+  index: -1
+soundsIconOn
+  rotate: false
+  xy: 1958, 573
+  size: 64, 64
+  orig: 64, 64
+  offset: 0, 0
+  index: -1
 tile
   rotate: false
-  xy: 1604, 29
+  xy: 1402, 152
   size: 300, 70
   orig: 300, 70
   offset: 0, 0
   index: -1
 window_banner
   rotate: false
-  xy: 1848, 600
+  xy: 1354, 2
   size: 64, 32
   split: 7, 11, 5, 5
   orig: 64, 32
@@ -362,42 +421,41 @@ window_banner
   index: -1
 worldsIcon
   rotate: false
-  xy: 1848, 700
+  xy: 1594, 3
   size: 64, 64
   orig: 64, 64
   offset: 0, 0
   index: -1
 
 Game2.png
-size: 2031, 521
+size: 848, 1047
 format: RGBA8888
 filter: Nearest, Nearest
 repeat: none
 3_shop_item_arm
   rotate: false
-  xy: 2, 216
+  xy: 280, 515
   size: 240, 303
   orig: 240, 303
   offset: 0, 0
   index: -1
 5_shop_item_arm
   rotate: false
-  xy: 244, 216
+  xy: 324, 210
   size: 240, 303
   orig: 240, 303
   offset: 0, 0
   index: -1
-bought_back
+6_shop_item
   rotate: false
-  xy: 413, 150
-  size: 64, 64
-  split: 7, 11, 4, 5
-  orig: 64, 64
+  xy: 2, 427
+  size: 276, 391
+  orig: 276, 391
   offset: 0, 0
   index: -1
 bought_equiped
   rotate: false
-  xy: 413, 84
+  xy: 204, 2
   size: 64, 64
   split: 7, 11, 4, 5
   orig: 64, 64
@@ -405,7 +463,7 @@ bought_equiped
   index: -1
 btn_up
   rotate: false
-  xy: 479, 84
+  xy: 764, 779
   size: 64, 64
   split: 16, 15, 16, 17
   orig: 64, 64
@@ -413,98 +471,77 @@ btn_up
   index: -1
 clockIcon
   rotate: false
-  xy: 545, 150
-  size: 64, 64
-  orig: 64, 64
-  offset: 0, 0
-  index: -1
-closeIcon
-  rotate: false
-  xy: 479, 150
+  xy: 204, 68
   size: 64, 64
   orig: 64, 64
   offset: 0, 0
   index: -1
 crumbs
   rotate: false
-  xy: 2, 11
+  xy: 324, 5
   size: 207, 203
   orig: 207, 203
   offset: 0, 0
   index: -1
-food_apple
-  rotate: false
-  xy: 1442, 229
-  size: 355, 290
-  orig: 355, 290
-  offset: 0, 0
-  index: -1
-food_bacon
-  rotate: false
-  xy: 728, 229
-  size: 355, 290
-  orig: 355, 290
-  offset: 0, 0
-  index: -1
-food_banana
-  rotate: false
-  xy: 1085, 229
-  size: 355, 290
-  orig: 355, 290
-  offset: 0, 0
-  index: -1
 hearts
   rotate: false
-  xy: 1372, 2
+  xy: 324, 820
   size: 320, 225
   orig: 320, 225
   offset: 0, 0
   index: -1
+math
+  rotate: false
+  xy: 2, 31
+  size: 200, 167
+  orig: 200, 167
+  offset: 0, 0
+  index: -1
 mathIcon
   rotate: false
-  xy: 611, 150
+  xy: 204, 134
   size: 64, 64
   orig: 64, 64
   offset: 0, 0
   index: -1
 pig_arm
   rotate: false
-  xy: 486, 216
+  xy: 522, 515
   size: 240, 303
   orig: 240, 303
   offset: 0, 0
   index: -1
 pig_ear
   rotate: false
-  xy: 1799, 280
+  xy: 566, 49
   size: 230, 239
   orig: 230, 239
   offset: 0, 0
   index: -1
 pig_nose
   rotate: false
-  xy: 1694, 4
+  xy: 566, 290
   size: 273, 223
   orig: 273, 223
   offset: 0, 0
   index: -1
 player
   rotate: false
-  xy: 211, 14
+  xy: 646, 845
   size: 200, 200
   orig: 200, 200
   offset: 0, 0
   index: -1
 soap_bubble
   rotate: false
-  xy: 1050, 2
+  xy: 2, 200
   size: 320, 225
   orig: 320, 225
   offset: 0, 0
   index: -1
 water_drops
   rotate: false
-  xy: 728, 2
+  xy: 2, 820
   size: 320, 225
   orig: 320, 225
   offset: 0, 0

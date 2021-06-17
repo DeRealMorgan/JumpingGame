@@ -43,7 +43,7 @@ public class Values {
     public static final String SHOP_BTN = "shopIcon",
             ACHIEVEMENTS_BTN = "achievementsIcon",
             WORLDS_BTN = "worldsIcon",
-            LEADERBOARD_BTN = "worldsIcon",
+            SETTINGS_BTN = "settingsIcon",
             SHOWER_BTN = "showerIcon",
             FOOD_BTN = "foodIcon",
             PET_BTN = "petIcon",
@@ -54,10 +54,13 @@ public class Values {
             LVL_ICON = "lvlIcon",
             MATH_ICON = "mathIcon",
             OVERLAY_BACKGROUND = "overlay_back",
-            BTN_UP = "btn_up",
-            BTN_DOWN = "btn_down";
+            BTN_UP = "btn_up", BTN_DOWN = "btn_down",
+            MUSIC_ON = "musicIconOn", MUSIC_OFF = "musicIconOff",
+            SOUNDS_ON = "soundsIconOn", SOUNDS_OFF = "soundsIconOff";
     public static final String FALLBACK_TEXTURE = "fallback_texture.jpg";
     public static final String EXERCISE_BACKGROUND = "exercise_back";
+
+    public static final String SLIDER_KNOB = "slider_knob", SLIDER_BAR = "slider_bar";
 
     public static final String PIG_HEAD = "pig_head",
             PIG_HAIR = "pig_hair",
@@ -74,8 +77,7 @@ public class Values {
     public static final String HAND = "hand_pet", SHOWER = "shower_head",
             HEARTS = "hearts", SOAP = "soap", SOAP_BUBBLE = "soap_bubble",
             WATER_DROPS = "water_drops", CRUMBS = "crumbs";
-    public static final String FOOD_BACON = "food_bacon",
-            FOOD_BANANA = "food_banana", FOOD_APPLE = "food_apple";
+    public static final String FOOD_ICON = "_food";
 
     public static final int ITEM_COUNT = 9,
             WORLD_COUNT = 4,
@@ -94,7 +96,7 @@ public class Values {
 
     public static final String CONSENT_HEADER = "Zustimmung", CONSENT_BODY = "Diese App ist ein Projekt für die Techniche Universität München.\n" +
             "Während dem Spielen werden anonymisiert Daten gesammelt und verarbeitet.";
-    public static final String SHOP_HEADER = "Shop", WORLDS_HEADER = "Welten";
+    public static final String SHOP_HEADER = "Shop", WORLDS_HEADER = "Welten", SETTINGS_HEADER = "Einstellungen";
 
     public static final String OK = "OK", AGREE = "Ich stimme zu.";
 
@@ -113,7 +115,7 @@ public class Values {
     public static final String TREATS_WORK = "treats_worker";
     public static final String TREAT_NOTIFICATION_TITLE = "Item found!";
     public static final String TREAT_NOTIFICATION_TEXT = "Tap me and see what you just found!";
-    public static final int TREAT_CHECK_TIME_DELTA = 15; // seconds between checks // todo adjust
+    public static final int TREAT_CHECK_TIME_DELTA = 60*5; // seconds between checks // todo adjust
     public static final int TREAT_START = 5000;
     public static final int TREAT_INTERVAL = 2500;
 
@@ -134,6 +136,8 @@ public class Values {
     public static final long SOAPWATER_COOLDOWN = 700; // in ms
     public static final long FOOD_DURATION = 10000;
     public static final long CRUMB_COOLDOWN = 700;
+
+    public static final long REFRESH_STEPS_INTERVAL = 1000*6; // todo * 60
 
     public static final float TILE_DISTANCE_Y = 400;
 

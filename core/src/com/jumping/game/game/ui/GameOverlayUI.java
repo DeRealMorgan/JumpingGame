@@ -10,6 +10,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.Align;
 import com.jumping.game.assets.AssetsManager;
+import com.jumping.game.util.Sounds;
 import com.jumping.game.util.Values;
 
 public class GameOverlayUI {
@@ -49,6 +50,7 @@ public class GameOverlayUI {
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 if(pauseBtn.isDisabled()) return;
+                Sounds.click();
                 onPause.run();
             }
         });
@@ -57,8 +59,6 @@ public class GameOverlayUI {
         contentTable.add(pauseBtn).right().expandX().size(Values.BTN_SIZE).padTop(Values.PADDING).row();
         contentTable.add(mathLabel).left().padBottom(Values.PADDING).row();
         contentTable.padLeft(Values.PADDING).padRight(Values.PADDING);
-
-        contentTable.setDebug(true, true);
 
     }
 

@@ -11,6 +11,7 @@ import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.Align;
 import com.jumping.game.assets.AssetsManager;
 import com.jumping.game.util.ScreenName;
+import com.jumping.game.util.Sounds;
 import com.jumping.game.util.Values;
 import com.jumping.game.util.interfaces.ScreenManager;
 
@@ -51,6 +52,7 @@ public class PauseUI {
         backBtn.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
+                Sounds.click();
                 screenManager.setScreen(ScreenName.CHARACTER_SCREEN);
             }
         });
@@ -58,6 +60,7 @@ public class PauseUI {
         continueBtn.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
+                Sounds.click();
                 hide();
                 onResume.run();
             }

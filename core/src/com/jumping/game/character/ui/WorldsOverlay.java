@@ -12,6 +12,7 @@ import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.Scaling;
 import com.badlogic.gdx.utils.TimeUtils;
 import com.jumping.game.assets.AssetsManager;
+import com.jumping.game.util.Sounds;
 import com.jumping.game.util.Values;
 import com.jumping.game.util.interfaces.ShopListener;
 import com.jumping.game.util.store.DataUtils;
@@ -40,6 +41,7 @@ public class WorldsOverlay extends Overlay {
         closeButton.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
+                Sounds.click();
                 close();
             }
         });
@@ -80,7 +82,7 @@ public class WorldsOverlay extends Overlay {
 
             wholeTables[i] = new Table();
             wholeTables[i].background(assetsManager.get9Drawable(Values.SHOP_ITEM_BACK));
-            wholeTables[i].add(items[i]).height(Values.BTN_SIZE*2).pad(Values.PADDING_SMALL).colspan(2).row();
+            wholeTables[i].add(items[i]).height(Values.BTN_SIZE*4).pad(Values.PADDING_SMALL).colspan(2).row();
             wholeTables[i].add(coins[i]).center().padLeft(Values.SPACING_SMALL)
                     .padRight(Values.SPACING_SMALL).padBottom(Values.SPACING_SMALL);
             wholeTables[i].add(itemLabels[i]).padBottom(Values.SPACING_SMALL).row();
@@ -93,6 +95,7 @@ public class WorldsOverlay extends Overlay {
             wholeTables[i].addListener(new ClickListener() {
                 @Override
                 public void clicked(InputEvent event, float x, float y) {
+                    Sounds.click();
                     purchase(finalI);
                 }
             });
@@ -105,6 +108,8 @@ public class WorldsOverlay extends Overlay {
             }
             itemsTable.add(wholeTables[i]).space(Values.PADDING_SMALL).growX();
         }
+
+        scaleOverlay();
     }
 
     private void purchase(int item) {
@@ -117,6 +122,7 @@ public class WorldsOverlay extends Overlay {
             wholeTables[item].addListener(new ClickListener() {
                 @Override
                 public void clicked(InputEvent event, float x, float y) {
+                    Sounds.click();
                     shopListener.equipWorld(item);
                 }
             });

@@ -12,10 +12,11 @@ import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.Scaling;
 import com.badlogic.gdx.utils.TimeUtils;
 import com.jumping.game.assets.AssetsManager;
-import com.jumping.game.util.store.DataUtils;
-import com.jumping.game.util.ui.Overlay;
+import com.jumping.game.util.Sounds;
 import com.jumping.game.util.Values;
 import com.jumping.game.util.interfaces.ShopListener;
+import com.jumping.game.util.store.DataUtils;
+import com.jumping.game.util.ui.Overlay;
 
 public class ShopOverlay extends Overlay {
     private Table itemsTable;
@@ -40,6 +41,7 @@ public class ShopOverlay extends Overlay {
         closeButton.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
+                Sounds.click();
                 close();
             }
         });
@@ -83,6 +85,7 @@ public class ShopOverlay extends Overlay {
             wholeTables[i].addListener(new ClickListener() {
                 @Override
                 public void clicked(InputEvent event, float x, float y) {
+                    Sounds.click();
                     purchase(finalI);
                 }
             });
@@ -95,6 +98,9 @@ public class ShopOverlay extends Overlay {
             }
             itemsTable.add(wholeTables[i]).space(Values.PADDING_SMALL).growX();
         }
+
+
+        scaleOverlay();
     }
 
     private void purchase(int item) {
@@ -106,6 +112,7 @@ public class ShopOverlay extends Overlay {
             wholeTables[item].addListener(new ClickListener() {
                 @Override
                 public void clicked(InputEvent event, float x, float y) {
+                    Sounds.click();
                     shopListener.equip(item);
                 }
             });

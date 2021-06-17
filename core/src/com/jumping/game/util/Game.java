@@ -49,5 +49,9 @@ public abstract class Game implements ApplicationListener {
         this.screen = screen;
         this.screen.show();
     }
+
+    public Screen getScreen() {
+        return screen;
+    }
 }
 
