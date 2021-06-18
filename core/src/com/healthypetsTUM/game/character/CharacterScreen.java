@@ -4,6 +4,7 @@ import com.healthypetsTUM.game.assets.AssetsManager;
 import com.healthypetsTUM.game.character.renderer.RenderPipeline;
 import com.healthypetsTUM.game.character.renderer.RenderPipelineImpl;
 import com.healthypetsTUM.game.character.ui.UIManagerImpl;
+import com.healthypetsTUM.game.util.interfaces.GoogleFit;
 import com.healthypetsTUM.game.util.interfaces.Screen;
 import com.healthypetsTUM.game.util.interfaces.ScreenManager;
 
@@ -12,12 +13,12 @@ public class CharacterScreen implements Screen {
     private final UIManagerImpl uiManager;
     private final AssetsManager assetsManager;
 
-    public CharacterScreen(AssetsManager assetsManager, ScreenManager screenManager) {
+    public CharacterScreen(AssetsManager assetsManager, ScreenManager screenManager, GoogleFit googleFit) {
         this.renderPipeline = new RenderPipelineImpl();
         this.assetsManager = assetsManager;
 
         this.uiManager = new UIManagerImpl(renderPipeline.getUIViewport(), renderPipeline.getBatch(), assetsManager,
-                screenManager);
+                screenManager, googleFit::signIn);
         this.renderPipeline.setUiManager(this.uiManager);
     }
 

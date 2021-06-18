@@ -17,4 +17,7 @@ public class GoogleFitImplStub implements GoogleFit {
     public int getStepCountLast24() {
         return 0;
     }
+
+    @Override
+    public void signIn() {}
 }

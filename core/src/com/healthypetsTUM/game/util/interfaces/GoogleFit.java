@@ -4,4 +4,5 @@ public interface GoogleFit {
     int getStepCountToday();
     int getStepCountYesterday();
     int getStepCountLast24();
+    void signIn();
 }

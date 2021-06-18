@@ -20,7 +20,7 @@ public class UserData {
     private boolean playMusic;
     private boolean playSound;
 
-    private boolean privacyConsent;
+    private boolean privacyConsent, healthConsent;
     private boolean showTutorial;
     private boolean isRunning;
 
@@ -37,8 +37,8 @@ public class UserData {
         lvl = 1;
         math = 0;
 
-        musicVolume = 100;
-        soundVolume = 100;
+        musicVolume = 50;
+        soundVolume = 50;
         playMusic = true;
         playSound = true;
 
@@ -114,6 +114,10 @@ public class UserData {
 
     public void setPrivacyConsent(boolean privacyConsent) {
         this.privacyConsent = privacyConsent;
+    }
+
+    public void setHealthConsent(boolean healthConsent) {
+        this.healthConsent = healthConsent;
     }
 
     public void setRunning(boolean running) {
@@ -194,6 +198,10 @@ public class UserData {
 
     public boolean hasPrivacyConsent() {
         return privacyConsent;
+    }
+
+    public boolean hasHealthConsent() {
+        return healthConsent;
     }
 
     public boolean isRunning() {

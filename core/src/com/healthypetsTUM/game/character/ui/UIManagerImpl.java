@@ -52,16 +52,16 @@ public class UIManagerImpl implements UIManager, ShopListener {
     private final static float BOTTOM_PADDING = 40, TOP_PADDING = 40, SIDE_PADDING = 40;
 
     public UIManagerImpl(Viewport viewport, SpriteBatch batch, AssetsManager assetsManager,
-                         ScreenManager screenManager) {
+                         ScreenManager screenManager, Runnable onHealthSignIn) {
         this.screenManager = screenManager;
         this.assetsManager = assetsManager;
         this.stage = new Stage(viewport, batch);
 
-        createUI(assetsManager);
+        createUI(assetsManager, onHealthSignIn);
 
     }
 
-    private void createUI(AssetsManager assetsManager) {
+    private void createUI(AssetsManager assetsManager, Runnable onHealthSignIn) {
         assetsManager.addInputProcessor(stage);
         backgroundTable = new Table();
         backgroundTable.setFillParent(true);
@@ -274,7 +274,11 @@ public class UIManagerImpl implements UIManager, ShopListener {
         settingsOverlay = new SettingsOverlay(assetsManager);
         stage.addActor(settingsOverlay.table);
 
-        ConsentOverlay consentOverlay = new ConsentOverlay(assetsManager);
+        HealthSignInOverlay healthOverlay = new HealthSignInOverlay(assetsManager, onHealthSignIn);
+        stage.addActor(healthOverlay.table);
+        healthOverlay.closeInstantly();
+
+        ConsentOverlay consentOverlay = new ConsentOverlay(assetsManager, healthOverlay);
         stage.addActor(consentOverlay.table);
 
         if(!DataUtils.getUserData().hasPrivacyConsent())

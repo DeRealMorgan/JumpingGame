@@ -123,6 +123,19 @@ public class AndroidLauncher extends AndroidApplication implements GoogleFit, St
 		return getSteps(c, a, startTime, endTime);
 	}
 
+	@Override
+	public void signIn() {
+		FitnessOptions fitnessOptions = FitnessOptions.builder()
+				.addDataType(DataType.TYPE_STEP_COUNT_DELTA, FitnessOptions.ACCESS_READ)
+				.addDataType(DataType.AGGREGATE_STEP_COUNT_DELTA, FitnessOptions.ACCESS_READ)
+				.build();
+
+		GoogleSignInAccount signInAcc = GoogleSignIn.getAccountForExtension(this.getApplicationContext(), fitnessOptions);
+
+		GoogleSignIn.requestPermissions(this, // your activity
+				Values.GOOGLE_FIT_REQUEST_CODE, signInAcc, fitnessOptions);
+	}
+
 	private static int getSteps(Context c, Activity a, ZonedDateTime startTime, ZonedDateTime endTime) {
 		// TODO https://developers.google.com/fit/android/disconnect
 		System.out.println("requesting steps");
