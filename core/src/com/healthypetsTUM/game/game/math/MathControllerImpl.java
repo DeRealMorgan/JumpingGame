@@ -76,7 +76,7 @@ public class MathControllerImpl implements MathController {
 
         timerTable = new Table();
         timerTable.setTouchable(Touchable.disabled);
-        timerTable.add(clockImg).left();
+        timerTable.add(clockImg).padRight(Values.PADDING).left();
         timerTable.add(timerLabel).left().row();
 
         // todo ui/viewport anpassen, dass bildschirm gefüllt wird
@@ -114,9 +114,9 @@ public class MathControllerImpl implements MathController {
         exerciseTable.add(timerTable).growX().left().pad(Values.EXERCISE_PADDING).row();
         exerciseTable.add(exerciseLabel).row();
         exerciseTable.add(answerLabel).growX().row();
-        exerciseTable.background(assetsManager.get9Drawable(Values.EXERCISE_BACKGROUND));
+        exerciseTable.background(assetsManager.get9Drawable(Values.MENU_BACK));
 
-        contentTable.add(exerciseTable).top().growX().pad(Values.EXERCISE_PADDING).row();
+        contentTable.add(exerciseTable).top().pad(Values.EXERCISE_PADDING).row();
     }
 
     public void addToStage(Stage s) {

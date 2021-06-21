@@ -76,7 +76,14 @@ repeat: none
   index: -1
 achievementsIcon
   rotate: false
-  xy: 1922, 370
+  xy: 1922, 436
+  size: 64, 64
+  orig: 64, 64
+  offset: 0, 0
+  index: -1
+blank_img
+  rotate: false
+  xy: 1941, 238
   size: 64, 64
   orig: 64, 64
   offset: 0, 0
@@ -85,13 +92,13 @@ btn_down
   rotate: false
   xy: 1980, 700
   size: 64, 64
-  split: 16, 15, 16, 17
+  split: 14, 14, 14, 14
   orig: 64, 64
   offset: 0, 0
   index: -1
 checkbox_checked
   rotate: false
-  xy: 1848, 634
+  xy: 1914, 700
   size: 64, 64
   split: 7, 44, 4, 46
   orig: 64, 64
@@ -99,7 +106,7 @@ checkbox_checked
   index: -1
 checkbox_unchecked
   rotate: false
-  xy: 1941, 238
+  xy: 1922, 304
   size: 64, 64
   split: 7, 44, 4, 46
   pad: 7, 45, 4, 46
@@ -120,21 +127,6 @@ cursor
   orig: 10, 10
   offset: 0, 0
   index: -1
-energyProgressBar
-  rotate: false
-  xy: 1980, 634
-  size: 64, 64
-  orig: 64, 64
-  offset: 0, 0
-  index: -1
-exercise_back
-  rotate: false
-  xy: 1914, 700
-  size: 64, 64
-  split: 7, 11, 4, 5
-  orig: 64, 64
-  offset: 0, 0
-  index: -1
 foodIcon
   rotate: false
   xy: 1941, 106
@@ -151,7 +143,7 @@ hand_pet
   index: -1
 leaderboardIcon
   rotate: false
-  xy: 1922, 568
+  xy: 1980, 634
   size: 64, 64
   orig: 64, 64
   offset: 0, 0
@@ -165,34 +157,27 @@ math
   index: -1
 menu_back
   rotate: false
-  xy: 1848, 766
+  xy: 1848, 700
   size: 64, 64
-  split: 7, 11, 4, 5
+  split: 14, 14, 14, 14
   orig: 64, 64
   offset: 0, 0
   index: -1
 musicIconOff
   rotate: false
-  xy: 1922, 502
+  xy: 1922, 568
   size: 64, 64
   orig: 64, 64
   offset: 0, 0
   index: -1
 musicIconOn
   rotate: false
-  xy: 1922, 304
+  xy: 1922, 370
   size: 64, 64
   orig: 64, 64
   offset: 0, 0
   index: -1
 overlay_back
-  rotate: false
-  xy: 1980, 766
-  size: 64, 64
-  orig: 64, 64
-  offset: 0, 0
-  index: -1
-blank_img
   rotate: false
   xy: 1980, 766
   size: 64, 64
@@ -269,41 +254,49 @@ pig_mouth
   orig: 152, 81
   offset: 0, 0
   index: -1
+progressbar_back
+  rotate: false
+  xy: 1354, 87
+  size: 31, 31
+  split: 14, 14, 14, 14
+  orig: 31, 31
+  offset: 0, 0
+  index: -1
 progressbar_front
   rotate: false
-  xy: 1848, 960
-  size: 3, 8
-  split: 0, 0, 0, 0
-  orig: 3, 8
+  xy: 1848, 601
+  size: 31, 31
+  split: 14, 14, 14, 14
+  orig: 31, 31
   offset: 0, 0
   index: -1
 progressbar_front_green
   rotate: false
-  xy: 1848, 930
-  size: 3, 8
-  split: 0, 0, 0, 0
-  orig: 3, 8
+  xy: 1988, 568
+  size: 31, 31
+  split: 14, 14, 14, 14
+  orig: 31, 31
   offset: 0, 0
   index: -1
 progressbar_front_red
   rotate: false
-  xy: 1848, 940
-  size: 3, 8
-  split: 0, 0, 0, 0
-  orig: 3, 8
+  xy: 1881, 601
+  size: 31, 31
+  split: 14, 14, 14, 14
+  orig: 31, 31
   offset: 0, 0
   index: -1
 shop_item_back
   rotate: false
-  xy: 1604, 118
+  xy: 1848, 766
   size: 64, 64
-  split: 7, 11, 4, 5
+  split: 14, 14, 14, 14
   orig: 64, 64
   offset: 0, 0
   index: -1
 showerIcon
   rotate: false
-  xy: 1922, 436
+  xy: 1922, 502
   size: 64, 64
   orig: 64, 64
   offset: 0, 0
@@ -317,26 +310,18 @@ shower_head
   index: -1
 slider_bar
   rotate: false
-  xy: 1848, 950
-  size: 3, 8
-  split: 0, 0, 0, 0
-  orig: 3, 8
-  offset: 0, 0
-  index: -1
-progressbar_back
-  rotate: false
-  xy: 1848, 950
-  size: 3, 8
-  split: 0, 0, 0, 0
-  orig: 3, 8
+  xy: 1988, 601
+  size: 31, 31
+  split: 14, 14, 14, 14
+  orig: 31, 31
   offset: 0, 0
   index: -1
 slider_knob
   rotate: false
-  xy: 1670, 174
-  size: 8, 8
-  split: 0, 0, 0, 0
-  orig: 8, 8
+  xy: 1354, 120
+  size: 31, 31
+  split: 14, 14, 14, 14
+  orig: 31, 31
   offset: 0, 0
   index: -1
 soap
@@ -348,7 +333,7 @@ soap
   index: -1
 soundsIconOff
   rotate: false
-  xy: 1914, 766
+  xy: 1848, 634
   size: 64, 64
   orig: 64, 64
   offset: 0, 0
@@ -369,15 +354,15 @@ tile
   index: -1
 window_banner
   rotate: false
-  xy: 1848, 600
-  size: 64, 32
-  split: 7, 11, 5, 5
-  orig: 64, 32
+  xy: 1604, 118
+  size: 64, 64
+  split: 14, 14, 14, 14
+  orig: 64, 64
   offset: 0, 0
   index: -1
 worldsIcon
   rotate: false
-  xy: 1848, 700
+  xy: 1914, 766
   size: 64, 64
   orig: 64, 64
   offset: 0, 0
@@ -413,7 +398,7 @@ bought_back
   rotate: false
   xy: 1415, 280
   size: 64, 64
-  split: 7, 11, 4, 5
+  split: 14, 14, 14, 14
   orig: 64, 64
   offset: 0, 0
   index: -1
@@ -421,7 +406,7 @@ bought_equiped
   rotate: false
   xy: 1409, 148
   size: 64, 64
-  split: 7, 11, 4, 5
+  split: 14, 14, 14, 14
   orig: 64, 64
   offset: 0, 0
   index: -1
@@ -429,7 +414,7 @@ btn_up
   rotate: false
   xy: 1475, 148
   size: 64, 64
-  split: 16, 15, 16, 17
+  split: 14, 14, 14, 14
   orig: 64, 64
   offset: 0, 0
   index: -1
@@ -458,7 +443,7 @@ disabled_back
   rotate: false
   xy: 1085, 257
   size: 64, 64
-  split: 7, 11, 4, 5
+  split: 14, 14, 14, 14
   orig: 64, 64
   offset: 0, 0
   index: -1

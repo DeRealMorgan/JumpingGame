@@ -58,7 +58,6 @@ public class Values {
             MUSIC_ON = "musicIconOn", MUSIC_OFF = "musicIconOff",
             SOUNDS_ON = "soundsIconOn", SOUNDS_OFF = "soundsIconOff";
     public static final String FALLBACK_TEXTURE = "fallback_texture.jpg";
-    public static final String EXERCISE_BACKGROUND = "exercise_back";
 
     public static final String SLIDER_KNOB = "slider_knob", SLIDER_BAR = "slider_bar";
 
@@ -77,9 +76,9 @@ public class Values {
     public static final String HAND = "hand_pet", SHOWER = "shower_head",
             HEARTS = "hearts", SOAP = "soap", SOAP_BUBBLE = "soap_bubble",
             WATER_DROPS = "water_drops", CRUMBS = "crumbs";
-    public static final String FOOD_ICON = "_food";
+    public static final String FOOD_ITEM = "_food";
 
-    public static final int ITEM_COUNT = 9,
+    public static final int ITEM_COUNT = 9, FOOD_ITEM_COUNT = 6,
             WORLD_COUNT = 4,
             SHOP_ROW_AMOUNT = 3, WORLD_ROW_AMOUNT = 2;
     public static final String COIN = "coin",
@@ -157,7 +156,7 @@ public class Values {
             MUL_EXERCISE_FILE = "exercise_mul.txt",
             DIV_EXERCISE_FILE = "exercise_div.txt";
 
-    public static final String ANSWER_TEXT = "Answer: ",
+    public static final String ANSWER_TEXT = "Lösung: ",
             GAME_OVER = "GAME OVER",
             PAUSE = "PAUSE",
             SCORE = "Score: ",

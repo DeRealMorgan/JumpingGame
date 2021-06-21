@@ -25,7 +25,7 @@ public class FoodItem extends DragItem {
     private FoodItemListener listener;
 
     public FoodItem(AssetsManager assetsManager, FoodItemListener listener) {
-        super(assetsManager, 0+ Values.FOOD_ICON);
+        super(assetsManager, 0+ Values.FOOD_ITEM);
 
         this.listener = listener;
 

@@ -56,11 +56,11 @@ public class FoodShopOverlay extends Overlay {
     }
 
     private void createItems(AssetsManager assetsManager) {
-        itemLabels = new Label[Values.ITEM_COUNT];
-        coins = new Image[Values.ITEM_COUNT];
-        items = new Image[Values.ITEM_COUNT];
+        itemLabels = new Label[Values.FOOD_ITEM_COUNT];
+        coins = new Image[Values.FOOD_ITEM_COUNT];
+        items = new Image[Values.FOOD_ITEM_COUNT];
 
-        wholeTables = new Table[Values.ITEM_COUNT];
+        wholeTables = new Table[Values.FOOD_ITEM_COUNT];
 
         boughtBack = assetsManager.get9Drawable(Values.BOUGHT_BACK);
 
@@ -70,7 +70,7 @@ public class FoodShopOverlay extends Overlay {
             itemLabels[i] = new Label("1000", assetsManager.labelStyleSmall());
             itemLabels[i].setAlignment(Align.center);
 
-            items[i] = new Image(assetsManager.getDrawable(i+Values.SHOP_ITEM));
+            items[i] = new Image(assetsManager.getDrawable(i+Values.FOOD_ITEM));
             items[i].setScaling(Scaling.fillX);
 
             wholeTables[i] = new Table();

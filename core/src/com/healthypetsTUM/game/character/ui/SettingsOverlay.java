@@ -78,7 +78,6 @@ public class SettingsOverlay extends Overlay {
         soundButton.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                Sounds.click();
                 Sounds.mute(soundButton.isToggled());
                 if(!soundButton.isToggled()) Sounds.click();
             }
