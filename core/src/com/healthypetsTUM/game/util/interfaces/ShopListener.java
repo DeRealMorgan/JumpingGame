@@ -6,4 +6,6 @@ public interface ShopListener {
 
     void buyWorld(int item, int cost);
     void equipWorld(int item);
+
+    void buyFood(int item, int cost);
 }

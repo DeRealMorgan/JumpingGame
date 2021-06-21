@@ -384,6 +384,11 @@ public class UIManagerImpl implements UIManager, ShopListener {
     }
 
     @Override
+    public void buyFood(int item, int cost) {
+        // TODO
+    }
+
+    @Override
     public void equip(int item) {
         //TODO
     }

@@ -98,7 +98,8 @@ public class Values {
             "Während dem Spielen werden anonymisiert Daten gesammelt und verarbeitet.";
     public static final String HEALTH_HEADER = "Schritte", HEALTH_BODY = "Dein Haustier möchte gerne wissen, wie viele " +
             "Schritte du täglich läufst. Dafür musst du dich jetzt mit deinem Google Konto einloggen.";
-    public static final String SHOP_HEADER = "Shop", WORLDS_HEADER = "Welten", SETTINGS_HEADER = "Einstellungen";
+    public static final String SHOP_HEADER = "Shop", WORLDS_HEADER = "Welten", SETTINGS_HEADER = "Einstellungen",
+            SHOP_FOOD_HEADER = "Nahrung";
 
     public static final String OK = "OK", AGREE = "Ich stimme zu.";
 

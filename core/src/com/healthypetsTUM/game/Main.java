@@ -79,7 +79,7 @@ public class Main extends Game implements ScreenManager {
 
 	private void runGoogleFitRefresh() {
 		while(gameState == GameState.ACTIVE) {
-			if (nextStepRefresh <= System.currentTimeMillis()) {
+			if (nextStepRefresh <= System.currentTimeMillis() && DataUtils.getUserData().hasHealthConsent()) {
 				int steps = googleFit.getStepCountToday();
 				if(steps != -1) {
 					UserData data = DataUtils.getUserData();
@@ -114,7 +114,7 @@ public class Main extends Game implements ScreenManager {
 				this.renderPipeline = gameScreen.getRenderPipeline();
 				break;
 			case CHARACTER_SCREEN:
-				CharacterScreen characterScreen = new CharacterScreen(assetsManager, this);
+				CharacterScreen characterScreen = new CharacterScreen(assetsManager, this, googleFit);
 				setScreen(characterScreen);
 				this.renderPipeline = characterScreen.getRenderPipeline();
 				break;
