@@ -5,6 +5,7 @@ import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.scenes.scene2d.actions.Actions;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
+import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
 import com.badlogic.gdx.utils.Align;
 import com.healthypetsTUM.game.assets.AssetsManager;
 import com.healthypetsTUM.game.character.Duration;
@@ -42,6 +43,11 @@ public class FoodItem extends DragItem {
         moving = false;
 
         duration = new Duration(Values.FOOD_DURATION);
+    }
+
+    public void show(Drawable item) {
+        dragItemImg.setDrawable(item);
+        super.show();
     }
 
     @Override

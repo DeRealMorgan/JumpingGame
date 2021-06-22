@@ -48,7 +48,7 @@ public class AssetsManagerImpl implements AssetsManager, Disposable {
         FreeTypeFontGenerator fontGenerator = new FreeTypeFontGenerator(Gdx.files.internal("font.ttf"));
         FreeTypeFontGenerator.FreeTypeFontParameter fontParameter = new FreeTypeFontGenerator.FreeTypeFontParameter();
         FreeTypeFontGenerator.setMaxTextureSize(FreeTypeFontGenerator.NO_MAXIMUM);
-        fontParameter.borderColor = Color.valueOf("3b3b3b");
+        fontParameter.borderColor = Color.valueOf("1A1A44");
         fontParameter.color = Values.FONT_COLOR;
         fontParameter.minFilter = Texture.TextureFilter.Linear;
         fontParameter.magFilter = Texture.TextureFilter.Linear;

@@ -28,9 +28,9 @@ public class Values {
     public static final int SPACING = 20, SPACING_SMALL = 10, EDGE_DISTANCE = 50, TOP_PADDING_UI_GAME = 100;
     public static final float FADE_OVERLAY_DUR = 1f;
 
-    public static final int FONT_BORDER_WIDTH = 2,
-            FONT_SIZE_SMALL = 30, FONT_SIZE = 40, FONT_SIZE_BIG = 60;
-    public static final Color FONT_COLOR = Color.valueOf("fafafa");
+    public static final int FONT_BORDER_WIDTH = 4,
+            FONT_SIZE_SMALL = 27, FONT_SIZE = 40, FONT_SIZE_BIG = 60;
+    public static final Color FONT_COLOR = Color.valueOf("E9E6F7");
 
     public static final String NOTIFY_CHANNEL_ID = "basic_notification_channel";
     public static final CharSequence NOTIFY_CHANNEL_NAME = "Items Benachrichtigung";
@@ -78,9 +78,8 @@ public class Values {
             WATER_DROPS = "water_drops", CRUMBS = "crumbs";
     public static final String FOOD_ITEM = "_food";
 
-    public static final int ITEM_COUNT = 9, FOOD_ITEM_COUNT = 6,
-            WORLD_COUNT = 4,
-            SHOP_ROW_AMOUNT = 3, WORLD_ROW_AMOUNT = 2;
+    public static final int ITEM_COUNT = 9, FOOD_ITEM_COUNT = 6, WORLD_COUNT = 4,
+            SHOP_ROW_AMOUNT = 3, FOOD_ROW_AMOUNT = 2, WORLD_ROW_AMOUNT = 2;
     public static final String COIN = "coin",
             SHOP_ITEM = "_shop_item",
             SHOP_ITEM_ARM = "_shop_item_arm",
@@ -89,14 +88,15 @@ public class Values {
 
     public static final String BLANK_IMG = "blank_img",
             MENU_BACK = "menu_back",
+            UI_BAR_BACK = "ui_bar_back",
             WINDOW_BANNER = "window_banner",
             BOUGHT_BACK = "bought_back",
             DISABLED_BACK = "disabled_back";
 
-    public static final String CONSENT_HEADER = "Zustimmung", CONSENT_BODY = "Diese App ist ein Projekt für die Techniche Universität München." +
+    public static final String CONSENT_HEADER = "Zustimmung", CONSENT_BODY = "Diese App ist ein Projekt für die Techniche Universität München. " +
             "Während dem Spielen werden anonymisiert Daten gesammelt und verarbeitet.";
     public static final String HEALTH_HEADER = "Schritte", HEALTH_BODY = "Dein Haustier möchte gerne wissen, wie viele " +
-            "Schritte du täglich läufst. Dafür musst du dich jetzt mit deinem Google Konto einloggen.";
+            "Schritte du täglich läufst. Dafür musst du dich jetzt mit deinem Google Konto verbinden.";
     public static final String SHOP_HEADER = "Shop", WORLDS_HEADER = "Welten", SETTINGS_HEADER = "Einstellungen",
             SHOP_FOOD_HEADER = "Nahrung";
 

@@ -1,4 +1,4 @@
-package com.healthypetsTUM.game.character.ui;
+package com.healthypetsTUM.game.character.ui.overlay;
 
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
@@ -48,7 +48,7 @@ public class HealthSignInOverlay extends Overlay {
         });
         okButton.setTransform(true);
 
-        contentTable.add(policyPane).width(Values.BTN_SIZE*5.6f).height(Values.BTN_SIZE*4f)
+        contentTable.add(policyPane).width(Values.BTN_SIZE*6f).height(Values.BTN_SIZE*4f)
                 .padBottom(Values.SPACING).colspan(3).row();
         contentTable.add().size(Values.BTN_SIZE*0.7f).padRight(Values.SPACING).row();
         contentTable.add(okButton).height(Values.BTN_SIZE).padTop(Values.SPACING)

@@ -52,7 +52,7 @@ public class UIBar {
         contentTable.add(lvlTable).expandX().pad(Values.PADDING_SMALL);
         contentTable.add(coinTable).expandX().pad(Values.PADDING_SMALL);
         contentTable.add(mathTable).expandX().pad(Values.PADDING_SMALL);
-        contentTable.background(assetsManager.get9Drawable(Values.MENU_BACK));
+        contentTable.background(assetsManager.get9Drawable(Values.UI_BAR_BACK));
     }
 
    public void setLvl(int lvl) {

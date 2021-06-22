@@ -13,6 +13,7 @@ import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import com.healthypetsTUM.game.assets.AssetsManager;
+import com.healthypetsTUM.game.character.ui.overlay.*;
 import com.healthypetsTUM.game.util.ScreenName;
 import com.healthypetsTUM.game.util.Sounds;
 import com.healthypetsTUM.game.util.Values;
@@ -41,6 +42,7 @@ public class UIManagerImpl implements UIManager, ShopListener {
     private ShopOverlay shopOverlay;
     private WorldsOverlay worldsOverlay;
     private SettingsOverlay settingsOverlay;
+    private FoodShopOverlay foodShopOverlay;
     private UIBar uiBar;
 
     private int stepsToday;
@@ -198,8 +200,7 @@ public class UIManagerImpl implements UIManager, ShopListener {
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 Sounds.click();
-                setUiVisible(false);
-                food.show();
+                foodShopOverlay.show();
             }
         });
 
@@ -273,6 +274,9 @@ public class UIManagerImpl implements UIManager, ShopListener {
 
         settingsOverlay = new SettingsOverlay(assetsManager);
         stage.addActor(settingsOverlay.table);
+
+        foodShopOverlay = new FoodShopOverlay(assetsManager, this);
+        stage.addActor(foodShopOverlay.table);
 
         HealthSignInOverlay healthOverlay = new HealthSignInOverlay(assetsManager, onHealthSignIn);
         stage.addActor(healthOverlay.table);
@@ -385,6 +389,15 @@ public class UIManagerImpl implements UIManager, ShopListener {
 
     @Override
     public void buyFood(int item, int cost) {
+        UserData data = DataUtils.getUserData();
+        data.subCoins(cost);
+        DataUtils.storeUserData();
+
+        setUiVisible(false);
+        food.show(assetsManager.getDrawable(item+Values.FOOD_ITEM));
+
+        updateUIBar();
+
         // TODO
     }
 

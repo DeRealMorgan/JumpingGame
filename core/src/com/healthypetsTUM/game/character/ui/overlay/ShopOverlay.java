@@ -1,4 +1,4 @@
-package com.healthypetsTUM.game.character.ui;
+package com.healthypetsTUM.game.character.ui.overlay;
 
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Touchable;
@@ -18,7 +18,7 @@ import com.healthypetsTUM.game.util.interfaces.ShopListener;
 import com.healthypetsTUM.game.util.store.DataUtils;
 import com.healthypetsTUM.game.util.ui.Overlay;
 
-public class FoodShopOverlay extends Overlay {
+public class ShopOverlay extends Overlay {
     private Table itemsTable;
 
     private Table[] wholeTables;
@@ -33,8 +33,8 @@ public class FoodShopOverlay extends Overlay {
 
     private Drawable boughtBack;
 
-    public FoodShopOverlay(AssetsManager assetsManager, ShopListener shopListener) {
-        super(assetsManager, Values.SHOP_FOOD_HEADER);
+    public ShopOverlay(AssetsManager assetsManager, ShopListener shopListener) {
+        super(assetsManager, Values.SHOP_HEADER);
 
         this.shopListener = shopListener;
 
@@ -51,26 +51,27 @@ public class FoodShopOverlay extends Overlay {
 
         scrollPane = new ScrollPane(itemsTable);
         scrollPane.setScrollingDisabled(true, false);
-        contentTable.add(scrollPane).width(Values.BTN_SIZE*7f).height(Values.BTN_SIZE*10f)
+        contentTable.add(scrollPane).width(Values.BTN_SIZE*6f).height(Values.BTN_SIZE*8f)
                 .padBottom(Values.SPACING_SMALL).row();
     }
 
     private void createItems(AssetsManager assetsManager) {
-        itemLabels = new Label[Values.FOOD_ITEM_COUNT];
-        coins = new Image[Values.FOOD_ITEM_COUNT];
-        items = new Image[Values.FOOD_ITEM_COUNT];
+        itemLabels = new Label[Values.ITEM_COUNT];
+        coins = new Image[Values.ITEM_COUNT];
+        items = new Image[Values.ITEM_COUNT];
 
-        wholeTables = new Table[Values.FOOD_ITEM_COUNT];
+        wholeTables = new Table[Values.ITEM_COUNT];
 
         boughtBack = assetsManager.get9Drawable(Values.BOUGHT_BACK);
 
         for(int i = 0; i < itemLabels.length; ++i) {
             coins[i] = new Image(assetsManager.getDrawable(Values.COIN));
+            coins[i].setScaling(Scaling.fillX);
 
             itemLabels[i] = new Label("1000", assetsManager.labelStyleSmall());
             itemLabels[i].setAlignment(Align.center);
 
-            items[i] = new Image(assetsManager.getDrawable(i+Values.FOOD_ITEM));
+            items[i] = new Image(assetsManager.getDrawable(i+Values.SHOP_ITEM));
             items[i].setScaling(Scaling.fillX);
 
             wholeTables[i] = new Table();

@@ -7,6 +7,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.utils.Align;
 import com.healthypetsTUM.game.assets.AssetsManager;
+import com.healthypetsTUM.game.character.ui.listener.DragListener;
 
 public abstract class DragItem implements DragListener {
     protected Vector2 cacheVec2 = new Vector2();

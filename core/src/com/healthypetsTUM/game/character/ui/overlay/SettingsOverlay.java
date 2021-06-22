@@ -1,4 +1,4 @@
-package com.healthypetsTUM.game.character.ui;
+package com.healthypetsTUM.game.character.ui.overlay;
 
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;

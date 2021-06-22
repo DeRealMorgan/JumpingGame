@@ -1,4 +1,4 @@
-package com.healthypetsTUM.game.character.ui;
+package com.healthypetsTUM.game.character.ui.overlay;
 
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Touchable;
@@ -65,7 +65,7 @@ public class ConsentOverlay extends Overlay {
         agreeLabel = new Label(Values.AGREE, assetsManager.labelStyleSmall());
         agreeLabel.setAlignment(Align.center);
 
-        contentTable.add(policyPane).width(Values.BTN_SIZE*5.6f).height(Values.BTN_SIZE*4f)
+        contentTable.add(policyPane).width(Values.BTN_SIZE*6f).height(Values.BTN_SIZE*4f)
                 .padBottom(Values.SPACING).colspan(3).row();
         contentTable.add(agreeButton.getImage()).size(Values.BTN_SIZE*0.7f).padLeft(Values.SPACING*2).left();
         contentTable.add(agreeLabel).growX();

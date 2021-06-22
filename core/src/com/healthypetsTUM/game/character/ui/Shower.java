@@ -7,6 +7,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
 import com.badlogic.gdx.utils.Align;
 import com.healthypetsTUM.game.assets.AssetsManager;
+import com.healthypetsTUM.game.character.ui.listener.ShowerListener;
 import com.healthypetsTUM.game.util.MathUtils;
 import com.healthypetsTUM.game.util.Values;
 
