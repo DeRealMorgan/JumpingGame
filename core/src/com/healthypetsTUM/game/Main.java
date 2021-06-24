@@ -42,9 +42,11 @@ public class Main extends Game implements ScreenManager {
 	@Override
 	public void create() {
 		DataUtils.init(storeProvider);
-		DataUtils.firstStart();
-		DataUtils.getUserData();
-		DataUtils.storeUserData();
+
+		if(storeProvider.load(Values.FIRST_START).equals("") || true)  { //TODO REMOVE true
+			storeProvider.store(Values.FIRST_START, Values.FIRST_START);
+			DataUtils.firstStart();
+		}
 
 		this.gameState = GameState.ACTIVE;
 		this.assetsManager = new AssetsManagerImpl();
@@ -59,15 +61,16 @@ public class Main extends Game implements ScreenManager {
 
 	public void permissionGranted(int code) {
 		if(code == Values.GOOGLE_FIT_REQUEST_CODE) {
-			int steps = googleFit.getStepCountToday();
-			if(steps != -1) {
-				UserData data = DataUtils.getUserData();
-				data.setLastStepCount(steps);
-				data.setLastStepStamp(System.currentTimeMillis());
-				if (currentScreen == ScreenName.CHARACTER_SCREEN) {
-					((CharacterScreen) getScreen()).currentSteps(steps);
+			googleFit.getStepCountToday(steps -> {
+				if(steps != -1) {
+					UserData data = DataUtils.getUserData();
+					data.setLastStepCount(steps);
+					data.setLastStepStamp(System.currentTimeMillis());
+					if (currentScreen == ScreenName.CHARACTER_SCREEN) {
+						((CharacterScreen) getScreen()).currentSteps(steps);
+					}
 				}
-			}
+			});
 		}
 	}
 
@@ -80,15 +83,16 @@ public class Main extends Game implements ScreenManager {
 	private void runGoogleFitRefresh() {
 		while(gameState == GameState.ACTIVE) {
 			if (nextStepRefresh <= System.currentTimeMillis() && DataUtils.getUserData().hasHealthConsent()) {
-				int steps = googleFit.getStepCountToday();
-				if(steps != -1) {
-					UserData data = DataUtils.getUserData();
-					data.setLastStepCount(steps);
-					data.setLastStepStamp(System.currentTimeMillis());
-					if (currentScreen == ScreenName.CHARACTER_SCREEN) {
-						((CharacterScreen) getScreen()).currentSteps(steps);
+				googleFit.getStepCountToday(steps -> {
+					if(steps != -1) {
+						UserData data = DataUtils.getUserData();
+						data.setLastStepCount(steps);
+						data.setLastStepStamp(System.currentTimeMillis());
+						if (currentScreen == ScreenName.CHARACTER_SCREEN) {
+							((CharacterScreen) getScreen()).currentSteps(steps);
+						}
 					}
-				}
+				});
 
 				nextStepRefresh = System.currentTimeMillis() + Values.REFRESH_STEPS_INTERVAL;
 			} else {
@@ -159,9 +163,7 @@ public class Main extends Game implements ScreenManager {
 	@Override
 	public void dispose() {
 		DataUtils.getUserData().setRunning(false);
-		try {
-			DataUtils.storeUserData().join();
-		} catch (InterruptedException ignored) {}
+		DataUtils.storeUserData();
 
 		renderPipeline.dispose();
 		super.disposeScreen();

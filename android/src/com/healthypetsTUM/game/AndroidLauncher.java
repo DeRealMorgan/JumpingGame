@@ -19,6 +19,7 @@ import com.google.android.gms.fitness.Fitness;
 import com.google.android.gms.fitness.FitnessOptions;
 import com.google.android.gms.fitness.data.*;
 import com.google.android.gms.fitness.request.DataReadRequest;
+import com.healthypetsTUM.game.util.StepListener;
 import com.healthypetsTUM.game.util.Values;
 import com.healthypetsTUM.game.util.interfaces.GoogleFit;
 import com.healthypetsTUM.game.util.interfaces.StoreProvider;
@@ -26,7 +27,6 @@ import com.healthypetsTUM.game.util.interfaces.StoreProvider;
 import java.time.*;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
-import java.util.concurrent.atomic.AtomicInteger;
 import java.util.stream.Collectors;
 
 public class AndroidLauncher extends AndroidApplication implements GoogleFit, StoreProvider {
@@ -78,7 +78,7 @@ public class AndroidLauncher extends AndroidApplication implements GoogleFit, St
 		SharedPreferences preferences = super.getApplicationContext().getSharedPreferences(Values.SHARED_PREF, Context.MODE_PRIVATE);
 		SharedPreferences.Editor editor = preferences.edit();
 		editor.putString(name, val);
-		editor.commit();
+		if(!editor.commit()) System.out.println("COULD NOT STORE VALUE");
 	}
 
 	@Override
@@ -88,39 +88,39 @@ public class AndroidLauncher extends AndroidApplication implements GoogleFit, St
 	}
 
 	@Override
-	public int getStepCountToday() {
-		return getStepCountToday(getContext(), this);
+	public void getStepCountToday(StepListener listener) {
+		getStepCountToday(getContext(), this, listener);
 	}
 
 	@Override
-	public int getStepCountYesterday() {
-		return getStepCountYesterday(getContext(), this);
+	public void getStepCountYesterday(StepListener listener) {
+		getStepCountYesterday(getContext(), this, listener);
 	}
 
 	@Override
-	public int getStepCountLast24() {
-		return getStepCountLast24(getContext(), this);
+	public void getStepCountLast24(StepListener listener) {
+		getStepCountLast24(getContext(), this, listener);
 	}
 
-	public static int getStepCountToday(Context c, Activity a) {
+	public static void getStepCountToday(Context c, Activity a, StepListener listener) {
 		ZonedDateTime startTime = LocalDate.now().atStartOfDay(ZoneId.systemDefault()).minusDays(5); // remove minus days
 		ZonedDateTime endTime = LocalDateTime.now().atZone(ZoneId.systemDefault());
 
-		return getSteps(c, a, startTime, endTime);
+		getSteps(c, a, startTime, endTime, listener);
 	}
 
-	public static int getStepCountYesterday(Context c, Activity a) {
+	public static void getStepCountYesterday(Context c, Activity a, StepListener listener) {
 		ZonedDateTime startTime = LocalDate.now().atStartOfDay(ZoneId.systemDefault()).minusDays(1);
 		ZonedDateTime endTime = LocalDateTime.now().atZone(ZoneId.systemDefault()).with(LocalTime.MAX);
 
-		return getSteps(c, a, startTime, endTime);
+		getSteps(c, a, startTime, endTime, listener);
 	}
 
-	public static int getStepCountLast24(Context c, Activity a) {
+	public static void getStepCountLast24(Context c, Activity a, StepListener listener) {
 		ZonedDateTime startTime = LocalDateTime.now().atZone(ZoneId.systemDefault()).minusDays(1);
 		ZonedDateTime endTime = LocalDateTime.now().atZone(ZoneId.systemDefault());
 
-		return getSteps(c, a, startTime, endTime);
+		getSteps(c, a, startTime, endTime, listener);
 	}
 
 	@Override
@@ -136,7 +136,8 @@ public class AndroidLauncher extends AndroidApplication implements GoogleFit, St
 				Values.GOOGLE_FIT_REQUEST_CODE, signInAcc, fitnessOptions);
 	}
 
-	private static int getSteps(Context c, Activity a, ZonedDateTime startTime, ZonedDateTime endTime) {
+	private static void getSteps(Context c, Activity a, ZonedDateTime startTime, ZonedDateTime endTime,
+								StepListener listener) {
 		// TODO https://developers.google.com/fit/android/disconnect
 		DataSource datasource = new DataSource.Builder()
 				.setAppPackageName("com.google.android.gms")
@@ -156,33 +157,35 @@ public class AndroidLauncher extends AndroidApplication implements GoogleFit, St
 				.addDataType(DataType.AGGREGATE_STEP_COUNT_DELTA, FitnessOptions.ACCESS_READ)
 				.build();
 
-		AtomicInteger totalSteps = new AtomicInteger();
-
 		GoogleSignInAccount signInAcc = GoogleSignIn.getAccountForExtension(c, fitnessOptions);
 
 		if (!GoogleSignIn.hasPermissions(signInAcc, fitnessOptions)) {
-			if(a == null) return -1;
+			if(a == null) {
+				listener.stepsReturned(-1);
+				return;
+			}
 			GoogleSignIn.requestPermissions(a, // your activity
 					Values.GOOGLE_FIT_REQUEST_CODE, signInAcc, fitnessOptions);
-			return -1;
+
+			listener.stepsReturned(-1);
+			return;
 		}
 
 		Fitness.getHistoryClient(c, signInAcc)
 				.readData(request)
-				.addOnSuccessListener((response) -> totalSteps.set(response.getBuckets().stream()
+				.addOnSuccessListener((response) -> {
+					int steps = response.getBuckets().stream()
 						.map(Bucket::getDataSets)
 						.flatMap(List::stream)
 						.collect(Collectors.toList())
 						.stream()
-
 						.map(DataSet::getDataPoints)
 						.flatMap(List::stream)
 						.collect(Collectors.toList())
-						.stream().mapToInt((d) -> d.getValue(Field.FIELD_STEPS).asInt()).sum())
-				);
+						.stream().mapToInt((d) -> d.getValue(Field.FIELD_STEPS).asInt()).sum();
 
-		System.out.println("current steps: " + totalSteps.get());
-		return totalSteps.get();
+					listener.stepsReturned(steps);
+				});
 	}
 
 	private void initNotificationChannels() {

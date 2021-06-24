@@ -20,6 +20,7 @@ import java.util.concurrent.ThreadLocalRandom;
 import java.util.concurrent.TimeUnit;
 
 public class NotificationWorker extends Worker {
+    private UserData d;
     public NotificationWorker(@NonNull Context context, @NonNull WorkerParameters workerParams) {
         super(context, workerParams);
     }
@@ -31,7 +32,6 @@ public class NotificationWorker extends Worker {
 
         SharedPreferences preferences = super.getApplicationContext().getSharedPreferences(Values.SHARED_PREF, Context.MODE_PRIVATE);
 
-        UserData d;
         System.out.println(preferences.contains(Values.USER_DATA));
         d = json.fromJson(UserData.class, Base64Coder.decodeString(preferences.getString(Values.USER_DATA, "")));
 
@@ -40,41 +40,37 @@ public class NotificationWorker extends Worker {
             return Result.success();
         }
 
-        int count = AndroidLauncher.getStepCountToday(super.getApplicationContext(), null);
-        int lastData = d.getLastStepCount();
-        long lastStamp = d.getLastStepStamp();
+        AndroidLauncher.getStepCountToday(super.getApplicationContext(), null, count -> {
+            int lastData = d.getLastStepCount();
+            long lastStamp = d.getLastStepStamp();
 
-        Instant i = Instant.ofEpochSecond(lastStamp);
-        ZonedDateTime time = ZonedDateTime.ofInstant(i, ZoneId.systemDefault());
+            Instant i = Instant.ofEpochSecond(lastStamp);
+            ZonedDateTime time = ZonedDateTime.ofInstant(i, ZoneId.systemDefault());
 
-        ZonedDateTime today = ZonedDateTime.now(ZoneId.systemDefault());
-        if(time.getYear() != today.getYear() || time.getDayOfYear() < today.getDayOfYear()) // after midnight
-            collectItems(0, count);
-        else if(time.getYear() == today.getYear() && time.getDayOfYear() == today.getDayOfYear())
-            collectItems(lastData, count);
+            ZonedDateTime today = ZonedDateTime.now(ZoneId.systemDefault());
+            if(time.getYear() != today.getYear() || time.getDayOfYear() < today.getDayOfYear()) // after midnight
+                collectItems(0, count);
+            else if(time.getYear() == today.getYear() && time.getDayOfYear() == today.getDayOfYear())
+                collectItems(lastData, count);
+
+        });
 
         return Result.success();
     }
 
     private void collectItems(int lastCollectedData, int currentData) {
-        treat(1);//TODO REMOVE DEBUG
-
         if(currentData < Values.TREAT_START) {
             startNewWorker(super.getApplicationContext());
             return;
         }
 
-        int currentInterval = (currentData-Values.TREAT_START)/Values.TREAT_INTERVAL + 1;
-
         if(lastCollectedData < Values.TREAT_START) {
-            treat(currentInterval);
+            treat(currentData);
             startNewWorker(super.getApplicationContext());
             return;
         }
 
-        int lastInterval = (lastCollectedData-Values.TREAT_START)/Values.TREAT_INTERVAL + 1;
-
-        treat(currentInterval-lastInterval);
+        startNewWorker(super.getApplicationContext());
     }
 
     public static void startNewWorker(Context c) {
@@ -85,10 +81,20 @@ public class NotificationWorker extends Worker {
         instanceWorkManager.enqueueUniqueWork(Values.TREATS_WORK, ExistingWorkPolicy.REPLACE, workBuilder.build());
     }
 
-    private void treat(int amount) {
+    private void treat(int stepCount) {
         notifyUser();
 
-        //TODO store to preferences
+        Json json = new Json();
+
+        SharedPreferences preferences = super.getApplicationContext().getSharedPreferences(Values.SHARED_PREF, Context.MODE_PRIVATE);
+
+        d.treatFound();
+        d.setLastStepCount(stepCount);
+        d.setLastStepStamp(System.currentTimeMillis());
+
+        SharedPreferences.Editor editor = preferences.edit();
+        editor.putString(Values.USER_DATA, Base64Coder.encodeString(json.toJson(d)));
+        editor.commit();
     }
 
     private void notifyUser() {
@@ -98,7 +104,7 @@ public class NotificationWorker extends Worker {
 
         NotificationCompat.Builder builder = new NotificationCompat.Builder(getApplicationContext(),
                 Values.NOTIFY_CHANNEL_ID)
-                .setSmallIcon(17301504) // todo
+                .setSmallIcon(17301504)
                 .setContentTitle(Values.TREAT_NOTIFICATION_TITLE)
                 .setContentText(Values.TREAT_NOTIFICATION_TEXT)
                 .setContentIntent(pendingIntent)

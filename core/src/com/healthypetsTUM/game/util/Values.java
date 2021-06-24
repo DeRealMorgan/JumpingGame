@@ -6,6 +6,8 @@ public class Values {
     public static final String DATA_PATH = "dataPath",
             SHARED_PREF = "healthAppPrefs", USER_DATA = "userData";
 
+    public static final String FIRST_START = "firstStart";
+
     public static final int MIN_WORLD_WIDTH = 1000, MAX_WORLD_WIDTH = 1000,
             MIN_WORLD_HEIGHT = 2000, MAX_WORLD_HEIGHT = 100000;
     public static final int CHARACTER_WORLD_WIDTH = 800, CHARACTER_WORLD_HEIGHT = 1400;
@@ -28,7 +30,7 @@ public class Values {
     public static final int SPACING = 20, SPACING_SMALL = 10, EDGE_DISTANCE = 50, TOP_PADDING_UI_GAME = 100;
     public static final float FADE_OVERLAY_DUR = 1f;
 
-    public static final int FONT_BORDER_WIDTH = 2,
+    public static final int FONT_BORDER_WIDTH = 0,
             FONT_SIZE_SMALL = 35, FONT_SIZE = 55, FONT_SIZE_BIG = 70;
     public static final Color FONT_COLOR = /*Color.valueOf("E9E6F7")*/ Color.BLACK;
 
@@ -118,9 +120,9 @@ public class Values {
     public static final String LVL = "Lvl ", BOUGHT = "Gekauft";
 
     public static final String TREATS_WORK = "treats_worker";
-    public static final String TREAT_NOTIFICATION_TITLE = "Item found!";
-    public static final String TREAT_NOTIFICATION_TEXT = "Tap me and see what you just found!";
-    public static final int TREAT_CHECK_TIME_DELTA = 60*5; // seconds between checks // todo adjust
+    public static final String TREAT_NOTIFICATION_TITLE = "Item gefunden!";
+    public static final String TREAT_NOTIFICATION_TEXT = "Löse eine Aufgabe und finde heraus, was du gefunden hasd!";
+    public static final int TREAT_CHECK_TIME_DELTA = 60*15; // seconds between checks
     public static final int TREAT_START = 5000;
     public static final int TREAT_INTERVAL = 2500;
 

@@ -4,18 +4,18 @@ import com.healthypetsTUM.game.util.interfaces.GoogleFit;
 
 public class GoogleFitImplStub implements GoogleFit {
     @Override
-    public int getStepCountToday() {
-        return 0;
+    public void getStepCountToday(StepListener listener) {
+        listener.stepsReturned(0);
     }
 
     @Override
-    public int getStepCountYesterday() {
-        return 0;
+    public void getStepCountYesterday(StepListener listener) {
+        listener.stepsReturned(0);
     }
 
     @Override
-    public int getStepCountLast24() {
-        return 0;
+    public void getStepCountLast24(StepListener listener) {
+        listener.stepsReturned(0);
     }
 
     @Override

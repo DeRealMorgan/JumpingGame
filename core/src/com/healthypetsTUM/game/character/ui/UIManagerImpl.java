@@ -45,8 +45,6 @@ public class UIManagerImpl implements UIManager, ShopListener {
     private FoodShopOverlay foodShopOverlay;
     private UIBar uiBar;
 
-    private int stepsToday;
-
     private HandPetting hand;
     private Shower shower;
     private FoodItem food;
@@ -60,7 +58,6 @@ public class UIManagerImpl implements UIManager, ShopListener {
         this.stage = new Stage(viewport, batch);
 
         createUI(assetsManager, onHealthSignIn);
-
     }
 
     private void createUI(AssetsManager assetsManager, Runnable onHealthSignIn) {
@@ -154,13 +151,14 @@ public class UIManagerImpl implements UIManager, ShopListener {
         ProgressBar.ProgressBarStyle progressBarStyle = new ProgressBar.ProgressBarStyle();
         progressBarStyle.background = assetsManager.get9Drawable(Values.PROGRESSBAR_BACK);
         progressBarStyle.background.setMinHeight(minH);
-        progressBarStyle.knob = progressbarRed;
+        progressBarStyle.background.setMinWidth(0);
+        progressBarStyle.knobBefore = progressbarRed;
 
         ProgressBar.ProgressBarStyle progressbarStyleSmall = new ProgressBar.ProgressBarStyle();
         progressbarStyleSmall.background = assetsManager.get9Drawable(Values.PROGRESSBAR_BACK);
         progressbarStyleSmall.background.setMinHeight(15);
-        progressbarStyleSmall.knob = assetsManager.get9Drawable(Values.PROGRESSBAR_FRONT);
-        progressbarStyleSmall.knob.setMinWidth(0);
+        progressbarStyleSmall.knobBefore = assetsManager.get9Drawable(Values.PROGRESSBAR_FRONT);
+        progressbarStyleSmall.knobBefore.setMinWidth(0);
 
         showerProgressbar = new ProgressBar(0, 100, 1, false, progressbarStyleSmall);
         foodProgressbar = new ProgressBar(0, 100, 1, false, progressbarStyleSmall);
@@ -168,8 +166,8 @@ public class UIManagerImpl implements UIManager, ShopListener {
         minigameProgressbar = new ProgressBar(0, 100, 1, false, progressbarStyleSmall);
 
         progressTable = new Table();
-        progressLabel = new Label(stepsToday + Values.STEPS_PROGRESS1 + Values.MAX_STEPS + Values.STEPS_PROGRESS2, assetsManager.labelStyleSmall());
-        progressBar = new ProgressBar(0, 100, 100, false, progressBarStyle);
+        progressLabel = new Label(0 + Values.STEPS_PROGRESS1 + Values.MAX_STEPS + Values.STEPS_PROGRESS2, assetsManager.labelStyleSmall());
+        progressBar = new ProgressBar(0, 10000, 100, false, progressBarStyle);
 
         Button.ButtonStyle showerBtnStyle = new Button.ButtonStyle();
         showerBtnStyle.down = assetsManager.getDrawable(Values.SHOWER_BTN);
@@ -287,6 +285,8 @@ public class UIManagerImpl implements UIManager, ShopListener {
 
         if(!DataUtils.getUserData().hasPrivacyConsent())
             consentOverlay.showInstantly();
+        else
+            System.out.println("permission granted");
 
         uiBar = new UIBar(assetsManager);
         stage.addActor(uiBar.table);
@@ -295,6 +295,7 @@ public class UIManagerImpl implements UIManager, ShopListener {
 
     public void currentSteps(int steps) {
         progressBar.setValue(steps);
+        progressLabel.setText(steps + Values.STEPS_PROGRESS1 + Values.MAX_STEPS + Values.STEPS_PROGRESS2);
     }
 
     private void showerDone() {

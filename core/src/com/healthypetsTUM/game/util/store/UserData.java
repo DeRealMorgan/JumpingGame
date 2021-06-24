@@ -24,6 +24,8 @@ public class UserData {
     private boolean showTutorial;
     private boolean isRunning;
 
+    private boolean treatFound;
+
     private int lastStepCount;
     private long lastStepStamp;
 
@@ -137,6 +139,10 @@ public class UserData {
         this.lastStepCount = lastStepCount;
     }
 
+    public void treatFound() {
+        this.treatFound = true;
+    }
+
     public void setLastStepStamp(long lastStepStamp) {
         this.lastStepStamp = lastStepStamp;
     }
@@ -219,6 +225,10 @@ public class UserData {
 
     public boolean isRunning() {
         return isRunning;
+    }
+
+    public boolean isTreatFound() {
+        return treatFound;
     }
 
     public boolean showTutorial() {

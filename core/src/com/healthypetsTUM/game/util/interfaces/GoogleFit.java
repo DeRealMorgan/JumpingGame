@@ -1,8 +1,10 @@
 package com.healthypetsTUM.game.util.interfaces;
 
+import com.healthypetsTUM.game.util.StepListener;
+
 public interface GoogleFit {
-    int getStepCountToday();
-    int getStepCountYesterday();
-    int getStepCountLast24();
+    void getStepCountToday(StepListener listener);
+    void getStepCountYesterday(StepListener listener);
+    void getStepCountLast24(StepListener listener);
     void signIn();
 }

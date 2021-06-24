@@ -24,12 +24,8 @@ public final class DataUtils {
     }
 
     public static void firstStart() {
-        UserData userData = new UserData(-1);
-        if(Gdx.app.getType() != Application.ApplicationType.Android)
-            DataUtils.userDataFileHandleLoc.writeString(Base64Coder.encodeString(json.toJson(userData)), false);
-        else {
-            storeProvider.store(Values.USER_DATA, Base64Coder.encodeString(json.toJson(userData)));
-        }
+        userData = new UserData(-1);
+        storeUserData();
     }
 
     public static UserData getUserData() {
@@ -48,13 +44,10 @@ public final class DataUtils {
         return userDataFileHandleLoc.path();
     }
 
-    public static Thread storeUserData() {
+    public static void storeUserData() {
         String data = Base64Coder.encodeString(json.toJson(userData));
 
-        Thread t = new Thread(() -> userDataFileHandleLoc.writeString(data, false));
-        t.start();
-
-        return t;
+        storeProvider.store(Values.USER_DATA, data);
     }
 
     public static FileHandle getLangDataFileHandle(String lang) {
