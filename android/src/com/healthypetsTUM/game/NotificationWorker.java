@@ -38,7 +38,7 @@ public class NotificationWorker extends Worker {
         if(d.isRunning()) {
             startNewWorker(super.getApplicationContext());
             return Result.success();
-        } // TODO: if application is running, it should still work
+        }
 
         int count = AndroidLauncher.getStepCountToday(super.getApplicationContext(), null);
         int lastData = d.getLastStepCount();

@@ -6,11 +6,12 @@ import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import com.healthypetsTUM.game.assets.AssetsManager;
-import com.healthypetsTUM.game.util.store.DataUtils;
-import com.healthypetsTUM.game.util.ui.UIBar;
 import com.healthypetsTUM.game.util.Values;
 import com.healthypetsTUM.game.util.interfaces.ScreenManager;
 import com.healthypetsTUM.game.util.interfaces.UIManager;
+import com.healthypetsTUM.game.util.store.DataUtils;
+import com.healthypetsTUM.game.util.store.UserData;
+import com.healthypetsTUM.game.util.ui.UIBar;
 
 public class UIManagerImpl implements UIManager, GameUIController {
     private final Stage stage, stageBack;
@@ -47,6 +48,8 @@ public class UIManagerImpl implements UIManager, GameUIController {
         backgroundTable.center();
         backgroundTable.add(background).grow();
         stageBack.addActor(backgroundTable);
+
+        updateUIBar();
     }
 
     @Override
@@ -62,9 +65,17 @@ public class UIManagerImpl implements UIManager, GameUIController {
     }
 
     public void updateMathScore(int score) {
+        uiBar.setMath(DataUtils.getUserData().getMath());
         gameOverlayUI.updateMathScore(score);
         gameOverUI.updateMathScore(score);
         pauseUI.updateMathScore(score);
+    }
+
+    private void updateUIBar() {
+        UserData data = DataUtils.getUserData();
+        uiBar.setCoins(data.getCoins());
+        uiBar.setMath(data.getMath());
+        uiBar.setLvl(data.getLvl());
     }
 
     @Override

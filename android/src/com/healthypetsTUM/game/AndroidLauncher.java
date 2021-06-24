@@ -138,7 +138,6 @@ public class AndroidLauncher extends AndroidApplication implements GoogleFit, St
 
 	private static int getSteps(Context c, Activity a, ZonedDateTime startTime, ZonedDateTime endTime) {
 		// TODO https://developers.google.com/fit/android/disconnect
-		System.out.println("requesting steps");
 		DataSource datasource = new DataSource.Builder()
 				.setAppPackageName("com.google.android.gms")
 				.setDataType(DataType.TYPE_STEP_COUNT_DELTA)

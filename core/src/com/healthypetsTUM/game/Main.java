@@ -106,6 +106,7 @@ public class Main extends Game implements ScreenManager {
 
 	@Override
 	public void setScreen(ScreenName name) {
+		assetsManager.clearInputProcessors();
 		currentScreen = name;
 		switch (name) {
 			case MINIGAME_SCREEN:

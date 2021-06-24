@@ -67,7 +67,7 @@ public class Character {
         rightEarImg = getImg(rightEarTexture);
 
         headImg = getImg(assetsManager.getSpriteDrawable(Values.PIG_HEAD));
-        headClothing = getImg(assetsManager.getSpriteDrawable(Values.PIG_HEAD));
+        headClothing = getImg(assetsManager.getSpriteDrawable(Values.INVISIBLE_HEAD));
         bodyImg = getImg(assetsManager.getSpriteDrawable(Values.PIG_BODY));
         bodyClothing = getImg(assetsManager.getSpriteDrawable(Values.PIG_BODY));
         noseImg = getImg(assetsManager.getSpriteDrawable(Values.PIG_NOSE));
@@ -120,9 +120,9 @@ public class Character {
         head.add(rightEarImg);
         head.add(hairImg);
         head.add(headImg);
-        head.add(headClothing);
         head.add(eyeImg);
         head.add(mouthImg);
+        head.add(headClothing);
         head.add(noseImg);
 
         character = new Stack();
@@ -136,8 +136,9 @@ public class Character {
 
         characterTbl = new Table();
         characterTbl.setFillParent(true);
-        characterTbl.add(new Container<>(character).fill()).padTop(150).grow();
+        characterTbl.add(new Container<>(character).fill()).grow();
         stage.addActor(characterTbl);
+        characterTbl.setY(-80);
 
         headContainer.padBottom(650);
         leftArmContainer.padRight(500).padBottom(150);
@@ -145,12 +146,12 @@ public class Character {
         leftLegContainer.padRight(200).padTop(420);
         rightLegContainer.padLeft(200).padTop(420);
         rightEarImg.padBottom(350).padLeft(270);
-        noseImg.padTop(80);
-        mouthImg.padTop(290);
-        eyeImg.padBottom(150);
+        noseImg.padTop(160);
+        mouthImg.padTop(360);
+        eyeImg.padBottom(60);
         hairImg.center();
-        hairImg.padBottom(400);
-        leftEarImg.padBottom(350).padLeft(50);
+        hairImg.padBottom(400).padLeft(20);
+        leftEarImg.padBottom(350).padLeft(60);
 
         leftArm.pack();
         rightArm.pack();

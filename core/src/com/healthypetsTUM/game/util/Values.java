@@ -28,9 +28,9 @@ public class Values {
     public static final int SPACING = 20, SPACING_SMALL = 10, EDGE_DISTANCE = 50, TOP_PADDING_UI_GAME = 100;
     public static final float FADE_OVERLAY_DUR = 1f;
 
-    public static final int FONT_BORDER_WIDTH = 4,
-            FONT_SIZE_SMALL = 27, FONT_SIZE = 40, FONT_SIZE_BIG = 60;
-    public static final Color FONT_COLOR = Color.valueOf("E9E6F7");
+    public static final int FONT_BORDER_WIDTH = 2,
+            FONT_SIZE_SMALL = 35, FONT_SIZE = 55, FONT_SIZE_BIG = 70;
+    public static final Color FONT_COLOR = /*Color.valueOf("E9E6F7")*/ Color.BLACK;
 
     public static final String NOTIFY_CHANNEL_ID = "basic_notification_channel";
     public static final CharSequence NOTIFY_CHANNEL_NAME = "Items Benachrichtigung";
@@ -62,6 +62,7 @@ public class Values {
     public static final String SLIDER_KNOB = "slider_knob", SLIDER_BAR = "slider_bar";
 
     public static final String PIG_HEAD = "pig_head",
+            INVISIBLE_HEAD = "pig_head_invisible",
             PIG_HAIR = "pig_hair",
             PIG_EAR = "pig_ear",
             PIG_EYE = "pig_eyes",
@@ -91,9 +92,11 @@ public class Values {
             UI_BAR_BACK = "ui_bar_back",
             WINDOW_BANNER = "window_banner",
             BOUGHT_BACK = "bought_back",
-            DISABLED_BACK = "disabled_back";
+            EQUIPED_BACK = "bought_equiped",
+            DISABLED_BACK = "disabled_back",
+            DISABLED_IMG = "disabled_img";
 
-    public static final String CONSENT_HEADER = "Zustimmung", CONSENT_BODY = "Diese App ist ein Projekt für die Techniche Universität München. " +
+    public static final String CONSENT_HEADER = "Zustimmung", CONSENT_BODY = "Diese App ist ein Projekt für die Technische Universität München. " +
             "Während dem Spielen werden anonymisiert Daten gesammelt und verarbeitet.";
     public static final String HEALTH_HEADER = "Schritte", HEALTH_BODY = "Dein Haustier möchte gerne wissen, wie viele " +
             "Schritte du täglich läufst. Dafür musst du dich jetzt mit deinem Google Konto verbinden.";
@@ -161,9 +164,9 @@ public class Values {
             PAUSE = "PAUSE",
             SCORE = "Score: ",
             MATH_SCORE = "Math Score: ",
-            BACK = "BACK",
-            CONTINUE = "CONTINUE",
-            REPLAY = "PLAY AGAIN";
+            BACK = "ZURÜCK",
+            CONTINUE = "WEITER SPIELEN",
+            REPLAY = "ERNEUT SPIELEN";
 
     public static final String NEW_LINE = "\n";
 

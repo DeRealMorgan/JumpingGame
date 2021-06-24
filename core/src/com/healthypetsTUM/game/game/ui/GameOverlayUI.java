@@ -55,9 +55,11 @@ public class GameOverlayUI {
             }
         });
 
-        contentTable.add(scoreLabel).left().expandX();
-        contentTable.add(pauseBtn).right().expandX().size(Values.BTN_SIZE).padTop(Values.PADDING).row();
-        contentTable.add(mathLabel).left().padBottom(Values.PADDING).row();
+        Table uiTable = new Table();
+        uiTable.add(scoreLabel).left().expandX().row();
+        uiTable.add(mathLabel).left().padTop(Values.PADDING_SMALL);
+        contentTable.add(uiTable).left().padBottom(Values.PADDING_SMALL).padTop(Values.PADDING_BIG);
+        contentTable.add(pauseBtn).right().expandX().size(Values.BTN_SIZE).padTop(Values.PADDING_BIG).row();
         contentTable.padLeft(Values.PADDING).padRight(Values.PADDING);
 
     }

@@ -11,7 +11,7 @@ public class UserData {
 
     private int totalSteps;
 
-    private List<Integer> boughtItems, boughtWorlds, equipedItems;
+    private List<Integer> boughtItems, boughtWorlds, equipedItems, unlockedItems;
 
     private int equipedWorld;
 
@@ -47,6 +47,9 @@ public class UserData {
         boughtItems = new ArrayList<>();
         boughtWorlds = new ArrayList<>();
         equipedItems = new ArrayList<>();
+        unlockedItems = new ArrayList<>();
+        unlockedItems.add(0);
+        unlockedItems.add(3);
 
         equipedWorld = 0;
     }
@@ -67,6 +70,10 @@ public class UserData {
         boughtWorlds.add(world);
     }
 
+    public void unlockItem(int item) {
+        unlockedItems.add(item);
+    }
+
     public void equipWorld(int world) {
         equipedWorld = world;
     }
@@ -79,6 +86,8 @@ public class UserData {
     public void setMath(int math) {
         this.math = math;
     }
+
+    public void incMath() { this.math++;}
 
     public void setCoins(int coins) {
         this.coins = coins;
@@ -186,6 +195,10 @@ public class UserData {
 
     public List<Integer> getEquipedItems() {
         return equipedItems;
+    }
+
+    public List<Integer> getUnlockedItems() {
+        return unlockedItems;
     }
 
     public static int minutesToMillis(int minutes) {

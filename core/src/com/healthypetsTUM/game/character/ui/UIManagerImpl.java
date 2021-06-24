@@ -364,27 +364,37 @@ public class UIManagerImpl implements UIManager, ShopListener {
     @Override
     public void buy(int item, int cost) {
         UserData data = DataUtils.getUserData();
-        data.equipItem(item);
         data.subCoins(cost);
         DataUtils.storeUserData();
 
         updateUIBar();
 
+    }
+
+    @Override
+    public void equipItem(int item) {
+        UserData data = DataUtils.getUserData();
+        data.equipItem(item);
+        DataUtils.storeUserData();
+
         character.equipCloth(item, assetsManager);
-        // TODO
     }
 
     @Override
     public void buyWorld(int item, int cost) {
         UserData data = DataUtils.getUserData();
-        data.equipWorld(item);
         data.subCoins(cost);
         DataUtils.storeUserData();
 
         updateUIBar();
+    }
 
+    @Override
+    public void equipWorld(int item) {
+        UserData data = DataUtils.getUserData();
+        data.equipWorld(item);
+        DataUtils.storeUserData();
         backgroundTable.background(assetsManager.getBackground(item + Values.BACKGROUND));
-        // TODO
     }
 
     @Override
@@ -399,16 +409,6 @@ public class UIManagerImpl implements UIManager, ShopListener {
         updateUIBar();
 
         // TODO
-    }
-
-    @Override
-    public void equip(int item) {
-        //TODO
-    }
-
-    @Override
-    public void equipWorld(int item) {
-        //TODO
     }
 
     public void show() {

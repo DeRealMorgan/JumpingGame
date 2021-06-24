@@ -16,8 +16,12 @@ import com.healthypetsTUM.game.game.player.Player;
 import com.healthypetsTUM.game.game.renderer.RenderPipeline;
 import com.healthypetsTUM.game.game.ui.PauseUI;
 import com.healthypetsTUM.game.game.ui.UIManagerImpl;
-import com.healthypetsTUM.game.util.*;
+import com.healthypetsTUM.game.util.MathUtils;
+import com.healthypetsTUM.game.util.Values;
+import com.healthypetsTUM.game.util.ZSprite;
 import com.healthypetsTUM.game.util.interfaces.ScreenManager;
+import com.healthypetsTUM.game.util.store.DataUtils;
+import com.healthypetsTUM.game.util.store.UserData;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -140,6 +144,9 @@ public class GameManagerImpl implements GameManager {
 
     public void mathCorrect(int timeLeftS) {
         correctMathCount += 1000 + timeLeftS*10;
+        UserData data = DataUtils.getUserData();
+        data.incMath();
+        DataUtils.storeUserData();
         uiManager.updateMathScore(correctMathCount);
     }
 

@@ -2,10 +2,7 @@ package com.healthypetsTUM.game.character.ui.overlay;
 
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Touchable;
-import com.badlogic.gdx.scenes.scene2d.ui.Image;
-import com.badlogic.gdx.scenes.scene2d.ui.Label;
-import com.badlogic.gdx.scenes.scene2d.ui.ScrollPane;
-import com.badlogic.gdx.scenes.scene2d.ui.Table;
+import com.badlogic.gdx.scenes.scene2d.ui.*;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
 import com.badlogic.gdx.utils.Align;
@@ -16,14 +13,17 @@ import com.healthypetsTUM.game.util.Sounds;
 import com.healthypetsTUM.game.util.Values;
 import com.healthypetsTUM.game.util.interfaces.ShopListener;
 import com.healthypetsTUM.game.util.store.DataUtils;
+import com.healthypetsTUM.game.util.store.UserData;
 import com.healthypetsTUM.game.util.ui.Overlay;
+
+import java.util.List;
 
 public class ShopOverlay extends Overlay {
     private Table itemsTable;
 
     private Table[] wholeTables;
     private Label[] itemLabels;
-    private Image[] coins, items;
+    private Image[] coins, items, itemStates;
 
     private ScrollPane scrollPane;
 
@@ -31,7 +31,7 @@ public class ShopOverlay extends Overlay {
 
     private long nextClick;
 
-    private Drawable boughtBack;
+    private Drawable boughtBack, equipedBack;
 
     public ShopOverlay(AssetsManager assetsManager, ShopListener shopListener) {
         super(assetsManager, Values.SHOP_HEADER);
@@ -59,20 +59,25 @@ public class ShopOverlay extends Overlay {
         itemLabels = new Label[Values.ITEM_COUNT];
         coins = new Image[Values.ITEM_COUNT];
         items = new Image[Values.ITEM_COUNT];
+        itemStates = new Image[Values.ITEM_COUNT];
 
         wholeTables = new Table[Values.ITEM_COUNT];
 
         boughtBack = assetsManager.get9Drawable(Values.BOUGHT_BACK);
+        equipedBack = assetsManager.get9Drawable(Values.EQUIPED_BACK);
 
         for(int i = 0; i < itemLabels.length; ++i) {
             coins[i] = new Image(assetsManager.getDrawable(Values.COIN));
             coins[i].setScaling(Scaling.fillX);
 
-            itemLabels[i] = new Label("1000", assetsManager.labelStyleSmall());
+            itemLabels[i] = new Label(Integer.toString(getCost(i)), assetsManager.labelStyleSmall());
             itemLabels[i].setAlignment(Align.center);
 
             items[i] = new Image(assetsManager.getDrawable(i+Values.SHOP_ITEM));
             items[i].setScaling(Scaling.fillX);
+
+            itemStates[i] = new Image(assetsManager.get9Drawable(Values.DISABLED_IMG));
+            itemStates[i].setTouchable(Touchable.enabled);
 
             wholeTables[i] = new Table();
             wholeTables[i].background(assetsManager.get9Drawable(Values.SHOP_ITEM_BACK));
@@ -87,26 +92,39 @@ public class ShopOverlay extends Overlay {
                 @Override
                 public void clicked(InputEvent event, float x, float y) {
                     Sounds.click();
-                    purchase(finalI);
+                    purchase(finalI, true);
                 }
             });
         }
 
         for(int i = 0; i < wholeTables.length; ++i) {
             if(i > 0 && (i+1) % Values.SHOP_ROW_AMOUNT == 0) {
-                itemsTable.add(wholeTables[i]).space(Values.PADDING_SMALL).growX().row();
+                itemsTable.stack(wholeTables[i], itemStates[i]).space(Values.PADDING_SMALL).growX().row();
                 continue;
             }
-            itemsTable.add(wholeTables[i]).space(Values.PADDING_SMALL).growX();
+            itemsTable.stack(wholeTables[i], itemStates[i]).space(Values.PADDING_SMALL).growX();
         }
 
-
         scaleOverlay();
+
+        UserData data = DataUtils.getUserData();
+
+        List<Integer> unlocked = data.getUnlockedItems();
+        for(int i : unlocked) enableItem(i);
+
+        List<Integer> bought = data.getBoughtItems();
+        for(int i : bought) purchase(i, false);
+
+        List<Integer> equiped = data.getEquipedItems();
+        for(int i : equiped) wholeTables[i].background(equipedBack);
+
     }
 
-    private void purchase(int item) {
+    private void purchase(int item, boolean buy) {
         if(nextClick <= TimeUtils.millis() && DataUtils.getUserData().getCoins() >= getCost(item)) {
-            shopListener.buy(item, getCost(item));
+            if(buy) {
+                shopListener.buy(item, getCost(item));
+            }
 
             wholeTables[item].getListeners().clear();
             wholeTables[item].background(boughtBack);
@@ -114,7 +132,9 @@ public class ShopOverlay extends Overlay {
                 @Override
                 public void clicked(InputEvent event, float x, float y) {
                     Sounds.click();
-                    shopListener.equip(item);
+                    shopListener.equipItem(item);
+                    close();
+                    wholeTables[item].background(equipedBack);
                 }
             });
 
@@ -125,9 +145,13 @@ public class ShopOverlay extends Overlay {
         }
     }
 
+    private void enableItem(int i) {
+        itemStates[i].setTouchable(Touchable.disabled);
+        itemStates[i].setDrawable(null);
+    }
 
     private int getCost(int item) {
-        return 0;
+        return 100+100*item;
     }
 
 }

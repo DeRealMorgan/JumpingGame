@@ -7,7 +7,6 @@ import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.ScrollPane;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
-import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
 import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.Scaling;
 import com.badlogic.gdx.utils.TimeUtils;
@@ -30,8 +29,6 @@ public class FoodShopOverlay extends Overlay {
     private ShopListener shopListener;
 
     private long nextClick;
-
-    private Drawable boughtBack;
 
     public FoodShopOverlay(AssetsManager assetsManager, ShopListener shopListener) {
         super(assetsManager, Values.SHOP_FOOD_HEADER);
@@ -62,13 +59,11 @@ public class FoodShopOverlay extends Overlay {
 
         wholeTables = new Table[Values.FOOD_ITEM_COUNT];
 
-        boughtBack = assetsManager.get9Drawable(Values.BOUGHT_BACK);
-
         for(int i = 0; i < itemLabels.length; ++i) {
             coins[i] = new Image(assetsManager.getDrawable(Values.COIN));
             coins[i].setScaling(Scaling.fillX);
 
-            itemLabels[i] = new Label("1000", assetsManager.labelStyleSmall());
+            itemLabels[i] = new Label(Integer.toString(getCost(i)), assetsManager.labelStyleSmall());
             itemLabels[i].setAlignment(Align.center);
 
             items[i] = new Image(assetsManager.getDrawable(i+Values.FOOD_ITEM));
@@ -113,7 +108,7 @@ public class FoodShopOverlay extends Overlay {
 
 
     private int getCost(int item) {
-        return 0;
+        return 10+item*10;
     }
 
 }

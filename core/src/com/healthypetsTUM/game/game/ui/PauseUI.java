@@ -30,6 +30,8 @@ public class PauseUI {
 
     private void buildUI(AssetsManager assetsManager) {
         contentTable = new Table();
+        contentTable.background(assetsManager.get9Drawable(Values.MENU_BACK));
+        contentTable.padBottom(Values.PADDING_BIG*2).padTop(Values.PADDING);
 
         screenTable = new Table();
         screenTable.setFillParent(true);
@@ -39,14 +41,17 @@ public class PauseUI {
         screenTable.background(assetsManager.getDrawable(Values.OVERLAY_BACKGROUND));
         screenTable.add(contentTable).center();
 
+        Table pauseTable = new Table();
         pauseLabel = new Label(Values.PAUSE, assetsManager.labelStyleBig());
         pauseLabel.setAlignment(Align.center);
+        pauseTable.add(pauseLabel).padTop(Values.SPACING*.5f).padBottom(Values.SPACING*.5f).growX();
+        pauseTable.background(assetsManager.getDrawable(Values.WINDOW_BANNER));
 
         scoreLabel = new Label("", assetsManager.labelStyle());
-        scoreLabel.setAlignment(Align.left);
+        scoreLabel.setAlignment(Align.center);
 
-        mathLabel = new Label("", assetsManager.labelStyle());
-        mathLabel.setAlignment(Align.left);
+        mathLabel = new Label(Values.MATH_SCORE + 0, assetsManager.labelStyle());
+        mathLabel.setAlignment(Align.center);
 
         backBtn = new TextButton(Values.BACK, assetsManager.textBtnStyle());
         backBtn.addListener(new ClickListener() {
@@ -66,11 +71,11 @@ public class PauseUI {
             }
         });
 
-        contentTable.add(pauseLabel).padBottom(Values.PADDING_BIG).row();
+        contentTable.add(pauseTable).spaceBottom(Values.PADDING_BIG).width(Values.BTN_SIZE*6).growX().row();
         contentTable.add(scoreLabel).padBottom(Values.PADDING).row();
-        contentTable.add(mathLabel).padBottom(Values.PADDING_BIG).row();
-        contentTable.add(continueBtn).padBottom(Values.PADDING).row();
-        contentTable.add(backBtn).row();
+        contentTable.add(mathLabel).padBottom(Values.PADDING_BIG*2).growX().row();
+        contentTable.add(continueBtn).padBottom(Values.PADDING).padLeft(Values.PADDING).padRight(Values.PADDING).growX().row();
+        contentTable.add(backBtn).padLeft(Values.PADDING).padRight(Values.PADDING).growX().row();
 
     }
 
