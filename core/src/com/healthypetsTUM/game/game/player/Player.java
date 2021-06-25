@@ -6,10 +6,7 @@ import com.healthypetsTUM.game.assets.AssetsManager;
 import com.healthypetsTUM.game.game.physics.EntityType;
 import com.healthypetsTUM.game.game.physics.PhysicsEntity;
 import com.healthypetsTUM.game.game.ui.GameUIController;
-import com.healthypetsTUM.game.util.MathUtils;
-import com.healthypetsTUM.game.util.Values;
-import com.healthypetsTUM.game.util.ZPositions;
-import com.healthypetsTUM.game.util.ZSprite;
+import com.healthypetsTUM.game.util.*;
 
 public class Player implements PhysicsEntity {
     private GameUIController gameUIController;
@@ -105,6 +102,7 @@ public class Player implements PhysicsEntity {
 
     private void jump() {
         velocityVec.y = Values.PLAYER_JUMP_VELOCITY_Y;
+        Sounds.jump();
     }
 
     @Override

@@ -143,6 +143,10 @@ public class UserData {
         this.treatFound = true;
     }
 
+    public void setTreatFound(boolean treatFound) {
+        this.treatFound = treatFound;
+    }
+
     public void setLastStepStamp(long lastStepStamp) {
         this.lastStepStamp = lastStepStamp;
     }

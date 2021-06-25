@@ -103,7 +103,7 @@ public class Values {
     public static final String HEALTH_HEADER = "Schritte", HEALTH_BODY = "Dein Haustier möchte gerne wissen, wie viele " +
             "Schritte du täglich läufst. Dafür musst du dich jetzt mit deinem Google Konto verbinden.";
     public static final String SHOP_HEADER = "Shop", WORLDS_HEADER = "Welten", SETTINGS_HEADER = "Einstellungen",
-            SHOP_FOOD_HEADER = "Nahrung";
+            SHOP_FOOD_HEADER = "Nahrung", TREATS_HEADER = "Item gefunden";
 
     public static final String OK = "OK", AGREE = "Ich stimme zu.";
 
@@ -146,7 +146,7 @@ public class Values {
 
     public static final long REFRESH_STEPS_INTERVAL = 1000*6; // todo * 60
 
-    public static final float TILE_DISTANCE_Y = 400;
+    public static final float TILE_DISTANCE_Y = 500;
 
     public static final float CAM_INTERPOLATION_STEP = 5f;
 

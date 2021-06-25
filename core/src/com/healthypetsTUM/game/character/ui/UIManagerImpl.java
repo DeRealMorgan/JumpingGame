@@ -24,6 +24,10 @@ import com.healthypetsTUM.game.util.store.DataUtils;
 import com.healthypetsTUM.game.util.store.UserData;
 import com.healthypetsTUM.game.util.ui.UIBar;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Random;
+
 public class UIManagerImpl implements UIManager, ShopListener {
     private final ScreenManager screenManager;
     private final AssetsManager assetsManager;
@@ -166,8 +170,9 @@ public class UIManagerImpl implements UIManager, ShopListener {
         minigameProgressbar = new ProgressBar(0, 100, 1, false, progressbarStyleSmall);
 
         progressTable = new Table();
-        progressLabel = new Label(0 + Values.STEPS_PROGRESS1 + Values.MAX_STEPS + Values.STEPS_PROGRESS2, assetsManager.labelStyleSmall());
-        progressBar = new ProgressBar(0, 10000, 100, false, progressBarStyle);
+        progressLabel = new Label(DataUtils.getUserData().getLastStepCount() + Values.STEPS_PROGRESS1 + Values.MAX_STEPS + Values.STEPS_PROGRESS2, assetsManager.labelStyleSmall());
+        progressBar = new ProgressBar(0, 10000, 1, false, progressBarStyle);
+        progressBar.setValue(DataUtils.getUserData().getLastStepCount());
 
         Button.ButtonStyle showerBtnStyle = new Button.ButtonStyle();
         showerBtnStyle.down = assetsManager.getDrawable(Values.SHOWER_BTN);
@@ -273,7 +278,6 @@ public class UIManagerImpl implements UIManager, ShopListener {
         settingsOverlay = new SettingsOverlay(assetsManager);
         stage.addActor(settingsOverlay.table);
 
-
         foodShopOverlay = new FoodShopOverlay(assetsManager, this);
         stage.addActor(foodShopOverlay.table);
 
@@ -281,13 +285,29 @@ public class UIManagerImpl implements UIManager, ShopListener {
         stage.addActor(healthOverlay.table);
         healthOverlay.closeInstantly();
 
-        ConsentOverlay consentOverlay = new ConsentOverlay(assetsManager, healthOverlay);
-        stage.addActor(consentOverlay.table);
-
-        if(!DataUtils.getUserData().hasPrivacyConsent())
+        if(!DataUtils.getUserData().hasPrivacyConsent()) {
+            ConsentOverlay consentOverlay = new ConsentOverlay(assetsManager, healthOverlay);
+            stage.addActor(consentOverlay.table);
             consentOverlay.showInstantly();
-        else
-            System.out.println("permission granted");
+        } else if(DataUtils.getUserData().isTreatFound()) {
+            List<Integer> unlockedItems = DataUtils.getUserData().getUnlockedItems();
+
+            List<Integer> list = new ArrayList<>();
+            for(int i = 0; i < Values.ITEM_COUNT; ++i) {
+                if(unlockedItems.contains(i))
+                    continue;
+
+                list.add(i);
+            }
+            int item = list.get(new Random().nextInt(list.size()));
+
+            DataUtils.getUserData().setTreatFound(false);
+            DataUtils.storeUserData();
+
+            TreatsOverlay treatsOverlay = new TreatsOverlay(assetsManager, item);
+            stage.addActor(treatsOverlay.table);
+            treatsOverlay.showInstantly();
+        }
 
         uiBar = new UIBar(assetsManager);
         stage.addActor(uiBar.table);

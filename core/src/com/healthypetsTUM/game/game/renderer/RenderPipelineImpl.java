@@ -6,11 +6,11 @@ import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Interpolation;
 import com.badlogic.gdx.math.Vector3;
-import com.badlogic.gdx.utils.viewport.FitViewport;
+import com.badlogic.gdx.utils.viewport.ExtendViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
-import com.healthypetsTUM.game.util.interfaces.UIManager;
 import com.healthypetsTUM.game.util.Values;
 import com.healthypetsTUM.game.util.ZSprite;
+import com.healthypetsTUM.game.util.interfaces.UIManager;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -37,15 +37,17 @@ public class RenderPipelineImpl implements RenderPipeline {
         this.gameCam = new OrthographicCamera();
         //this.gameViewport = new ExtendViewport(Values.MIN_WORLD_WIDTH, Values.MIN_WORLD_HEIGHT, // todo implement
         //        Values.MAX_WORLD_WIDTH, Values.MAX_WORLD_HEIGHT, gameCam);
-        this.gameViewport = new FitViewport(Values.MIN_WORLD_WIDTH, Values.MIN_WORLD_HEIGHT, this.gameCam);
+        this.gameViewport = new ExtendViewport(Values.MIN_WORLD_WIDTH, Values.MIN_WORLD_HEIGHT, this.gameCam);
         this.gameCam.position.set(gameViewport.getWorldWidth()/2, gameViewport.getWorldHeight()/2, 0);
 
         this.uiCam = new OrthographicCamera();
-        this.uiViewport = new FitViewport(Values.CHARACTER_WORLD_WIDTH, Values.CHARACTER_WORLD_HEIGHT, this.uiCam);
+        this.uiViewport = new ExtendViewport(Values.CHARACTER_WORLD_WIDTH, Values.CHARACTER_WORLD_HEIGHT, this.uiCam);
         this.uiCam.position.set(uiViewport.getWorldWidth()/2, uiViewport.getWorldHeight()/2, 0);
 
         this.nextCameraPos = new Vector3(gameCam.position.x, gameCam.position.y, 0);
         this.camInterpolation = Interpolation.linear;
+
+        resize(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
     }
 
     @Override
@@ -81,7 +83,7 @@ public class RenderPipelineImpl implements RenderPipeline {
     }
 
     public void resize(int width, int height) {
-        gameViewport.update(width, height);
+        gameViewport.update(width, height, true);
         uiViewport.update(width, height);
     }
 

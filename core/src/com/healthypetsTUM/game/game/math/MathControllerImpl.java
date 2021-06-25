@@ -42,6 +42,8 @@ public class MathControllerImpl implements MathController {
 
     private VoidRunnableInt onCorrectMath;
 
+    private int mathTime = Values.MATH_TIME;
+
     public MathControllerImpl(GameManager gameManager, AssetsManager assetsManager,
                               VoidRunnableInt onCorrectMath) {
         this.gameManager = gameManager;
@@ -163,6 +165,7 @@ public class MathControllerImpl implements MathController {
     }
 
     private void answerCorrect() {
+        Sounds.correct();
         gameManager.resumeUpdateSlow();
         onCorrectMath.run((int)(endTime-TimeUtils.millis())/1000);
         removeContent();
@@ -178,6 +181,7 @@ public class MathControllerImpl implements MathController {
     }
 
     private void answerWrong() {
+        Sounds.wrong();
         gameManager.resumeUpdate();
         gameManager.gameOver();
 
@@ -226,7 +230,7 @@ public class MathControllerImpl implements MathController {
         String[] list = getExerciseList(MathUtils.getRandomX(0, 3));
         currentExercise = new MathExercise(list[MathUtils.getRandomX(0, list.length-1)]);
 
-        endTime = TimeUtils.millis() + Values.MATH_TIME;
+        endTime = TimeUtils.millis() + mathTime;
         exerciseLabel.setText(currentExercise.getExerciseQuestion());
     }
 
@@ -251,5 +255,9 @@ public class MathControllerImpl implements MathController {
                 System.out.println("Error, Exercise list with index " + i + " does not exist!");
                 return addStringList;
         }
+    }
+
+    public void setMathTime(int time) {
+        this.mathTime = time;
     }
 }

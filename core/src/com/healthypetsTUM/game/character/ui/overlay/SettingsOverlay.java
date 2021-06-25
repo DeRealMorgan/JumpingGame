@@ -87,7 +87,6 @@ public class SettingsOverlay extends Overlay {
         soundSlider.addListener(new ChangeListener() {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
-                Sounds.click();
                 int val = (int)soundSlider.getValue();
                 Sounds.changeVolume(val);
             }

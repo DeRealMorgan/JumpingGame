@@ -243,7 +243,8 @@ public class GameManagerImpl implements GameManager {
 
         List<Tile> tiles = new ArrayList<>();
         Tile lastTile = topTile;
-        float tileDistY = Values.TILE_DISTANCE_Y*0.75f; // todo abhängig von sprunghöhe
+        float tileDistY = Values.TILE_DISTANCE_Y*0.75f + Values.TILE_DISTANCE_Y*Math.min(0.25f, ((float)score)/50000); // todo abhängig von sprunghöhe
+        mathController.setMathTime(Math.max(10, Values.MATH_TIME - score/2500));
 
         while(lastTile.getTop() + tileDistY <= toY) { // todo here complicated world creation logic
             Tile t = new BasicTile(assetsManager, MathUtils.getRandomWorldX(BasicTile.TILE_WIDTH), lastTile.getTop() + tileDistY);
