@@ -68,8 +68,7 @@ public class ConsentOverlay extends Overlay {
         contentTable.add(policyPane).width(Values.BTN_SIZE*6f).height(Values.BTN_SIZE*4f)
                 .padBottom(Values.SPACING).colspan(3).row();
         contentTable.add(agreeButton.getImage()).size(Values.BTN_SIZE*0.7f).padLeft(Values.SPACING*2).left();
-        contentTable.add(agreeLabel).growX();
-        contentTable.add().size(Values.BTN_SIZE*0.7f).padRight(Values.SPACING).row();
+        contentTable.add(agreeLabel).growX().row();
         contentTable.add(okButton).height(Values.BTN_SIZE).padTop(Values.SPACING)
                 .padLeft(Values.SPACING_SMALL).padRight(Values.SPACING_SMALL).colspan(3).growX();
 

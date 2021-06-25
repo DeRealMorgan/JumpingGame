@@ -43,7 +43,7 @@ public class Main extends Game implements ScreenManager {
 	public void create() {
 		DataUtils.init(storeProvider);
 
-		if(storeProvider.load(Values.FIRST_START).equals("") || true)  { //TODO REMOVE true
+		if(storeProvider.load(Values.FIRST_START).equals("") /*|| true*/)  { //TODO REMOVE true
 			storeProvider.store(Values.FIRST_START, Values.FIRST_START);
 			DataUtils.firstStart();
 		}

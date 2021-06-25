@@ -21,10 +21,10 @@ public class TreatsOverlay extends Overlay {
     public TreatsOverlay(AssetsManager assetsManager, int item) {
         super(assetsManager, Values.TREATS_HEADER);
 
-        this.treatImage = new Image(assetsManager.getDrawable(item+Values.SHOP_ITEM));
-        this.treatImage.setScaling(Scaling.fillX);
+        treatImage = new Image(assetsManager.getDrawable(item+Values.SHOP_ITEM));
+        treatImage.setScaling(Scaling.fillY);
 
-        foundLabel = new Label(Values.CONSENT_BODY, assetsManager.labelStyleSmall());
+        foundLabel = new Label(Values.TREATS_BODY, assetsManager.labelStyleSmall());
         foundLabel.setWrap(true);
         foundLabel.setAlignment(Align.center);
 
@@ -44,26 +44,22 @@ public class TreatsOverlay extends Overlay {
         okButton.setTransform(true);
 
         paneTable = new Table();
-        paneTable.add(treatImage).width(Values.BTN_SIZE*2).center().padBottom(Values.PADDING).row();
+        paneTable.add(treatImage).height(Values.BTN_SIZE*2).center().row();
         paneTable.add(foundLabel).growX();
         scrollPane = new ScrollPane(paneTable);
         scrollPane.setScrollingDisabled(true, false);
+        scrollPane.pack();
 
-        contentTable.add(scrollPane).width(Values.BTN_SIZE*6f).height(Values.BTN_SIZE*4f)
+        contentTable.add(scrollPane).width(Values.BTN_SIZE*6f).height(Values.BTN_SIZE*5f)
                 .padBottom(Values.SPACING).colspan(3).row();
-        contentTable.add().size(Values.BTN_SIZE*0.7f).padRight(Values.SPACING).row();
         contentTable.add(okButton).height(Values.BTN_SIZE).padTop(Values.SPACING)
                 .padLeft(Values.SPACING_SMALL).padRight(Values.SPACING_SMALL).colspan(3).growX();
 
         //------------
 
         useClose(false);
-        resize(-1, -1);
+        super.scaleOverlay();
 
         okButton.setOrigin(Align.center);
-    }
-
-    public void resize(int width, int height) {
-        super.scaleOverlay();
     }
 }

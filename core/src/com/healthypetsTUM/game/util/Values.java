@@ -103,7 +103,10 @@ public class Values {
     public static final String HEALTH_HEADER = "Schritte", HEALTH_BODY = "Dein Haustier möchte gerne wissen, wie viele " +
             "Schritte du täglich läufst. Dafür musst du dich jetzt mit deinem Google Konto verbinden.";
     public static final String SHOP_HEADER = "Shop", WORLDS_HEADER = "Welten", SETTINGS_HEADER = "Einstellungen",
-            SHOP_FOOD_HEADER = "Nahrung", TREATS_HEADER = "Item gefunden";
+            SHOP_FOOD_HEADER = "Nahrung";
+
+    public static final String TREATS_HEADER = "Item gefunden", TREATS_BODY = "Du bist gerade an diesem Item vorbei gelaufen. " +
+            "Löse schnell 3 Matheaufgaben, um es einzusammeln.";
 
     public static final String OK = "OK", AGREE = "Ich stimme zu.";
 

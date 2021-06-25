@@ -289,16 +289,16 @@ public class UIManagerImpl implements UIManager, ShopListener {
             ConsentOverlay consentOverlay = new ConsentOverlay(assetsManager, healthOverlay);
             stage.addActor(consentOverlay.table);
             consentOverlay.showInstantly();
-        } else if(DataUtils.getUserData().isTreatFound()) {
+        } else
+        if(DataUtils.getUserData().isTreatFound()) {
             List<Integer> unlockedItems = DataUtils.getUserData().getUnlockedItems();
 
             List<Integer> list = new ArrayList<>();
             for(int i = 0; i < Values.ITEM_COUNT; ++i) {
-                if(unlockedItems.contains(i))
-                    continue;
-
+                if(unlockedItems.contains(i)) continue;
                 list.add(i);
             }
+
             int item = list.get(new Random().nextInt(list.size()));
 
             DataUtils.getUserData().setTreatFound(false);

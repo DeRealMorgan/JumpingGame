@@ -72,7 +72,7 @@ public class GameOverUI {
 
         contentTable.add(gameOverTable).spaceBottom(Values.PADDING_BIG).width(Values.BTN_SIZE*6).growX().row();
         contentTable.add(scoreLabel).padBottom(Values.PADDING).row();
-        contentTable.add(mathLabel).padBottom(Values.PADDING_BIG*2).row();
+        contentTable.add(mathLabel).padBottom(Values.PADDING_BIG).row();
         contentTable.add(replayBtn).padBottom(Values.PADDING).padLeft(Values.PADDING)
                 .padRight(Values.PADDING).growX().row();
         contentTable.add(backBtn).padLeft(Values.PADDING).padRight(Values.PADDING).growX().row();
