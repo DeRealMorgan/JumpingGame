@@ -273,6 +273,7 @@ public class UIManagerImpl implements UIManager, ShopListener {
         settingsOverlay = new SettingsOverlay(assetsManager);
         stage.addActor(settingsOverlay.table);
 
+
         foodShopOverlay = new FoodShopOverlay(assetsManager, this);
         stage.addActor(foodShopOverlay.table);
 
@@ -295,6 +296,11 @@ public class UIManagerImpl implements UIManager, ShopListener {
 
     public void currentSteps(int steps) {
         progressBar.setValue(steps);
+        if(steps < Values.MAX_STEPS/2)
+            progressBar.getStyle().knobBefore = progressbarRed;
+        else
+            progressBar.getStyle().knobBefore = progressbarGreen;
+
         progressLabel.setText(steps + Values.STEPS_PROGRESS1 + Values.MAX_STEPS + Values.STEPS_PROGRESS2);
     }
 

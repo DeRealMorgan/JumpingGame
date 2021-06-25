@@ -103,7 +103,7 @@ public class AndroidLauncher extends AndroidApplication implements GoogleFit, St
 	}
 
 	public static void getStepCountToday(Context c, Activity a, StepListener listener) {
-		ZonedDateTime startTime = LocalDate.now().atStartOfDay(ZoneId.systemDefault()).minusDays(5); // remove minus days
+		ZonedDateTime startTime = LocalDate.now().atStartOfDay(ZoneId.systemDefault());
 		ZonedDateTime endTime = LocalDateTime.now().atZone(ZoneId.systemDefault());
 
 		getSteps(c, a, startTime, endTime, listener);
