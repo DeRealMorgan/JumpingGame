@@ -4,7 +4,10 @@ import com.badlogic.gdx.Gdx;
 import com.healthypetsTUM.game.assets.AssetsManagerImpl;
 import com.healthypetsTUM.game.character.CharacterScreen;
 import com.healthypetsTUM.game.game.GameScreen;
-import com.healthypetsTUM.game.util.*;
+import com.healthypetsTUM.game.util.Game;
+import com.healthypetsTUM.game.util.GameState;
+import com.healthypetsTUM.game.util.ScreenName;
+import com.healthypetsTUM.game.util.Values;
 import com.healthypetsTUM.game.util.interfaces.GoogleFit;
 import com.healthypetsTUM.game.util.interfaces.RenderPipeline;
 import com.healthypetsTUM.game.util.interfaces.ScreenManager;
@@ -12,6 +15,9 @@ import com.healthypetsTUM.game.util.interfaces.StoreProvider;
 import com.healthypetsTUM.game.util.store.DataUtils;
 import com.healthypetsTUM.game.util.store.UserData;
 
+import java.time.LocalDate;
+import java.time.ZoneId;
+import java.util.Date;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.locks.Condition;
 import java.util.concurrent.locks.ReentrantLock;
@@ -43,7 +49,7 @@ public class Main extends Game implements ScreenManager {
 	public void create() {
 		DataUtils.init(storeProvider);
 
-		if(storeProvider.load(Values.FIRST_START).equals("") /*|| true*/)  { //TODO REMOVE true
+		if(storeProvider.load(Values.FIRST_START).equals(""))  {
 			storeProvider.store(Values.FIRST_START, Values.FIRST_START);
 			DataUtils.firstStart();
 		}
@@ -54,9 +60,26 @@ public class Main extends Game implements ScreenManager {
 		// todo start with loading screen!
 		this.assetsManager.loadAll();
 
+		setStats();
+
 		setScreen(ScreenName.CHARACTER_SCREEN);
 
 		startGoogleFitRefresh();
+	}
+
+	private void setStats() {
+		UserData data = DataUtils.getUserData();
+		LocalDate last = new Date(data.getLastPlayStamp()).toInstant()
+				.atZone(ZoneId.systemDefault())
+				.toLocalDate();
+		LocalDate now = new Date(System.currentTimeMillis()).toInstant()
+				.atZone(ZoneId.systemDefault())
+				.toLocalDate();
+		if(last.getYear() != now.getYear() || last.getDayOfYear() != now.getDayOfYear()) // new day
+			data.newDay();
+
+		data.setLastPlayStamp(System.currentTimeMillis());
+		DataUtils.storeUserData();
 	}
 
 	public void permissionGranted(int code) {
@@ -162,7 +185,9 @@ public class Main extends Game implements ScreenManager {
 
 	@Override
 	public void dispose() {
-		DataUtils.getUserData().setRunning(false);
+		UserData userData = DataUtils.getUserData();
+		userData.setRunning(false);
+		userData.setLastPlayStamp(System.currentTimeMillis());
 		DataUtils.storeUserData();
 
 		renderPipeline.dispose();

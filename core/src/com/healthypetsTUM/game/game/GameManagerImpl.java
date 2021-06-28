@@ -9,7 +9,7 @@ import com.healthypetsTUM.game.game.elements.BasicTile;
 import com.healthypetsTUM.game.game.elements.MathAttachment;
 import com.healthypetsTUM.game.game.elements.Tile;
 import com.healthypetsTUM.game.game.elements.TileAttachment;
-import com.healthypetsTUM.game.game.math.MathControllerImpl;
+import com.healthypetsTUM.game.game.math.MathImpl;
 import com.healthypetsTUM.game.game.physics.PhysicsEngineImpl;
 import com.healthypetsTUM.game.game.physics.PhysicsEntity;
 import com.healthypetsTUM.game.game.player.Player;
@@ -33,7 +33,7 @@ public class GameManagerImpl implements GameManager {
     private final PhysicsEngineImpl physicsEngine;
 
     private final UIManagerImpl uiManager;
-    private final MathControllerImpl mathController;
+    private final MathImpl mathImpl;
 
     private final int width = Values.WORLD_WIDTH;
     private final int height = Values.WORLD_HEIGHT;
@@ -67,8 +67,8 @@ public class GameManagerImpl implements GameManager {
                 assetsManager, screenManager, this::onUIPause, this::onUIResume);
         this.renderPipeline.setUiManager(uiManager);
 
-        this.mathController = new MathControllerImpl(this, assetsManager, this::mathCorrect);
-        this.mathController.addToStage(uiManager.getStage());
+        this.mathImpl = new MathImpl(this, assetsManager, this::mathCorrect);
+        uiManager.getStage().addActor(mathImpl.table);
 
         this.tileList = new ArrayList<>();
         this.tileSpriteList = new ArrayList<>();
@@ -138,6 +138,14 @@ public class GameManagerImpl implements GameManager {
     public void gameOver() {
         stop = true;
         player.gameOver();
+
+        int earnedCoins = (score+correctMathCount)/100;
+        UserData data = DataUtils.getUserData();
+        data.incPlayAmount();
+        data.addCoins(earnedCoins);
+        DataUtils.storeUserData();
+
+        uiManager.getGameOverUI().updateCoinScore(earnedCoins);
         uiManager.getGameOverUI().show();
         physicsEngine.stop();
     }
@@ -157,7 +165,7 @@ public class GameManagerImpl implements GameManager {
     }
 
     public void update(float dt) {
-        mathController.update(dt);
+        mathImpl.update(dt);
         uiManager.update(dt);
         if(pause || stop) return;
         if(!slowUpdate.addTimeStampDiff()) {
@@ -244,15 +252,16 @@ public class GameManagerImpl implements GameManager {
         List<Tile> tiles = new ArrayList<>();
         Tile lastTile = topTile;
         float tileDistY = Values.TILE_DISTANCE_Y*0.75f + Values.TILE_DISTANCE_Y*Math.min(0.25f, ((float)score)/50000); // todo abhängig von sprunghöhe
-        mathController.setMathTime(Math.max(10, Values.MATH_TIME - score/2500));
+        mathImpl.setMathTime(Math.max(10, Values.MATH_TIME - score/2500));
 
         while(lastTile.getTop() + tileDistY <= toY) { // todo here complicated world creation logic
-            Tile t = new BasicTile(assetsManager, MathUtils.getRandomWorldX(BasicTile.TILE_WIDTH), lastTile.getTop() + tileDistY);
+            Tile t = new BasicTile(assetsManager, MathUtils.getRandomWorldX(BasicTile.TILE_WIDTH),
+                    lastTile.getTop() + tileDistY);
             tiles.add(t);
             lastTile = t;
 
-            if(MathUtils.getTrue(mathAttachmentProbability)) { // TODO REMOVE TRUE
-                MathAttachment attachment = new MathAttachment(assetsManager, mathController);
+            if(MathUtils.getTrue(mathAttachmentProbability)) {
+                MathAttachment attachment = new MathAttachment(assetsManager, mathImpl);
                 t.setAttachment(attachment);
             }
         }

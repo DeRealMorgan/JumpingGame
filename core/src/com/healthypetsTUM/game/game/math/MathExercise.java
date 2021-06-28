@@ -15,7 +15,7 @@ public class MathExercise {
     }
 
     public String getExerciseQuestion() {
-        return exercise + "=?";
+        return exercise + "= ?";
     }
 
     public String getSolution() {

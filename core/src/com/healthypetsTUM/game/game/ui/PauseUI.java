@@ -31,7 +31,7 @@ public class PauseUI {
     private void buildUI(AssetsManager assetsManager) {
         contentTable = new Table();
         contentTable.background(assetsManager.get9Drawable(Values.MENU_BACK));
-        contentTable.padBottom(Values.PADDING_BIG*2).padTop(Values.PADDING);
+        contentTable.padBottom(Values.PADDING).padTop(Values.PADDING);
 
         screenTable = new Table();
         screenTable.setFillParent(true);

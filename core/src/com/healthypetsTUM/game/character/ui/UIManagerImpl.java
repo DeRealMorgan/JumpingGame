@@ -41,7 +41,7 @@ public class UIManagerImpl implements UIManager, ShopListener {
     private Character character;
     private Label progressLabel;
     private ProgressBar progressBar, showerProgressbar, foodProgressbar, petProgressbar, minigameProgressbar;
-    private Drawable progressbarRed, progressbarGreen;
+    private Drawable progressbarRed, progressbarGreen, progressbarGreenSmall, progressbarEmpty;
 
     private ShopOverlay shopOverlay;
     private WorldsOverlay worldsOverlay;
@@ -146,33 +146,64 @@ public class UIManagerImpl implements UIManager, ShopListener {
         int minH = 50;
         progressbarRed = assetsManager.get9Drawable(Values.PROGRESSBAR_FRONT_RED);
         progressbarGreen = assetsManager.get9Drawable(Values.PROGRESSBAR_FRONT_GREEN);
+        progressbarGreenSmall = assetsManager.get9Drawable(Values.PROGRESSBAR_FRONT_GREEN);
+        progressbarEmpty = assetsManager.getDrawable(Values.PROGRESSBAR_FRONT_EMPTY);
 
         progressbarRed.setMinHeight(minH);
         progressbarGreen.setMinHeight(minH);
         progressbarRed.setMinWidth(0);
         progressbarGreen.setMinWidth(0);
 
+        progressbarGreenSmall.setMinWidth(0);
+        progressbarGreenSmall.setMinHeight(30);
+
+        progressbarEmpty.setMinHeight(0);
+        progressbarEmpty.setMinWidth(0);
+
         ProgressBar.ProgressBarStyle progressBarStyle = new ProgressBar.ProgressBarStyle();
         progressBarStyle.background = assetsManager.get9Drawable(Values.PROGRESSBAR_BACK);
         progressBarStyle.background.setMinHeight(minH);
         progressBarStyle.background.setMinWidth(0);
-        progressBarStyle.knobBefore = progressbarRed;
+        progressBarStyle.knobBefore = progressbarEmpty;
 
-        ProgressBar.ProgressBarStyle progressbarStyleSmall = new ProgressBar.ProgressBarStyle();
-        progressbarStyleSmall.background = assetsManager.get9Drawable(Values.PROGRESSBAR_BACK);
-        progressbarStyleSmall.background.setMinHeight(15);
-        progressbarStyleSmall.knobBefore = assetsManager.get9Drawable(Values.PROGRESSBAR_FRONT);
-        progressbarStyleSmall.knobBefore.setMinWidth(0);
+        ProgressBar.ProgressBarStyle progressbarStyleSmall1 = new ProgressBar.ProgressBarStyle();
+        progressbarStyleSmall1.background = assetsManager.get9Drawable(Values.PROGRESSBAR_BACK);
+        progressbarStyleSmall1.background.setMinHeight(30);
+        progressbarStyleSmall1.knobBefore = progressbarEmpty;
+        progressbarStyleSmall1.knobBefore.setMinHeight(30);
+        progressbarStyleSmall1.knobBefore.setMinWidth(0);
 
-        showerProgressbar = new ProgressBar(0, 100, 1, false, progressbarStyleSmall);
-        foodProgressbar = new ProgressBar(0, 100, 1, false, progressbarStyleSmall);
-        petProgressbar = new ProgressBar(0, 100, 1, false, progressbarStyleSmall);
-        minigameProgressbar = new ProgressBar(0, 100, 1, false, progressbarStyleSmall);
+        ProgressBar.ProgressBarStyle progressbarStyleSmall2 = new ProgressBar.ProgressBarStyle();
+        progressbarStyleSmall2.background = assetsManager.get9Drawable(Values.PROGRESSBAR_BACK);
+        progressbarStyleSmall2.background.setMinHeight(30);
+        progressbarStyleSmall2.knobBefore = progressbarEmpty;
+        progressbarStyleSmall2.knobBefore.setMinHeight(30);
+        progressbarStyleSmall2.knobBefore.setMinWidth(0);
+
+        ProgressBar.ProgressBarStyle progressbarStyleSmall3 = new ProgressBar.ProgressBarStyle();
+        progressbarStyleSmall3.background = assetsManager.get9Drawable(Values.PROGRESSBAR_BACK);
+        progressbarStyleSmall3.background.setMinHeight(30);
+        progressbarStyleSmall3.knobBefore = progressbarEmpty;
+        progressbarStyleSmall3.knobBefore.setMinHeight(30);
+        progressbarStyleSmall3.knobBefore.setMinWidth(0);
+
+        ProgressBar.ProgressBarStyle progressbarStyleSmall4 = new ProgressBar.ProgressBarStyle();
+        progressbarStyleSmall4.background = assetsManager.get9Drawable(Values.PROGRESSBAR_BACK);
+        progressbarStyleSmall4.background.setMinHeight(30);
+        progressbarStyleSmall4.knobBefore = progressbarEmpty;
+        progressbarStyleSmall4.knobBefore.setMinHeight(30);
+        progressbarStyleSmall4.knobBefore.setMinWidth(0);
+
+        showerProgressbar = new ProgressBar(0, Values.MAX_SHOWER_AMOUNT, 1, false, progressbarStyleSmall1);
+        foodProgressbar = new ProgressBar(0, Values.MAX_FOOD_AMOUNT, 1, false, progressbarStyleSmall2);
+        petProgressbar = new ProgressBar(0, Values.MAX_PET_AMOUNT, 1, false, progressbarStyleSmall3);
+        minigameProgressbar = new ProgressBar(0, Values.MAX_PLAY_AMOUNT, 1, false, progressbarStyleSmall4);
 
         progressTable = new Table();
         progressLabel = new Label(DataUtils.getUserData().getLastStepCount() + Values.STEPS_PROGRESS1 + Values.MAX_STEPS + Values.STEPS_PROGRESS2, assetsManager.labelStyleSmall());
         progressBar = new ProgressBar(0, 10000, 1, false, progressBarStyle);
-        progressBar.setValue(DataUtils.getUserData().getLastStepCount());
+        currentSteps(DataUtils.getUserData().getLastStepCount());
+        setBars();
 
         Button.ButtonStyle showerBtnStyle = new Button.ButtonStyle();
         showerBtnStyle.down = assetsManager.getDrawable(Values.SHOWER_BTN);
@@ -316,7 +347,9 @@ public class UIManagerImpl implements UIManager, ShopListener {
 
     public void currentSteps(int steps) {
         progressBar.setValue(steps);
-        if(steps < Values.MAX_STEPS/2)
+        if(progressBar.getPercent() < 0.01f)
+            progressBar.getStyle().knobBefore = progressbarEmpty;
+        else if(steps < Values.MAX_STEPS/2)
             progressBar.getStyle().knobBefore = progressbarRed;
         else
             progressBar.getStyle().knobBefore = progressbarGreen;
@@ -324,16 +357,47 @@ public class UIManagerImpl implements UIManager, ShopListener {
         progressLabel.setText(steps + Values.STEPS_PROGRESS1 + Values.MAX_STEPS + Values.STEPS_PROGRESS2);
     }
 
+    private void setBars() {
+        UserData data = DataUtils.getUserData();
+        showerProgressbar.setValue(data.getShowerAmount());
+        if(data.getShowerAmount() > 0)
+            showerProgressbar.getStyle().knobBefore = progressbarGreenSmall;
+
+        foodProgressbar.setValue(data.getFoodAmount());
+        if(data.getFoodAmount() > 0)
+            foodProgressbar.getStyle().knobBefore = progressbarGreenSmall;
+
+        petProgressbar.setValue(data.getPetAmount());
+        if(data.getPetAmount() > 0)
+            petProgressbar.getStyle().knobBefore = progressbarGreenSmall;
+
+        minigameProgressbar.setValue(data.getPlayAmount());
+        if(data.getPlayAmount() > 0)
+            minigameProgressbar.getStyle().knobBefore = progressbarGreenSmall;
+    }
+
     private void showerDone() {
         setUiVisible(true);
+
+        DataUtils.getUserData().incShowerAmount();
+        DataUtils.storeUserData();
+        setBars();
     }
 
     private void pettingDone() {
         setUiVisible(true);
+
+        DataUtils.getUserData().incPetAmount();
+        DataUtils.storeUserData();
+        setBars();
     }
 
     private void foodDone() {
         setUiVisible(true);
+
+        DataUtils.getUserData().incFoodAmount();
+        DataUtils.storeUserData();
+        setBars();
     }
 
     private void showMinigame() {
@@ -392,10 +456,10 @@ public class UIManagerImpl implements UIManager, ShopListener {
     public void buy(int item, int cost) {
         UserData data = DataUtils.getUserData();
         data.subCoins(cost);
+        data.addBoughtItem(item);
         DataUtils.storeUserData();
 
         updateUIBar();
-
     }
 
     @Override
@@ -411,6 +475,7 @@ public class UIManagerImpl implements UIManager, ShopListener {
     public void buyWorld(int item, int cost) {
         UserData data = DataUtils.getUserData();
         data.subCoins(cost);
+        data.addBoughtWorld(item);
         DataUtils.storeUserData();
 
         updateUIBar();

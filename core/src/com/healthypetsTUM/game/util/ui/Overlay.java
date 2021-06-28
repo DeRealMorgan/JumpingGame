@@ -22,6 +22,10 @@ public abstract class Overlay {
     private boolean visible;
 
     public Overlay(AssetsManager manager, String headerString) {
+        this(manager, headerString, Align.center);
+    }
+
+    public Overlay(AssetsManager manager, String headerString, int align) {
         table = new Table();
         table.setFillParent(true);
         table.setVisible(false);
@@ -37,7 +41,20 @@ public abstract class Overlay {
 
         wrapperTable = new Table();
         wrapperTable.background(manager.getDrawable(Values.MENU_BACK));
-        table.add(wrapperTable).growX().padRight(Values.EDGE_DISTANCE*2).padLeft(Values.EDGE_DISTANCE*2).center();
+
+        switch (align) {
+            case Align.center:
+                table.add(wrapperTable).expand().growX().pad(Values.EDGE_DISTANCE*2).center();
+                break;
+            case Align.bottom:
+                table.add(wrapperTable).expand().growX().pad(Values.EDGE_DISTANCE*2).bottom();
+                break;
+            case Align.top:
+                table.add(wrapperTable).expand().growX().pad(Values.EDGE_DISTANCE*2).top();
+                break;
+            default:
+                System.out.println("no policy found for align " + align);
+        }
 
         contentTable = new Table();
         headerLabel = new Label(headerString, manager.labelStyle());

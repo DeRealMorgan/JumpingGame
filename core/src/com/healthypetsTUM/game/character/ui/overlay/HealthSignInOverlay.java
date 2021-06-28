@@ -48,7 +48,7 @@ public class HealthSignInOverlay extends Overlay {
         });
         okButton.setTransform(true);
 
-        contentTable.add(policyPane).width(Values.BTN_SIZE*6f).height(Values.BTN_SIZE*4f)
+        contentTable.add(policyPane).width(Values.BTN_SIZE*6f).height(Values.BTN_SIZE*3f)
                 .padBottom(Values.SPACING).colspan(3).row();
         contentTable.add(okButton).height(Values.BTN_SIZE).padTop(Values.SPACING)
                 .padLeft(Values.SPACING_SMALL).padRight(Values.SPACING_SMALL).colspan(3).growX();

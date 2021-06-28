@@ -1,6 +1,9 @@
 package com.healthypetsTUM.game.util.store;
 
 
+import com.healthypetsTUM.game.character.ui.ClothPiece;
+import com.healthypetsTUM.game.util.Values;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -27,7 +30,9 @@ public class UserData {
     private boolean treatFound;
 
     private int lastStepCount;
-    private long lastStepStamp;
+    private long lastStepStamp, lastPlayStamp;
+
+    private int petAmount, showerAmount, foodAmount, playAmount;
 
     /**
      * Json
@@ -35,7 +40,7 @@ public class UserData {
     public UserData() {}
 
     public UserData(int ignore) {
-        coins = 500;
+        coins = 100;
         lvl = 1;
         math = 0;
 
@@ -51,9 +56,35 @@ public class UserData {
         equipedItems = new ArrayList<>();
         unlockedItems = new ArrayList<>();
         unlockedItems.add(0);
-        unlockedItems.add(3);
 
-        equipedWorld = 0;
+        equipedWorld = -1;
+    }
+
+    public void newDay() {
+        petAmount = Math.max(0, petAmount-1);
+        playAmount = Math.max(0, playAmount-1);
+        showerAmount = Math.max(0, showerAmount-1);
+        foodAmount = Math.max(0, foodAmount-1);
+    }
+
+    public void incPetAmount() {
+        petAmount = Math.min(petAmount+1, Values.MAX_PET_AMOUNT);
+    }
+
+    public void incPlayAmount() {
+        playAmount = Math.min(playAmount+1, Values.MAX_PLAY_AMOUNT);
+    }
+
+    public void incFoodAmount() {
+        foodAmount = Math.min(foodAmount+1, Values.MAX_FOOD_AMOUNT);
+    }
+
+    public void incShowerAmount() {
+        showerAmount = Math.min(showerAmount+1, Values.MAX_SHOWER_AMOUNT);
+    }
+
+    public void setLastPlayStamp(long lastPlayStamp) {
+        this.lastPlayStamp = lastPlayStamp;
     }
 
     public void setLvl(int lvl) {
@@ -64,11 +95,11 @@ public class UserData {
         this.totalSteps = totalSteps;
     }
 
-    public void addItem(int item) {
+    public void addBoughtItem(int item) {
         boughtItems.add(item);
     }
 
-    public void addWorld(int world) {
+    public void addBoughtWorld(int world) {
         boughtWorlds.add(world);
     }
 
@@ -81,7 +112,21 @@ public class UserData {
     }
 
     public void equipItem(int item) {
-        // TODO: remove other equiped item of same type
+        ClothPiece piece = ClothPiece.bodyPart(item);
+        switch (piece) {
+            case HEAD:
+                for(int i = 0; i <= 6; ++i) {
+                    int finalI = i;
+                    equipedItems.removeIf((x) -> x == finalI);
+                }
+                break;
+            case LEGS:
+                for(int i = 7; i <= Values.ITEM_COUNT; ++i) {
+                    int finalI = i;
+                    equipedItems.removeIf((x) -> x == finalI);
+                }
+                break;
+        }
         equipedItems.add(item);
     }
 
@@ -209,6 +254,26 @@ public class UserData {
 
     public List<Integer> getUnlockedItems() {
         return unlockedItems;
+    }
+
+    public int getFoodAmount() {
+        return foodAmount;
+    }
+
+    public int getPetAmount() {
+        return petAmount;
+    }
+
+    public int getPlayAmount() {
+        return playAmount;
+    }
+
+    public int getShowerAmount() {
+        return showerAmount;
+    }
+
+    public long getLastPlayStamp() {
+        return lastPlayStamp;
     }
 
     public static int minutesToMillis(int minutes) {

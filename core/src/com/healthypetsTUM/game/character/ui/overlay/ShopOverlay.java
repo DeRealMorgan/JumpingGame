@@ -9,6 +9,7 @@ import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.Scaling;
 import com.badlogic.gdx.utils.TimeUtils;
 import com.healthypetsTUM.game.assets.AssetsManager;
+import com.healthypetsTUM.game.character.ui.ClothPiece;
 import com.healthypetsTUM.game.util.Sounds;
 import com.healthypetsTUM.game.util.Values;
 import com.healthypetsTUM.game.util.interfaces.ShopListener;
@@ -122,9 +123,8 @@ public class ShopOverlay extends Overlay {
 
     private void purchase(int item, boolean buy) {
         if(nextClick <= TimeUtils.millis() && DataUtils.getUserData().getCoins() >= getCost(item)) {
-            if(buy) {
+            if(buy)
                 shopListener.buy(item, getCost(item));
-            }
 
             wholeTables[item].getListeners().clear();
             wholeTables[item].background(boughtBack);
@@ -133,6 +133,7 @@ public class ShopOverlay extends Overlay {
                 public void clicked(InputEvent event, float x, float y) {
                     Sounds.click();
                     shopListener.equipItem(item);
+                    unequipOther(item);
                     close();
                     wholeTables[item].background(equipedBack);
                 }
@@ -141,7 +142,27 @@ public class ShopOverlay extends Overlay {
             coins[item].remove();
             itemLabels[item].remove();
 
-            nextClick = TimeUtils.millis()+500; //alle X-ms klicken erlauben
+            nextClick = TimeUtils.millis()+200; //alle X-ms klicken erlauben
+        }
+    }
+
+    private void unequipOther(int item) {
+        List<Integer> bought = DataUtils.getUserData().getBoughtItems();
+        if(ClothPiece.bodyPart(item) == ClothPiece.HEAD) {
+            for (int i = 0; i <= 6; ++i) {
+                if(item == i) continue;
+
+                if(bought.contains(i))
+                    wholeTables[i].background(boughtBack);
+
+            }
+        } else {
+            for (int i = 7; i <= Values.ITEM_COUNT; ++i) {
+                if(item == i) continue;
+
+                if(bought.contains(i))
+                    wholeTables[i].background(boughtBack);
+            }
         }
     }
 

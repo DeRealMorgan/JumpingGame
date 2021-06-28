@@ -4,6 +4,7 @@ import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.Touchable;
 import com.badlogic.gdx.scenes.scene2d.actions.Actions;
+import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
@@ -18,7 +19,8 @@ import com.healthypetsTUM.game.util.interfaces.ScreenManager;
 public class GameOverUI {
     private ScreenManager screenManager;
     private Table contentTable, screenTable;
-    private Label gameOverLabel, scoreLabel, mathLabel;
+    private Label gameOverLabel, scoreLabel, mathLabel, coinsLabel;
+    private Image coinImg;
     private TextButton replayBtn, backBtn;
 
     public GameOverUI(AssetsManager assetsManager, ScreenManager screenManager) {
@@ -29,7 +31,7 @@ public class GameOverUI {
     private void buildUI(AssetsManager assetsManager) {
         contentTable = new Table();
         contentTable.background(assetsManager.get9Drawable(Values.MENU_BACK));
-        contentTable.padBottom(Values.PADDING_BIG*2).padTop(Values.PADDING);
+        contentTable.padBottom(Values.PADDING).padTop(Values.PADDING);
 
         screenTable = new Table();
         screenTable.setFillParent(true);
@@ -50,6 +52,15 @@ public class GameOverUI {
 
         mathLabel = new Label(Values.MATH_SCORE + 0, assetsManager.labelStyle());
         mathLabel.setAlignment(Align.left);
+
+        coinsLabel = new Label("= " + 0, assetsManager.labelStyle());
+        coinsLabel.setAlignment(Align.left);
+
+        coinImg = new Image(assetsManager.getDrawable(Values.COIN));
+
+        Table coinTable = new Table();
+        coinTable.add(coinsLabel).padRight(Values.PADDING);
+        coinTable.add(coinImg).left();
 
         backBtn = new TextButton(Values.BACK, assetsManager.textBtnStyle());
         backBtn.addListener(new ClickListener() {
@@ -72,7 +83,8 @@ public class GameOverUI {
 
         contentTable.add(gameOverTable).spaceBottom(Values.PADDING_BIG).width(Values.BTN_SIZE*6).growX().row();
         contentTable.add(scoreLabel).padBottom(Values.PADDING).row();
-        contentTable.add(mathLabel).padBottom(Values.PADDING_BIG).row();
+        contentTable.add(mathLabel).padBottom(Values.PADDING).row();
+        contentTable.add(coinTable).padBottom(Values.PADDING_BIG).row();
         contentTable.add(replayBtn).padBottom(Values.PADDING).padLeft(Values.PADDING)
                 .padRight(Values.PADDING).growX().row();
         contentTable.add(backBtn).padLeft(Values.PADDING).padRight(Values.PADDING).growX().row();
@@ -89,6 +101,10 @@ public class GameOverUI {
 
     public void updateMathScore(int score) {
         mathLabel.setText(Values.MATH_SCORE + score);
+    }
+
+    public void updateCoinScore(int score) {
+        coinsLabel.setText("= " + score);
     }
 
     public void show() {

@@ -125,7 +125,9 @@ public class WorldsOverlay extends Overlay {
         }
         List<Integer> bought = userData.getBoughtWorlds();
         for(int i : bought) purchase(i, false);
-        wholeTables[userData.getEquipedWorld()].background(equipedBack);
+
+        if(userData.getEquipedWorld() >= 0)
+            wholeTables[userData.getEquipedWorld()].background(equipedBack);
 
     }
 

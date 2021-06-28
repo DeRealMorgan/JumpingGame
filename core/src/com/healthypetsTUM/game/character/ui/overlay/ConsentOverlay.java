@@ -21,11 +21,8 @@ public class ConsentOverlay extends Overlay {
     private ToggleButton agreeButton;
     private Label agreeLabel;
 
-    private HealthSignInOverlay healthOverlay;
-
     public ConsentOverlay(AssetsManager assetsManager, HealthSignInOverlay healthOverlay) {
         super(assetsManager, Values.CONSENT_HEADER);
-        this.healthOverlay = healthOverlay;
 
         policyLabel = new Label(Values.CONSENT_BODY, assetsManager.labelStyleSmall());
         policyLabel.setWrap(true);
@@ -63,12 +60,12 @@ public class ConsentOverlay extends Overlay {
         });
 
         agreeLabel = new Label(Values.AGREE, assetsManager.labelStyleSmall());
-        agreeLabel.setAlignment(Align.center);
+        agreeLabel.setAlignment(Align.left);
 
-        contentTable.add(policyPane).width(Values.BTN_SIZE*6f).height(Values.BTN_SIZE*4f)
+        contentTable.add(policyPane).width(Values.BTN_SIZE*6f).height(Values.BTN_SIZE*3f)
                 .padBottom(Values.SPACING).colspan(3).row();
         contentTable.add(agreeButton.getImage()).size(Values.BTN_SIZE*0.7f).padLeft(Values.SPACING*2).left();
-        contentTable.add(agreeLabel).growX().row();
+        contentTable.add(agreeLabel).padLeft(Values.PADDING).growX().row();
         contentTable.add(okButton).height(Values.BTN_SIZE).padTop(Values.SPACING)
                 .padLeft(Values.SPACING_SMALL).padRight(Values.SPACING_SMALL).colspan(3).growX();
 
@@ -76,7 +73,7 @@ public class ConsentOverlay extends Overlay {
 
         useClose(false);
         agreeButtonClicked();
-        resize(-1, -1);
+        super.scaleOverlay();
 
         okButton.setOrigin(Align.center);
     }
@@ -89,9 +86,5 @@ public class ConsentOverlay extends Overlay {
             okButton.setTouchable(Touchable.disabled);
             okButton.setDisabled(true);
         }
-    }
-
-    public void resize(int width, int height) {
-        super.scaleOverlay();
     }
 }

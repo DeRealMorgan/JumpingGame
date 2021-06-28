@@ -25,10 +25,10 @@ public class Values {
             TILE_HEIGHT_NORMAL = 30;
     public static final int PLAYER_WIDTH = 150,
             PLAYER_HEIGHT = 200;
-    public static final int MATH_ATTACHMENT_WIDTH = 150, MATH_ATTACHMENT_HEIGHT = 110;
+    public static final int MATH_ATTACHMENT_WIDTH = 200, MATH_ATTACHMENT_HEIGHT = 160;
 
     public static final int SPACING = 20, SPACING_SMALL = 10, EDGE_DISTANCE = 50, TOP_PADDING_UI_GAME = 100;
-    public static final float FADE_OVERLAY_DUR = 1f;
+    public static final float FADE_OVERLAY_DUR = 0.6f;
 
     public static final int FONT_BORDER_WIDTH = 0,
             FONT_SIZE_SMALL = 35, FONT_SIZE = 55, FONT_SIZE_BIG = 70;
@@ -103,7 +103,7 @@ public class Values {
     public static final String HEALTH_HEADER = "Schritte", HEALTH_BODY = "Dein Haustier möchte gerne wissen, wie viele " +
             "Schritte du täglich läufst. Dafür musst du dich jetzt mit deinem Google Konto verbinden.";
     public static final String SHOP_HEADER = "Shop", WORLDS_HEADER = "Welten", SETTINGS_HEADER = "Einstellungen",
-            SHOP_FOOD_HEADER = "Nahrung";
+            SHOP_FOOD_HEADER = "Nahrung", MATH_HEADER = "Aufgabe";
 
     public static final String TREATS_HEADER = "Item gefunden", TREATS_BODY = "Du bist gerade an diesem Item vorbei gelaufen. " +
             "Löse schnell 3 Matheaufgaben, um es einzusammeln.";
@@ -115,7 +115,8 @@ public class Values {
     public static final String PROGRESSBAR_FRONT_GREEN = "progressbar_front_green",
             PROGRESSBAR_FRONT_RED = "progressbar_front_red",
             PROGRESSBAR_BACK = "progressbar_back",
-            PROGRESSBAR_FRONT = "progressbar_front";
+            PROGRESSBAR_FRONT = "progressbar_front",
+            PROGRESSBAR_FRONT_EMPTY = "progressbar_front_empty";
 
     public static final String CHECKBOX_UNCHECKED = "checkbox_unchecked",
             CHECKBOX_CHECKED = "checkbox_checked";
@@ -149,7 +150,7 @@ public class Values {
 
     public static final long REFRESH_STEPS_INTERVAL = 1000*6; // todo * 60
 
-    public static final float TILE_DISTANCE_Y = 500;
+    public static final float TILE_DISTANCE_Y = 600;
 
     public static final float CAM_INTERPOLATION_STEP = 5f;
 
@@ -176,4 +177,6 @@ public class Values {
     public static final String NEW_LINE = "\n";
 
     public static final int REQUEST_ACTIVITY_RECOG_CODE = 200, GOOGLE_FIT_REQUEST_CODE = 205;
+
+    public static final int MAX_PET_AMOUNT = 2, MAX_PLAY_AMOUNT = 4, MAX_FOOD_AMOUNT = 4, MAX_SHOWER_AMOUNT = 2;
 }
