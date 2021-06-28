@@ -47,6 +47,7 @@ public class UIManagerImpl implements UIManager, ShopListener {
     private WorldsOverlay worldsOverlay;
     private SettingsOverlay settingsOverlay;
     private FoodShopOverlay foodShopOverlay;
+    private TreatsOverlay treatsOverlay;
     private UIBar uiBar;
 
     private HandPetting hand;
@@ -320,8 +321,8 @@ public class UIManagerImpl implements UIManager, ShopListener {
             ConsentOverlay consentOverlay = new ConsentOverlay(assetsManager, healthOverlay);
             stage.addActor(consentOverlay.table);
             consentOverlay.showInstantly();
-        } else
-        if(DataUtils.getUserData().isTreatFound()) {
+        } // else
+        if(DataUtils.getUserData().isTreatFound() || true) {
             List<Integer> unlockedItems = DataUtils.getUserData().getUnlockedItems();
 
             List<Integer> list = new ArrayList<>();
@@ -335,14 +336,21 @@ public class UIManagerImpl implements UIManager, ShopListener {
             DataUtils.getUserData().setTreatFound(false);
             DataUtils.storeUserData();
 
-            TreatsOverlay treatsOverlay = new TreatsOverlay(assetsManager, item);
+            treatsOverlay = new TreatsOverlay(assetsManager, item, this::onTreatSuccess);
             stage.addActor(treatsOverlay.table);
+            stage.addActor(treatsOverlay.getMath().table);
             treatsOverlay.showInstantly();
         }
 
         uiBar = new UIBar(assetsManager);
         stage.addActor(uiBar.table);
         updateUIBar();
+    }
+
+    private void onTreatSuccess(int item) {
+        shopOverlay.itemCollected(item);
+        DataUtils.getUserData().unlockItem(item);
+        DataUtils.storeUserData();
     }
 
     public void currentSteps(int steps) {
@@ -416,6 +424,9 @@ public class UIManagerImpl implements UIManager, ShopListener {
 
         if(food.isPresent() && character.isOverlappingHead(food.getBounds()))
             food.showCrumbs(character.getHeadBounds());
+
+        if(treatsOverlay != null)
+            treatsOverlay.update(dt);
     }
 
     @Override

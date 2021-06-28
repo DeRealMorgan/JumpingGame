@@ -67,8 +67,9 @@ public class GameManagerImpl implements GameManager {
                 assetsManager, screenManager, this::onUIPause, this::onUIResume);
         this.renderPipeline.setUiManager(uiManager);
 
-        this.mathImpl = new MathImpl(this, assetsManager, this::mathCorrect);
+        this.mathImpl = new MathImpl(assetsManager, this::mathCorrect, this::mathWrong, this::onMathShow);
         uiManager.getStage().addActor(mathImpl.table);
+        this.mathImpl.closeInstantly();
 
         this.tileList = new ArrayList<>();
         this.tileSpriteList = new ArrayList<>();
@@ -155,7 +156,20 @@ public class GameManagerImpl implements GameManager {
         UserData data = DataUtils.getUserData();
         data.incMath();
         DataUtils.storeUserData();
+        resumeUpdateSlow();
+        enablePause();
         uiManager.updateMathScore(correctMathCount);
+    }
+
+    public void mathWrong() {
+        enablePause();
+        resumeUpdate();
+        gameOver();
+    }
+
+    public void onMathShow() {
+        pauseUpdate();
+        disablePause();
     }
 
     @Override

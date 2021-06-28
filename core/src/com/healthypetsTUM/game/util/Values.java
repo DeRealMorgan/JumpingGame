@@ -125,7 +125,11 @@ public class Values {
 
     public static final String TREATS_WORK = "treats_worker";
     public static final String TREAT_NOTIFICATION_TITLE = "Item gefunden!";
-    public static final String TREAT_NOTIFICATION_TEXT = "Löse eine Aufgabe und finde heraus, was du gefunden hasd!";
+    public static final String TREAT_NOTIFICATION_TEXT = "Finde heraus, was du gefunden hast!";
+    public static final String TREAT_SUCCESS = "Item gesammelt",
+            TREAT_FAIL = "Item verloren";
+    public static final String TREAT_LOST = "Du findest das Item bestimmt später noch einmal!";
+    public static final String TREAT_COLLECTED = "Sehr gut! Du kannst das Item jetzt im Shop finden.";
     public static final int TREAT_CHECK_TIME_DELTA = 60*15; // seconds between checks
     public static final int TREAT_START = 5000;
     public static final int TREAT_INTERVAL = 2500;

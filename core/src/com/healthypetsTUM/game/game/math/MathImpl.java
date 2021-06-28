@@ -14,7 +14,6 @@ import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.Scaling;
 import com.badlogic.gdx.utils.TimeUtils;
 import com.healthypetsTUM.game.assets.AssetsManager;
-import com.healthypetsTUM.game.game.GameManager;
 import com.healthypetsTUM.game.game.elements.MathAttachment;
 import com.healthypetsTUM.game.util.MathUtils;
 import com.healthypetsTUM.game.util.Sounds;
@@ -27,7 +26,6 @@ public class MathImpl extends Overlay implements MathController {
     private Label timerLabel, exerciseLabel, answerLabel;
 
     private Image clockImg;
-    private GameManager gameManager;
 
     private String[] addStringList, subStringList, mulStringList, divStringList;
 
@@ -39,13 +37,17 @@ public class MathImpl extends Overlay implements MathController {
     private long endTime;
 
     private VoidRunnableInt onCorrectMath;
+    private Runnable onWrongMath, onMathShow;
+
     private int mathTime = Values.MATH_TIME;
 
-    public MathImpl(GameManager gameManager, AssetsManager assetsManager, VoidRunnableInt onCorrectMath) {
+    public MathImpl(AssetsManager assetsManager, VoidRunnableInt onCorrectMath,
+                    Runnable onWrongMath, Runnable onMathShow) {
         super(assetsManager, Values.MATH_HEADER, Align.top);
 
-        this.gameManager = gameManager;
         this.onCorrectMath = onCorrectMath;
+        this.onWrongMath = onWrongMath;
+        this.onMathShow = onMathShow;
 
         this.addStringList = loadList(Values.ADD_EXERCISE_FILE);
         this.subStringList = loadList(Values.SUB_EXERCISE_FILE);
@@ -115,10 +117,10 @@ public class MathImpl extends Overlay implements MathController {
 
     private void closeKeyboard() {
         Gdx.input.setOnscreenKeyboardVisible(false);
-        gameManager.enablePause();
+
         if(currentExercise.isCorrect(answerString)) {
             answerCorrect();
-            attachment.remove();
+            if(attachment != null) attachment.remove();
         } else {
             answerWrong();
         }
@@ -133,7 +135,6 @@ public class MathImpl extends Overlay implements MathController {
             if(isTimerOver()) {
                 Gdx.input.setOnscreenKeyboardVisible(false);
                 answerWrong();
-                gameManager.enablePause();
             }
         }
     }
@@ -154,17 +155,14 @@ public class MathImpl extends Overlay implements MathController {
 
     private void answerCorrect() {
         Sounds.correct();
-        gameManager.resumeUpdateSlow();
-        onCorrectMath.run((int)(endTime-TimeUtils.millis())/1000);
         closeInstantly();
+        onCorrectMath.run((int)(endTime-TimeUtils.millis())/1000);
     }
 
     private void answerWrong() {
         Sounds.wrong();
-        gameManager.resumeUpdate();
-        gameManager.gameOver();
-
         closeInstantly();
+        onWrongMath.run();
     }
 
     private void digitTyped(char c) {
@@ -193,11 +191,9 @@ public class MathImpl extends Overlay implements MathController {
 
     @Override
     public void showMathExercise(MathAttachment attachment) {
+        onMathShow.run();
         this.attachment = attachment;
         loadExercise();
-
-        gameManager.pauseUpdate();
-        gameManager.disablePause();
 
         showInstantly();
 

@@ -6,8 +6,10 @@ import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.Scaling;
 import com.healthypetsTUM.game.assets.AssetsManager;
+import com.healthypetsTUM.game.game.math.MathImpl;
 import com.healthypetsTUM.game.util.Sounds;
 import com.healthypetsTUM.game.util.Values;
+import com.healthypetsTUM.game.util.interfaces.VoidRunnableInt;
 import com.healthypetsTUM.game.util.ui.Overlay;
 
 public class TreatsOverlay extends Overlay {
@@ -18,8 +20,17 @@ public class TreatsOverlay extends Overlay {
     private ScrollPane scrollPane;
     private Table paneTable;
 
-    public TreatsOverlay(AssetsManager assetsManager, int item) {
+    private MathImpl math;
+
+    private int mathToDo = 2, item;
+
+    private final VoidRunnableInt onSuccess;
+
+    public TreatsOverlay(AssetsManager assetsManager, int item, VoidRunnableInt onSuccess) {
         super(assetsManager, Values.TREATS_HEADER);
+
+        this.item = item;
+        this.onSuccess = onSuccess;
 
         treatImage = new Image(assetsManager.getDrawable(item+Values.SHOP_ITEM));
         treatImage.setScaling(Scaling.fillY);
@@ -38,7 +49,8 @@ public class TreatsOverlay extends Overlay {
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 Sounds.click();
-                // TODO
+                math.showMathExercise(null);
+                closeInstantly();
             }
         });
         okButton.setTransform(true);
@@ -55,11 +67,62 @@ public class TreatsOverlay extends Overlay {
         contentTable.add(okButton).height(Values.BTN_SIZE).padTop(Values.SPACING)
                 .padLeft(Values.SPACING_SMALL).padRight(Values.SPACING_SMALL).colspan(3).growX();
 
+        math = new MathImpl(assetsManager, this::mathCorrect, this::mathWrong, this::onMathShow);
         //------------
 
         useClose(false);
         super.scaleOverlay();
 
         okButton.setOrigin(Align.center);
+    }
+
+    public void update(float dt) {
+        math.update(dt);
+    }
+
+    private void mathCorrect(int i) {
+        if(mathToDo != 0) {
+            math.showMathExercise(null);
+            --mathToDo;
+        } else {
+            foundLabel.setText(Values.TREAT_COLLECTED);
+            showInstantly();
+
+            changeOK();
+
+            changeHead(true);
+            onSuccess.run(item);
+        }
+    }
+
+    private void mathWrong() {
+        foundLabel.setText(Values.TREAT_LOST);
+        showInstantly();
+
+        changeHead(false);
+    }
+
+    private void changeHead(boolean success) {
+        if(success)
+            headerLabel.setText(Values.TREAT_SUCCESS);
+        else
+            headerLabel.setText(Values.TREAT_FAIL);
+    }
+
+    private void changeOK() {
+        okButton.getListeners().clear();
+        okButton.addListener(new ClickListener() {
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                Sounds.click();
+                close();
+            }
+        });
+    }
+
+    private void onMathShow() {}
+
+    public MathImpl getMath() {
+        return math;
     }
 }

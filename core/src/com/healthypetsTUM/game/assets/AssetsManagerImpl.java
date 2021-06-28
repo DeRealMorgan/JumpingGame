@@ -27,7 +27,6 @@ public class AssetsManagerImpl implements AssetsManager, Disposable {
 
     private final Musics musics;
 
-    private final Texture fallbackTexture;
     private final TextureAtlas atlas;
     private final Skin skin;
 
@@ -37,8 +36,6 @@ public class AssetsManagerImpl implements AssetsManager, Disposable {
 
     // todo use AssetManager
     public AssetsManagerImpl() {
-        this.fallbackTexture = new Texture(Gdx.files.internal(Values.FALLBACK_TEXTURE));
-
         this.atlas = new TextureAtlas(Gdx.files.internal(Values.ATLAS_NAME));
         this.skin = new Skin(this.atlas);
 
@@ -120,10 +117,7 @@ public class AssetsManagerImpl implements AssetsManager, Disposable {
 
     @Override
     public TextureRegion getTextureRegion(String name) {
-        TextureAtlas.AtlasRegion region = atlas.findRegion(name); // todo remove: only debug
-        if(region == null) return new TextureRegion(fallbackTexture);
-
-        return region;
+        return atlas.findRegion(name);
     }
 
     @Override
@@ -179,7 +173,6 @@ public class AssetsManagerImpl implements AssetsManager, Disposable {
 
     @Override
     public void dispose() {
-        fallbackTexture.dispose();
         atlas.dispose();
     }
 }

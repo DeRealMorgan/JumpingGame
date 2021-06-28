@@ -146,6 +146,10 @@ public class ShopOverlay extends Overlay {
         }
     }
 
+    public void itemCollected(int item) {
+        enableItem(item);
+    }
+
     private void unequipOther(int item) {
         List<Integer> bought = DataUtils.getUserData().getBoughtItems();
         if(ClothPiece.bodyPart(item) == ClothPiece.HEAD) {

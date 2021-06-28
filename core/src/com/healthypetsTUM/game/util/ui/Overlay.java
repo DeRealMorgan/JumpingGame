@@ -19,7 +19,7 @@ public abstract class Overlay {
 
     protected Button closeButton;
 
-    private boolean visible;
+    protected boolean visible;
 
     public Overlay(AssetsManager manager, String headerString) {
         this(manager, headerString, Align.center);
