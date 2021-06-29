@@ -1,6 +1,8 @@
 package com.healthypetsTUM.game.util.store;
 
 
+import com.badlogic.gdx.Application;
+import com.badlogic.gdx.Gdx;
 import com.healthypetsTUM.game.character.ui.ClothPiece;
 import com.healthypetsTUM.game.util.Values;
 
@@ -34,12 +36,16 @@ public class UserData {
 
     private int petAmount, showerAmount, foodAmount, playAmount;
 
+    private Application.ApplicationType type;
+
     /**
      * Json
      */
     public UserData() {}
 
     public UserData(int ignore) {
+        type = Gdx.app.getType();
+
         coins = 100;
         lvl = 1;
         math = 0;
@@ -58,6 +64,16 @@ public class UserData {
         unlockedItems.add(0);
 
         equipedWorld = -1;
+
+        if(Gdx.app.getType() == Application.ApplicationType.Desktop) {
+            coins = 10000;
+            lvl = 10;
+            unlockedItems.add(0);
+            unlockedItems.add(1);
+            unlockedItems.add(2);
+            unlockedItems.add(3);
+            lastStepCount = 9500;
+        }
     }
 
     public void newDay() {
@@ -182,6 +198,10 @@ public class UserData {
 
     public void setLastStepCount(int lastStepCount) {
         this.lastStepCount = lastStepCount;
+
+
+        if(type == Application.ApplicationType.Desktop)
+            this.lastStepCount = 9500;
     }
 
     public void treatFound() {

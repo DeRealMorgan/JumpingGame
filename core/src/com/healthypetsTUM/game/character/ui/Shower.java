@@ -54,16 +54,11 @@ public class Shower extends DragItem {
     public void showEffect(Rectangle bodyBounds) {
         if(!moving || done) return;
         if(useShower) {
-            if(lastWaterEffect + 1000000 < System.currentTimeMillis()) { // effect long gone
-                lastWaterEffect = System.currentTimeMillis() + Values.SOAPWATER_COOLDOWN;
-                return;
-            }
-
             if(lastWaterEffect + Values.SOAPWATER_COOLDOWN < System.currentTimeMillis()) {
                 Image img = waterdropList.get(currentWaterIndex);
                 int inset = (int)(bodyBounds.getWidth()/5);
                 img.setPosition(bodyBounds.x + MathUtils.getRandomX(inset, (int)bodyBounds.width-inset),
-                        bodyBounds.y + MathUtils.getRandomX(inset, (int)bodyBounds.height-inset), Align.center);
+                        bodyBounds.y + MathUtils.getRandomX(inset, (int)bodyBounds.height-inset) - 200, Align.center);
                 img.setScale(.7f);
                 img.addAction(Actions.sequence(Actions.visible(true), Actions.parallel(Actions.fadeIn(1),
                        Actions.scaleTo(1, 1, 2)), Actions.delay(2), Actions.fadeOut(2)));
@@ -90,7 +85,7 @@ public class Shower extends DragItem {
                 Image img = soapBubbleList.get(currentBubbleIndex);
                 int inset = (int)(bodyBounds.getWidth()/5);
                 img.setPosition(bodyBounds.x + MathUtils.getRandomX(inset, (int)bodyBounds.width-inset),
-                        bodyBounds.y + MathUtils.getRandomX(inset, (int)bodyBounds.height-inset), Align.center);
+                        bodyBounds.y + MathUtils.getRandomX(inset, (int)bodyBounds.height-inset) - 200, Align.center);
                 img.setScale(.7f);
                 img.addAction(Actions.sequence(Actions.visible(true), Actions.parallel(Actions.fadeIn(1),
                         Actions.scaleTo(1, 1, 2))));
@@ -117,6 +112,14 @@ public class Shower extends DragItem {
 
         dragItemImg.setDrawable(soapDrawable);
         position();
+    }
+
+    public void reset() {
+        useSoap();
+
+        done = false;
+        currentBubbleIndex = 0;
+        currentWaterIndex = 0;
     }
 
     @Override

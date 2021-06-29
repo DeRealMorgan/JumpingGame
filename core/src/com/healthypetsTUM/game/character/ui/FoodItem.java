@@ -66,14 +66,10 @@ public class FoodItem extends DragItem {
 
     public void showCrumbs(Rectangle headBounds) {
         if(!moving) return;
-        if(lastFoodEffect + 100000 < System.currentTimeMillis()) { // effect long gone
-            lastFoodEffect = System.currentTimeMillis() + Values.CRUMB_COOLDOWN;
-            return;
-        }
 
         if(lastFoodEffect + Values.CRUMB_COOLDOWN < System.currentTimeMillis()) {
             Image img = crumbsList.get(currentIndex);
-            img.setPosition(headBounds.x + headBounds.width/2, headBounds.y + headBounds.height/2 - 150, Align.center);
+            img.setPosition(headBounds.x + headBounds.width/2, headBounds.y + headBounds.height/2 - 310, Align.center);
             img.addAction(Actions.sequence(Actions.visible(true), Actions.fadeIn(.3f),
                             Actions.moveBy(MathUtils.getRandomX(-300, 300), -1000, 1.7f, Interpolation.pow4),
                     Actions.fadeOut(.5f), Actions.visible(false)));
@@ -81,6 +77,13 @@ public class FoodItem extends DragItem {
             currentIndex = (currentIndex+1)%crumbsList.size();
             lastFoodEffect = System.currentTimeMillis();
         }
+    }
+
+    public void reset() {
+        currentIndex = 0;
+        duration.reset();
+        position();
+        moving = false;
     }
 
     @Override

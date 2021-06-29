@@ -203,16 +203,16 @@ public class UIManagerImpl implements UIManager, ShopListener {
         progressTable = new Table();
         progressLabel = new Label(DataUtils.getUserData().getLastStepCount() + Values.STEPS_PROGRESS1 + Values.MAX_STEPS + Values.STEPS_PROGRESS2, assetsManager.labelStyleSmall());
         progressBar = new ProgressBar(0, 10000, 1, false, progressBarStyle);
-        currentSteps(DataUtils.getUserData().getLastStepCount());
-        setBars();
 
         Button.ButtonStyle showerBtnStyle = new Button.ButtonStyle();
         showerBtnStyle.down = assetsManager.getDrawable(Values.SHOWER_BTN);
         showerBtnStyle.up = showerBtnStyle.down;
+        showerBtnStyle.disabled = assetsManager.getDrawable(Values.SHOWER_BTN_DISABLED);
         showerBtn = new Button(showerBtnStyle);
         showerBtn.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
+                if(showerBtn.isDisabled()) return;
                 Sounds.click();
                 setUiVisible(false);
                 shower.show();
@@ -230,10 +230,12 @@ public class UIManagerImpl implements UIManager, ShopListener {
         Button.ButtonStyle foodBtnStyle = new Button.ButtonStyle();
         foodBtnStyle.down = assetsManager.getDrawable(Values.FOOD_BTN);
         foodBtnStyle.up = foodBtnStyle.down;
+        foodBtnStyle.disabled = assetsManager.getDrawable(Values.FOOD_BTN_DISABLED);
         foodBtn = new Button(foodBtnStyle);
         foodBtn.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
+                if(foodBtn.isDisabled()) return;
                 Sounds.click();
                 foodShopOverlay.show();
             }
@@ -242,10 +244,12 @@ public class UIManagerImpl implements UIManager, ShopListener {
         Button.ButtonStyle petBtnStyle = new Button.ButtonStyle();
         petBtnStyle.down = assetsManager.getDrawable(Values.PET_BTN);
         petBtnStyle.up = petBtnStyle.down;
+        petBtnStyle.disabled = assetsManager.getDrawable(Values.PET_BTN_DISABLED);
         petBtn = new Button(petBtnStyle);
         petBtn.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
+                if(petBtn.isDisabled()) return;
                 Sounds.click();
                 setUiVisible(false);
                 hand.show();
@@ -255,10 +259,12 @@ public class UIManagerImpl implements UIManager, ShopListener {
         Button.ButtonStyle minigameBtnStyle = new Button.ButtonStyle();
         minigameBtnStyle.down = assetsManager.getDrawable(Values.MINIGAME_BTN);
         minigameBtnStyle.up = minigameBtnStyle.down;
+        minigameBtnStyle.disabled = assetsManager.getDrawable(Values.MINIGAME_BTN_DISABLED);
         minigameBtn = new Button(minigameBtnStyle);
         minigameBtn.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
+                if(minigameBtn.isDisabled()) return;
                 Sounds.click();
                 setUiVisible(false);
                 showMinigame();
@@ -321,8 +327,8 @@ public class UIManagerImpl implements UIManager, ShopListener {
             ConsentOverlay consentOverlay = new ConsentOverlay(assetsManager, healthOverlay);
             stage.addActor(consentOverlay.table);
             consentOverlay.showInstantly();
-        } // else
-        if(DataUtils.getUserData().isTreatFound() || true) {
+        }
+        if(DataUtils.getUserData().isTreatFound()) {
             List<Integer> unlockedItems = DataUtils.getUserData().getUnlockedItems();
 
             List<Integer> list = new ArrayList<>();
@@ -345,6 +351,9 @@ public class UIManagerImpl implements UIManager, ShopListener {
         uiBar = new UIBar(assetsManager);
         stage.addActor(uiBar.table);
         updateUIBar();
+
+        currentSteps(DataUtils.getUserData().getLastStepCount());
+        setBars();
     }
 
     private void onTreatSuccess(int item) {
@@ -354,6 +363,13 @@ public class UIManagerImpl implements UIManager, ShopListener {
     }
 
     public void currentSteps(int steps) {
+        boolean disableBtns = steps < 5000;
+
+        showerBtn.setDisabled(disableBtns);
+        petBtn.setDisabled(disableBtns);
+        foodBtn.setDisabled(disableBtns);
+        minigameBtn.setDisabled(disableBtns);
+
         progressBar.setValue(steps);
         if(progressBar.getPercent() < 0.01f)
             progressBar.getStyle().knobBefore = progressbarEmpty;
@@ -390,6 +406,8 @@ public class UIManagerImpl implements UIManager, ShopListener {
         DataUtils.getUserData().incShowerAmount();
         DataUtils.storeUserData();
         setBars();
+
+        shower.reset();
     }
 
     private void pettingDone() {
@@ -398,6 +416,8 @@ public class UIManagerImpl implements UIManager, ShopListener {
         DataUtils.getUserData().incPetAmount();
         DataUtils.storeUserData();
         setBars();
+
+        hand.reset();
     }
 
     private void foodDone() {
@@ -406,6 +426,8 @@ public class UIManagerImpl implements UIManager, ShopListener {
         DataUtils.getUserData().incFoodAmount();
         DataUtils.storeUserData();
         setBars();
+
+        food.reset();
     }
 
     private void showMinigame() {

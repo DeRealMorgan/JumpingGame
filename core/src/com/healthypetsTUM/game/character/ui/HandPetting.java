@@ -58,20 +58,20 @@ public class HandPetting extends DragItem {
     }
 
     public void showHearts(Rectangle headBounds) {
-        if(lastHeartEffect + 100000 < System.currentTimeMillis()) { // effect long gone
-            lastHeartEffect = System.currentTimeMillis() + Values.HEART_COOLDOWN;
-            return;
-        }
-
         if(lastHeartEffect + Values.HEART_COOLDOWN < System.currentTimeMillis()) {
             Image img = heartsList.get(currentIndex);
-            img.setPosition(headBounds.x + MathUtils.getRandomX(0, (int)headBounds.width), headBounds.y + MathUtils.getRandomX(0, (int)headBounds.height), Align.center);
+            img.setPosition(headBounds.x + MathUtils.getRandomX(0, (int)headBounds.width), headBounds.y + MathUtils.getRandomX(0, (int)headBounds.height) - 200, Align.center);
             img.setScale(.7f);
             img.addAction(Actions.sequence(Actions.visible(true), Actions.parallel(Actions.fadeIn(1), Actions.scaleTo(1, 1, 2)), Actions.fadeOut(2), Actions.visible(false)));
 
             currentIndex = (currentIndex+1)%heartsList.size();
             lastHeartEffect = System.currentTimeMillis();
         }
+    }
+
+    public void reset() {
+        currentIndex = 0;
+        duration.reset();
     }
 
     @Override

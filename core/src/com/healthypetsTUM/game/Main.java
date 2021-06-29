@@ -1,5 +1,6 @@
 package com.healthypetsTUM.game;
 
+import com.badlogic.gdx.Application;
 import com.badlogic.gdx.Gdx;
 import com.healthypetsTUM.game.assets.AssetsManagerImpl;
 import com.healthypetsTUM.game.character.CharacterScreen;
@@ -85,10 +86,14 @@ public class Main extends Game implements ScreenManager {
 	public void permissionGranted(int code) {
 		if(code == Values.GOOGLE_FIT_REQUEST_CODE) {
 			googleFit.getStepCountToday(steps -> {
+				if(Gdx.app.getType() == Application.ApplicationType.Desktop) {
+
+				}
 				if(steps != -1) {
 					UserData data = DataUtils.getUserData();
 					data.setLastStepCount(steps);
 					data.setLastStepStamp(System.currentTimeMillis());
+					DataUtils.storeUserData();
 					if (currentScreen == ScreenName.CHARACTER_SCREEN) {
 						((CharacterScreen) getScreen()).currentSteps(steps);
 					}
@@ -111,6 +116,7 @@ public class Main extends Game implements ScreenManager {
 						UserData data = DataUtils.getUserData();
 						data.setLastStepCount(steps);
 						data.setLastStepStamp(System.currentTimeMillis());
+						DataUtils.storeUserData();
 						if (currentScreen == ScreenName.CHARACTER_SCREEN) {
 							((CharacterScreen) getScreen()).currentSteps(steps);
 						}

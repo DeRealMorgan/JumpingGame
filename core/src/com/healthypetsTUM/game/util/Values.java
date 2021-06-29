@@ -46,11 +46,11 @@ public class Values {
             ACHIEVEMENTS_BTN = "achievementsIcon",
             WORLDS_BTN = "worldsIcon",
             SETTINGS_BTN = "settingsIcon",
-            SHOWER_BTN = "showerIcon",
-            FOOD_BTN = "foodIcon",
-            PET_BTN = "petIcon",
+            SHOWER_BTN = "showerIcon", SHOWER_BTN_DISABLED = "showerIconDisabled",
+            FOOD_BTN = "foodIcon", FOOD_BTN_DISABLED = "foodIconDisabled",
+            PET_BTN = "petIcon", PET_BTN_DISABLED = "petIconDisabled",
             CLOSE_BTN = "closeIcon",
-            MINIGAME_BTN = "minigameIcon",
+            MINIGAME_BTN = "minigameIcon", MINIGAME_BTN_DISABLED = "minigameIconDisabled",
             PAUSE_BTN = "pauseIcon",
             CLOCK_ICON = "clockIcon",
             LVL_ICON = "lvlIcon",
@@ -147,9 +147,9 @@ public class Values {
     public static final float PLAYER_JUMP_VELOCITY_Y = 1200;
 
     public static final long HEART_COOLDOWN = 500; // heart cooldown in ms
-    public static final long PET_DURATION = 10000;
+    public static final long PET_DURATION = 8000;
     public static final long SOAPWATER_COOLDOWN = 700; // in ms
-    public static final long FOOD_DURATION = 10000;
+    public static final long FOOD_DURATION = 8000;
     public static final long CRUMB_COOLDOWN = 700;
 
     public static final long REFRESH_STEPS_INTERVAL = 1000*6; // todo * 60

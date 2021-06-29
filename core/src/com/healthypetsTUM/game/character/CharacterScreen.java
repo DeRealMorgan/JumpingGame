@@ -1,5 +1,7 @@
 package com.healthypetsTUM.game.character;
 
+import com.badlogic.gdx.Application;
+import com.badlogic.gdx.Gdx;
 import com.healthypetsTUM.game.assets.AssetsManager;
 import com.healthypetsTUM.game.character.renderer.RenderPipeline;
 import com.healthypetsTUM.game.character.renderer.RenderPipelineImpl;
@@ -23,7 +25,10 @@ public class CharacterScreen implements Screen {
     }
 
     public void currentSteps(int steps) {
-        uiManager.currentSteps(steps);
+        if(Gdx.app.getType() == Application.ApplicationType.Desktop)
+            uiManager.currentSteps(9500);
+        else
+            uiManager.currentSteps(steps);
     }
 
     @Override

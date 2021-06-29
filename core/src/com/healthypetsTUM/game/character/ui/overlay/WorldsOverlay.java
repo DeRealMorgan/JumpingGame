@@ -120,20 +120,19 @@ public class WorldsOverlay extends Overlay {
         scaleOverlay();
 
         UserData userData = DataUtils.getUserData();
-        for(int i = 0; i < Values.WORLD_COUNT; ++i) {
+        for(int i = 0; i < Values.WORLD_COUNT; ++i)
             if(getLevel(i) <= userData.getLvl()) enableItem(i);
-        }
+
         List<Integer> bought = userData.getBoughtWorlds();
         for(int i : bought) purchase(i, false);
 
         if(userData.getEquipedWorld() >= 0)
             wholeTables[userData.getEquipedWorld()].background(equipedBack);
-
     }
 
     private void purchase(int item, boolean buy) {
         if(nextClick <= TimeUtils.millis() && DataUtils.getUserData().getCoins() >= getCost(item)
-        && DataUtils.getUserData().getLvl() >= getLevel(item)) {
+                && DataUtils.getUserData().getLvl() >= getLevel(item)) {
             if(buy) shopListener.buyWorld(item, getCost(item));
 
             wholeTables[item].getListeners().clear();
@@ -142,6 +141,10 @@ public class WorldsOverlay extends Overlay {
                 @Override
                 public void clicked(InputEvent event, float x, float y) {
                     Sounds.click();
+                    int equiped = DataUtils.getUserData().getEquipedWorld();
+                    if(equiped != -1)
+                        wholeTables[equiped].background(boughtBack);
+
                     shopListener.equipWorld(item);
                     wholeTables[item].background(equipedBack);
                     close();
