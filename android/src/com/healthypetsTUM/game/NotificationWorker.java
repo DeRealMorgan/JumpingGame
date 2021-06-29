@@ -16,7 +16,7 @@ import com.healthypetsTUM.game.util.store.UserData;
 import java.time.Instant;
 import java.time.ZoneId;
 import java.time.ZonedDateTime;
-import java.util.concurrent.ThreadLocalRandom;
+import java.util.Random;
 import java.util.concurrent.TimeUnit;
 
 public class NotificationWorker extends Worker {
@@ -113,6 +113,6 @@ public class NotificationWorker extends Worker {
 
         NotificationManager notificationManager =
                 (NotificationManager) getApplicationContext().getSystemService(Context.NOTIFICATION_SERVICE);
-        notificationManager.notify(ThreadLocalRandom.current().nextInt(), builder.build());
+        notificationManager.notify(new Random().nextInt(), builder.build());
     }
 }

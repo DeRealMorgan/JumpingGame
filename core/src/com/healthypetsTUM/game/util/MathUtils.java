@@ -1,6 +1,6 @@
 package com.healthypetsTUM.game.util;
 
-import java.util.concurrent.ThreadLocalRandom;
+import java.util.Random;
 
 public class MathUtils {
     public static boolean isInDelta(float fst, float snd, float delta) {
@@ -13,17 +13,17 @@ public class MathUtils {
      */
     public static boolean getTrue(float probability) {
         int percent = (int)(probability*100);
-        return ThreadLocalRandom.current().nextInt(0, 100) < percent;
+        return new Random().nextInt(100) < percent;
     }
 
     /**
      * Return random x position within world
      */
     public static float getRandomWorldX(int tileWidth) {
-        return ThreadLocalRandom.current().nextInt(tileWidth/2, Values.WORLD_WIDTH-tileWidth/2 + 1);
+        return tileWidth/2 + new Random().nextInt(Values.WORLD_WIDTH-tileWidth/2 + 1 - tileWidth/2);
     }
 
     public static int getRandomX(int from, int to) {
-        return ThreadLocalRandom.current().nextInt(from, to + 1);
+        return from + new Random().nextInt( to + 1 - from);
     }
 }
