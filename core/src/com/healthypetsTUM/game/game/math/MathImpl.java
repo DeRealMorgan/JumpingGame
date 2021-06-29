@@ -233,6 +233,10 @@ public class MathImpl extends Overlay implements MathController {
         }
     }
 
+    public void setOnCorrectMath(VoidRunnableInt onCorrectMath) {
+        this.onCorrectMath = onCorrectMath;
+    }
+
     public void setMathTime(int time) {
         this.mathTime = time;
     }

@@ -152,7 +152,7 @@ public class Values {
     public static final long FOOD_DURATION = 8000;
     public static final long CRUMB_COOLDOWN = 700;
 
-    public static final long REFRESH_STEPS_INTERVAL = 1000*6; // todo * 60
+    public static final long REFRESH_STEPS_INTERVAL = 1000*30;
 
     public static final float TILE_DISTANCE_Y = 600;
 

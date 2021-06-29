@@ -14,6 +14,7 @@ import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import com.healthypetsTUM.game.assets.AssetsManager;
 import com.healthypetsTUM.game.character.ui.overlay.*;
+import com.healthypetsTUM.game.game.math.MathImpl;
 import com.healthypetsTUM.game.util.ScreenName;
 import com.healthypetsTUM.game.util.Sounds;
 import com.healthypetsTUM.game.util.Values;
@@ -53,6 +54,8 @@ public class UIManagerImpl implements UIManager, ShopListener {
     private HandPetting hand;
     private Shower shower;
     private FoodItem food;
+
+    private MathImpl math;
 
     private final static float BOTTOM_PADDING = 40, TOP_PADDING = 40, SIDE_PADDING = 40;
 
@@ -214,8 +217,12 @@ public class UIManagerImpl implements UIManager, ShopListener {
             public void clicked(InputEvent event, float x, float y) {
                 if(showerBtn.isDisabled()) return;
                 Sounds.click();
-                setUiVisible(false);
-                shower.show();
+
+                math.setOnCorrectMath(arg -> {
+                    setUiVisible(false);
+                    shower.show();
+                });
+                math.showMathExercise(null);
             }
         });
 
@@ -237,7 +244,9 @@ public class UIManagerImpl implements UIManager, ShopListener {
             public void clicked(InputEvent event, float x, float y) {
                 if(foodBtn.isDisabled()) return;
                 Sounds.click();
-                foodShopOverlay.show();
+
+                math.setOnCorrectMath(arg -> foodShopOverlay.show());
+                math.showMathExercise(null);
             }
         });
 
@@ -251,8 +260,12 @@ public class UIManagerImpl implements UIManager, ShopListener {
             public void clicked(InputEvent event, float x, float y) {
                 if(petBtn.isDisabled()) return;
                 Sounds.click();
-                setUiVisible(false);
-                hand.show();
+
+                math.setOnCorrectMath(arg -> {
+                    setUiVisible(false);
+                    hand.show();
+                });
+                math.showMathExercise(null);
             }
         });
 
@@ -354,6 +367,9 @@ public class UIManagerImpl implements UIManager, ShopListener {
 
         currentSteps(DataUtils.getUserData().getLastStepCount());
         setBars();
+
+        math = new MathImpl(assetsManager, arg -> {}, () -> {}, () -> {});
+        stage.addActor(math.table);
     }
 
     private void onTreatSuccess(int item) {
@@ -449,6 +465,8 @@ public class UIManagerImpl implements UIManager, ShopListener {
 
         if(treatsOverlay != null)
             treatsOverlay.update(dt);
+
+        math.update(dt);
     }
 
     @Override

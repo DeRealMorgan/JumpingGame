@@ -11,6 +11,9 @@ import com.badlogic.gdx.scenes.scene2d.utils.SpriteDrawable;
 import com.badlogic.gdx.utils.Align;
 import com.healthypetsTUM.game.assets.AssetsManager;
 import com.healthypetsTUM.game.util.Values;
+import com.healthypetsTUM.game.util.store.DataUtils;
+
+import java.util.List;
 
 public class Character {
     private Rectangle bounds = new Rectangle();
@@ -185,6 +188,10 @@ public class Character {
                 Actions.rotateTo(-10, 4))));
         rightLeg.addAction(Actions.sequence(Actions.delay(1), Actions.forever(Actions.sequence(
                 Actions.moveBy(0, 10, 1), Actions.moveBy(0, -10, 2)))));
+
+        List<Integer> equiped = DataUtils.getUserData().getEquipedItems();
+        for(Integer i : equiped)
+            equipCloth(i, assetsManager);
     }
 
     public void equipCloth(int item, AssetsManager assetsManager) {
