@@ -13,12 +13,8 @@ import com.healthypetsTUM.game.util.interfaces.VoidRunnableInt;
 import com.healthypetsTUM.game.util.ui.Overlay;
 
 public class TreatsOverlay extends Overlay {
-    private Image treatImage;
-    private Label foundLabel;
-    private TextButton okButton;
-
-    private ScrollPane scrollPane;
-    private Table paneTable;
+    private final Label foundLabel;
+    private final TextButton okButton;
 
     private MathImpl math;
 
@@ -32,7 +28,7 @@ public class TreatsOverlay extends Overlay {
         this.item = item;
         this.onSuccess = onSuccess;
 
-        treatImage = new Image(assetsManager.getDrawable(item+Values.SHOP_ITEM));
+        Image treatImage = new Image(assetsManager.getDrawable(item + Values.SHOP_ITEM));
         treatImage.setScaling(Scaling.fillY);
 
         foundLabel = new Label(Values.TREATS_BODY, assetsManager.labelStyleSmall());
@@ -55,10 +51,10 @@ public class TreatsOverlay extends Overlay {
         });
         okButton.setTransform(true);
 
-        paneTable = new Table();
+        Table paneTable = new Table();
         paneTable.add(treatImage).height(Values.BTN_SIZE*2).center().row();
         paneTable.add(foundLabel).growX();
-        scrollPane = new ScrollPane(paneTable);
+        ScrollPane scrollPane = new ScrollPane(paneTable);
         scrollPane.setScrollingDisabled(true, false);
         scrollPane.pack();
 

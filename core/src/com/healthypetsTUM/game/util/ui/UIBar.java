@@ -9,10 +9,8 @@ import com.healthypetsTUM.game.util.Values;
 
 public class UIBar {
     public Table table;
-    private Table contentTable;
 
     private Label lvlLabel, coinLabel, mathLabel;
-    private Image lvlImg, coinImg, mathImg;
 
     public UIBar(AssetsManager assetsManager) {
         buildUI(assetsManager);
@@ -25,16 +23,16 @@ public class UIBar {
         table.setTouchable(Touchable.disabled);
         table.top();
 
-        contentTable = new Table();
+        Table contentTable = new Table();
         table.add(contentTable).growX().top().center();
 
         lvlLabel = new Label(Values.LVL + "0", assetsManager.labelStyleSmall());
         coinLabel = new Label("0", assetsManager.labelStyleSmall());
         mathLabel = new Label("0", assetsManager.labelStyleSmall());
 
-        lvlImg = new Image(assetsManager.getDrawable(Values.LVL_ICON));
-        coinImg = new Image(assetsManager.getDrawable(Values.COIN));
-        mathImg = new Image(assetsManager.getDrawable(Values.MATH_ICON));
+        Image lvlImg = new Image(assetsManager.getDrawable(Values.LVL_ICON));
+        Image coinImg = new Image(assetsManager.getDrawable(Values.COIN));
+        Image mathImg = new Image(assetsManager.getDrawable(Values.MATH_ICON));
 
         Table lvlTable = new Table();
         Table coinTable = new Table();

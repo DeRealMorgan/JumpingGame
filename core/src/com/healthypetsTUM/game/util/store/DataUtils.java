@@ -14,7 +14,7 @@ public final class DataUtils {
     public static FileHandle userDataFileHandleLoc;
 
     private static UserData userData;
-    private static Json json = new Json();
+    private static final Json json = new Json();
     private static StoreProvider storeProvider;
 
     public static void init(StoreProvider storeProvider) {

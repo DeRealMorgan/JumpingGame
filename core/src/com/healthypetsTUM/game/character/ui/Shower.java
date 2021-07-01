@@ -15,14 +15,16 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Shower extends DragItem {
-    private Drawable soapDrawable, showerDrawable;
-    private List<Image> waterdropList, soapBubbleList;
+    private final Drawable soapDrawable;
+    private final Drawable showerDrawable;
+    private final List<Image> waterdropList;
+    private final List<Image> soapBubbleList;
     private int currentWaterIndex, currentBubbleIndex;
     private long lastWaterEffect, lastBubbleEffect;
 
     private boolean useShower, done;
 
-    private ShowerListener listener;
+    private final ShowerListener listener;
 
     public Shower(AssetsManager assetsManager, ShowerListener listener) {
         super(assetsManager, Values.SOAP);

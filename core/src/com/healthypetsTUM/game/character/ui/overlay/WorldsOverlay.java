@@ -22,13 +22,13 @@ import com.healthypetsTUM.game.util.ui.Overlay;
 import java.util.List;
 
 public class WorldsOverlay extends Overlay {
-    private Table itemsTable;
+    private final Table itemsTable;
 
     private Table[] wholeTables;
     private Label[] itemLabels, levelLabels;
-    private Image[] coins, items, levels, itemStates;
-
-    private ScrollPane scrollPane;
+    private Image[] coins;
+    private Image[] levels;
+    private Image[] itemStates;
 
     private ShopListener shopListener;
 
@@ -52,7 +52,7 @@ public class WorldsOverlay extends Overlay {
         itemsTable = new Table();
         createItems(assetsManager);
 
-        scrollPane = new ScrollPane(itemsTable);
+        ScrollPane scrollPane = new ScrollPane(itemsTable);
         scrollPane.setScrollingDisabled(true, false);
         contentTable.add(scrollPane).width(Values.BTN_SIZE*6f).height(Values.BTN_SIZE*8f)
                 .padBottom(Values.SPACING_SMALL).row();
@@ -62,7 +62,7 @@ public class WorldsOverlay extends Overlay {
         itemLabels = new Label[Values.WORLD_COUNT];
         levelLabels = new Label[Values.WORLD_COUNT];
         coins = new Image[Values.WORLD_COUNT];
-        items = new Image[Values.WORLD_COUNT];
+        Image[] items = new Image[Values.WORLD_COUNT];
         levels = new Image[Values.WORLD_COUNT];
         itemStates = new Image[Values.WORLD_COUNT];
 
@@ -162,7 +162,8 @@ public class WorldsOverlay extends Overlay {
     }
 
     public void levelChanged(int lvl) {
-
+        for(int i = 0; i < itemLabels.length; ++i)
+            if(getLevel(i) <= lvl) enableItem(i);
     }
 
     private void enableItem(int i) {

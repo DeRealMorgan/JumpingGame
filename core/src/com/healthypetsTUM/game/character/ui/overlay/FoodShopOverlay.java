@@ -18,13 +18,7 @@ import com.healthypetsTUM.game.util.store.DataUtils;
 import com.healthypetsTUM.game.util.ui.Overlay;
 
 public class FoodShopOverlay extends Overlay {
-    private Table itemsTable;
-
-    private Table[] wholeTables;
-    private Label[] itemLabels;
-    private Image[] coins, items;
-
-    private ScrollPane scrollPane;
+    private final Table itemsTable;
 
     private ShopListener shopListener;
 
@@ -46,18 +40,18 @@ public class FoodShopOverlay extends Overlay {
         itemsTable = new Table();
         createItems(assetsManager);
 
-        scrollPane = new ScrollPane(itemsTable);
+        ScrollPane scrollPane = new ScrollPane(itemsTable);
         scrollPane.setScrollingDisabled(true, false);
         contentTable.add(scrollPane).width(Values.BTN_SIZE*6f).height(Values.BTN_SIZE*8f)
                 .padBottom(Values.SPACING_SMALL).row();
     }
 
     private void createItems(AssetsManager assetsManager) {
-        itemLabels = new Label[Values.FOOD_ITEM_COUNT];
-        coins = new Image[Values.FOOD_ITEM_COUNT];
-        items = new Image[Values.FOOD_ITEM_COUNT];
+        Label[] itemLabels = new Label[Values.FOOD_ITEM_COUNT];
+        Image[] coins = new Image[Values.FOOD_ITEM_COUNT];
+        Image[] items = new Image[Values.FOOD_ITEM_COUNT];
 
-        wholeTables = new Table[Values.FOOD_ITEM_COUNT];
+        Table[] wholeTables = new Table[Values.FOOD_ITEM_COUNT];
 
         for(int i = 0; i < itemLabels.length; ++i) {
             coins[i] = new Image(assetsManager.getDrawable(Values.COIN));

@@ -8,7 +8,8 @@ import java.util.Collection;
 import java.util.List;
 
 public class PhysicsEngineImpl implements PhysicsEngine {
-    private static Rectangle r1 = new Rectangle(), r2 = new Rectangle();
+    private static final Rectangle r1 = new Rectangle();
+    private static final Rectangle r2 = new Rectangle();
     private final List<PhysicsEntity> entityList;
 
     private boolean run = true;

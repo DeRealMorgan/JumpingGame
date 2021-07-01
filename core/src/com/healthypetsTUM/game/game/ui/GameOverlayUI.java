@@ -14,7 +14,7 @@ import com.healthypetsTUM.game.util.Sounds;
 import com.healthypetsTUM.game.util.Values;
 
 public class GameOverlayUI {
-    private Table contentTable, screenTable;
+    private Table screenTable;
     private Label scoreLabel, mathLabel;
     private Button pauseBtn;
 
@@ -26,7 +26,7 @@ public class GameOverlayUI {
     }
 
     private void buildUI(AssetsManager assetsManager) {
-        contentTable = new Table();
+        Table contentTable = new Table();
 
         screenTable = new Table();
         screenTable.setFillParent(true);

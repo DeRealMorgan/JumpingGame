@@ -16,11 +16,11 @@ import com.healthypetsTUM.game.util.Values;
 import com.healthypetsTUM.game.util.interfaces.ScreenManager;
 
 public class PauseUI {
-    private ScreenManager screenManager;
-    private Table contentTable, screenTable;
-    private Label pauseLabel, scoreLabel, mathLabel;
-    private TextButton continueBtn, backBtn;
-    private Runnable onResume;
+    private final ScreenManager screenManager;
+    private Table screenTable;
+    private Label scoreLabel;
+    private Label mathLabel;
+    private final Runnable onResume;
 
     public PauseUI(AssetsManager assetsManager, ScreenManager screenManager, Runnable onResume) {
         buildUI(assetsManager);
@@ -29,7 +29,7 @@ public class PauseUI {
     }
 
     private void buildUI(AssetsManager assetsManager) {
-        contentTable = new Table();
+        Table contentTable = new Table();
         contentTable.background(assetsManager.get9Drawable(Values.MENU_BACK));
         contentTable.padBottom(Values.PADDING).padTop(Values.PADDING);
 
@@ -42,7 +42,7 @@ public class PauseUI {
         screenTable.add(contentTable).center();
 
         Table pauseTable = new Table();
-        pauseLabel = new Label(Values.PAUSE, assetsManager.labelStyleBig());
+        Label pauseLabel = new Label(Values.PAUSE, assetsManager.labelStyleBig());
         pauseLabel.setAlignment(Align.center);
         pauseTable.add(pauseLabel).padTop(Values.SPACING*.5f).padBottom(Values.SPACING*.5f).growX();
         pauseTable.background(assetsManager.getDrawable(Values.WINDOW_BANNER));
@@ -53,7 +53,7 @@ public class PauseUI {
         mathLabel = new Label(Values.MATH_SCORE + 0, assetsManager.labelStyle());
         mathLabel.setAlignment(Align.center);
 
-        backBtn = new TextButton(Values.BACK, assetsManager.textBtnStyle());
+        TextButton backBtn = new TextButton(Values.BACK, assetsManager.textBtnStyle());
         backBtn.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
@@ -61,7 +61,7 @@ public class PauseUI {
                 screenManager.setScreen(ScreenName.CHARACTER_SCREEN);
             }
         });
-        continueBtn = new TextButton(Values.CONTINUE, assetsManager.textBtnStyle());
+        TextButton continueBtn = new TextButton(Values.CONTINUE, assetsManager.textBtnStyle());
         continueBtn.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {

@@ -17,13 +17,12 @@ import com.healthypetsTUM.game.util.ui.OverlayUtils;
 import com.healthypetsTUM.game.util.ui.ToggleButton;
 
 public class SettingsOverlay extends Overlay {
-    private Table musicTable, soundTable;
-    private ToggleButton musicButton, soundButton;
-    private Slider musicSlider, soundSlider;
+    private final ToggleButton musicButton;
+    private final ToggleButton soundButton;
+    private final Slider musicSlider;
+    private final Slider soundSlider;
 
-    private Table soundsTable;
-
-    private Musics musics;
+    private final Musics musics;
 
     public SettingsOverlay(AssetsManager assetsManager) {
         super(assetsManager, Values.SETTINGS_HEADER);
@@ -92,15 +91,15 @@ public class SettingsOverlay extends Overlay {
             }
         });
 
-        musicTable = new Table();
+        Table musicTable = new Table();
         musicTable.add(musicButton.getImage()).size(Values.BTN_SIZE).spaceRight(Values.SPACING);
         musicTable.add(musicSlider).size(Values.BTN_SIZE*3, Values.BTN_SIZE);
 
-        soundTable = new Table();
+        Table soundTable = new Table();
         soundTable.add(soundButton.getImage()).size(Values.BTN_SIZE).spaceRight(Values.SPACING);
         soundTable.add(soundSlider).size(Values.BTN_SIZE*3, Values.BTN_SIZE);
 
-        soundsTable = new Table();
+        Table soundsTable = new Table();
         soundsTable.add(musicTable).spaceBottom(Values.SPACING).row();
         soundsTable.add(soundTable);
         contentTable.add(soundsTable).width(Values.BTN_SIZE*7f).row();

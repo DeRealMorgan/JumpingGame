@@ -221,6 +221,12 @@ public class UIManagerImpl implements UIManager, ShopListener {
                 math.setOnCorrectMath(arg -> {
                     setUiVisible(false);
                     shower.show();
+
+
+                    DataUtils.getUserData().incMath();
+                    DataUtils.storeUserData();
+                    updateUIBar();
+                    worldsOverlay.levelChanged(DataUtils.getUserData().getLvl());
                 });
                 math.showMathExercise(null);
             }
@@ -245,8 +251,16 @@ public class UIManagerImpl implements UIManager, ShopListener {
                 if(foodBtn.isDisabled()) return;
                 Sounds.click();
 
-                math.setOnCorrectMath(arg -> foodShopOverlay.show());
+                math.setOnCorrectMath(arg -> {
+                    foodShopOverlay.show();
+
+                    DataUtils.getUserData().incMath();
+                    DataUtils.storeUserData();
+                    updateUIBar();
+                    worldsOverlay.levelChanged(DataUtils.getUserData().getLvl());
+                });
                 math.showMathExercise(null);
+
             }
         });
 
@@ -264,6 +278,11 @@ public class UIManagerImpl implements UIManager, ShopListener {
                 math.setOnCorrectMath(arg -> {
                     setUiVisible(false);
                     hand.show();
+
+                    DataUtils.getUserData().incMath();
+                    DataUtils.storeUserData();
+                    updateUIBar();
+                    worldsOverlay.levelChanged(DataUtils.getUserData().getLvl());
                 });
                 math.showMathExercise(null);
             }

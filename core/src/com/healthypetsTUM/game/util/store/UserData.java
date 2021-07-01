@@ -150,7 +150,10 @@ public class UserData {
         this.math = math;
     }
 
-    public void incMath() { this.math++;}
+    public void incMath() {
+        this.math++;
+        this.lvl = 1 + math/25;
+    }
 
     public void setCoins(int coins) {
         this.coins = coins;

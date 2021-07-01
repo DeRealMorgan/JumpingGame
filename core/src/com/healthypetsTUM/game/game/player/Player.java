@@ -11,7 +11,7 @@ import com.healthypetsTUM.game.util.*;
 public class Player implements PhysicsEntity {
     private GameUIController gameUIController;
 
-    private ZSprite sprite;
+    private final ZSprite sprite;
     private final Vector2 velocityVec;
     private PlayerListener playerListener; // todo maybe change to list
 

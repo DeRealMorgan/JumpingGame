@@ -17,7 +17,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class FoodItem extends DragItem {
-    private List<Image> crumbsList;
+    private final List<Image> crumbsList;
     private int currentIndex;
     private long lastFoodEffect;
 

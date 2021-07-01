@@ -22,12 +22,14 @@ import com.healthypetsTUM.game.util.interfaces.VoidRunnableInt;
 import com.healthypetsTUM.game.util.ui.Overlay;
 
 public class MathImpl extends Overlay implements MathController {
-    private Table exerciseTable, timerTable;
-    private Label timerLabel, exerciseLabel, answerLabel;
+    private final Label timerLabel;
+    private final Label exerciseLabel;
+    private final Label answerLabel;
 
-    private Image clockImg;
-
-    private String[] addStringList, subStringList, mulStringList, divStringList;
+    private final String[] addStringList;
+    private final String[] subStringList;
+    private final String[] mulStringList;
+    private final String[] divStringList;
 
     private MathExercise currentExercise;
     private MathAttachment attachment;
@@ -54,12 +56,12 @@ public class MathImpl extends Overlay implements MathController {
         this.mulStringList = loadList(Values.MUL_EXERCISE_FILE);
         this.divStringList = loadList(Values.DIV_EXERCISE_FILE);
 
-        clockImg = new Image(assetsManager.getDrawable(Values.CLOCK_ICON));
+        Image clockImg = new Image(assetsManager.getDrawable(Values.CLOCK_ICON));
         clockImg.setScaling(Scaling.fillY);
         timerLabel = new Label(getTimeString(), assetsManager.labelStyle());
         timerLabel.setAlignment(Align.left);
 
-        timerTable = new Table();
+        Table timerTable = new Table();
         timerTable.setTouchable(Touchable.disabled);
         timerTable.add(clockImg).padRight(Values.PADDING);
         timerTable.add(timerLabel).growX().row();
@@ -93,7 +95,7 @@ public class MathImpl extends Overlay implements MathController {
         answerLabel = new Label(Values.ANSWER_TEXT, assetsManager.labelStyle());
         answerLabel.setAlignment(Align.left);
 
-        exerciseTable = new Table();
+        Table exerciseTable = new Table();
         exerciseTable.add(exerciseLabel).growX().center().padBottom(Values.PADDING).row();
         exerciseTable.add(timerTable).growX().center().padBottom(Values.PADDING).row();
         exerciseTable.add(answerLabel).center().growX().row();

@@ -13,11 +13,9 @@ import com.healthypetsTUM.game.util.interfaces.ScreenManager;
 public class CharacterScreen implements Screen {
     private final RenderPipelineImpl renderPipeline;
     private final UIManagerImpl uiManager;
-    private final AssetsManager assetsManager;
 
     public CharacterScreen(AssetsManager assetsManager, ScreenManager screenManager, GoogleFit googleFit) {
         this.renderPipeline = new RenderPipelineImpl();
-        this.assetsManager = assetsManager;
 
         this.uiManager = new UIManagerImpl(renderPipeline.getUIViewport(), renderPipeline.getBatch(), assetsManager,
                 screenManager, googleFit::signIn);

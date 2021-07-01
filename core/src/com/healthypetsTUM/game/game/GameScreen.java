@@ -9,12 +9,9 @@ import com.healthypetsTUM.game.util.interfaces.ScreenManager;
 public class GameScreen implements Screen {
     private final RenderPipelineImpl renderPipeline;
     private final GameManagerImpl gameManager;
-    private final AssetsManager assetsManager;
 
     public GameScreen(AssetsManager assetsManager, ScreenManager screenManager) {
         this.renderPipeline = new RenderPipelineImpl();
-        this.assetsManager = assetsManager;
-
         this.gameManager = new GameManagerImpl(renderPipeline, assetsManager, screenManager);
     }
 

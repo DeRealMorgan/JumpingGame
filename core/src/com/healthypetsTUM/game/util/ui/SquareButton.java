@@ -9,7 +9,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Stack;
 import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
 
 public class SquareButton extends Stack {
-    private Button btn;
+    private final Button btn;
 
     public SquareButton(Drawable icon, Drawable background) {
         Image backImg = new Image(background);

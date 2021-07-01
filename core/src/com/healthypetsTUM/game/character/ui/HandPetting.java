@@ -15,7 +15,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class HandPetting extends DragItem {
-    private List<Image> heartsList;
+    private final List<Image> heartsList;
     private int currentIndex;
     private long lastHeartEffect;
 

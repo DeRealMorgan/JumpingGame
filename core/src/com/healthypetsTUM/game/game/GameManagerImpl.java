@@ -35,9 +35,6 @@ public class GameManagerImpl implements GameManager {
     private final UIManagerImpl uiManager;
     private final MathImpl mathImpl;
 
-    private final int width = Values.WORLD_WIDTH;
-    private final int height = Values.WORLD_HEIGHT;
-
     private final Player player;
     private boolean playerJumped;
     private int correctMathCount, score;
@@ -48,8 +45,8 @@ public class GameManagerImpl implements GameManager {
 
     private Tile recentlyJumpedTile, topTile;
 
-    private float tileDistY = 50;
-    private float tileSpawnRate = 2.75f;
+    private final float tileDistY = 50;
+    private final float tileSpawnRate = 2.75f;
 
     private boolean pause, stop;
 
@@ -75,11 +72,12 @@ public class GameManagerImpl implements GameManager {
         this.tileSpriteList = new ArrayList<>();
         this.tileEntityList = new ArrayList<>();
 
-        this.recentlyJumpedTile = new BasicTile(assetsManager, width/2, 0);
+        int width = Values.WORLD_WIDTH;
+        this.recentlyJumpedTile = new BasicTile(assetsManager, width /2, 0);
         this.topTile = recentlyJumpedTile;
 
         this.tileList.add(recentlyJumpedTile);
-        this.player = new Player(assetsManager, width/2, recentlyJumpedTile.getTop(), uiManager);
+        this.player = new Player(assetsManager, width /2, recentlyJumpedTile.getTop(), uiManager);
         this.player.listenToPlayer(this);
         this.playerJumped = true;
         updateWorld();

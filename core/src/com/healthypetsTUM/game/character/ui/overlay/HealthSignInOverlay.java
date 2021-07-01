@@ -13,10 +13,6 @@ import com.healthypetsTUM.game.util.store.DataUtils;
 import com.healthypetsTUM.game.util.ui.Overlay;
 
 public class HealthSignInOverlay extends Overlay {
-    private ScrollPane policyPane;
-    private Label policyLabel;
-    private TextButton okButton;
-
     private Runnable onSignIn;
 
     public HealthSignInOverlay(AssetsManager assetsManager, Runnable onSignIn) {
@@ -24,10 +20,10 @@ public class HealthSignInOverlay extends Overlay {
 
         this.onSignIn = onSignIn;
 
-        policyLabel = new Label(Values.HEALTH_BODY, assetsManager.labelStyleSmall());
+        Label policyLabel = new Label(Values.HEALTH_BODY, assetsManager.labelStyleSmall());
         policyLabel.setWrap(true);
         policyLabel.setAlignment(Align.center);
-        policyPane = new ScrollPane(policyLabel);
+        ScrollPane policyPane = new ScrollPane(policyLabel);
         policyPane.setScrollingDisabled(true, false);
 
         TextButton.TextButtonStyle okBtnStyle = new TextButton.TextButtonStyle();
@@ -35,7 +31,7 @@ public class HealthSignInOverlay extends Overlay {
         okBtnStyle.down = okBtnStyle.up;
         okBtnStyle.font = assetsManager.labelStyle().font;
 
-        okButton = new TextButton(Values.OK, okBtnStyle);
+        TextButton okButton = new TextButton(Values.OK, okBtnStyle);
         okButton.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {

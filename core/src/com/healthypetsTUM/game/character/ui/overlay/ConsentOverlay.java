@@ -15,19 +15,16 @@ import com.healthypetsTUM.game.util.ui.Overlay;
 import com.healthypetsTUM.game.util.ui.ToggleButton;
 
 public class ConsentOverlay extends Overlay {
-    private ScrollPane policyPane;
-    private Label policyLabel;
-    private TextButton okButton;
-    private ToggleButton agreeButton;
-    private Label agreeLabel;
+    private final TextButton okButton;
+    private final ToggleButton agreeButton;
 
     public ConsentOverlay(AssetsManager assetsManager, HealthSignInOverlay healthOverlay) {
         super(assetsManager, Values.CONSENT_HEADER);
 
-        policyLabel = new Label(Values.CONSENT_BODY, assetsManager.labelStyleSmall());
+        Label policyLabel = new Label(Values.CONSENT_BODY, assetsManager.labelStyleSmall());
         policyLabel.setWrap(true);
         policyLabel.setAlignment(Align.center);
-        policyPane = new ScrollPane(policyLabel);
+        ScrollPane policyPane = new ScrollPane(policyLabel);
         policyPane.setScrollingDisabled(true, false);
 
         TextButton.TextButtonStyle okBtnStyle = new TextButton.TextButtonStyle();
@@ -59,7 +56,7 @@ public class ConsentOverlay extends Overlay {
             }
         });
 
-        agreeLabel = new Label(Values.AGREE, assetsManager.labelStyleSmall());
+        Label agreeLabel = new Label(Values.AGREE, assetsManager.labelStyleSmall());
         agreeLabel.setAlignment(Align.left);
 
         contentTable.add(policyPane).width(Values.BTN_SIZE*6f).height(Values.BTN_SIZE*3f)

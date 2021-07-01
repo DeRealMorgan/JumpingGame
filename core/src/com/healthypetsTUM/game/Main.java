@@ -28,20 +28,18 @@ public class Main extends Game implements ScreenManager {
 	private GameState gameState;
 	private AssetsManagerImpl assetsManager;
 
-	private boolean essentialPermissionsGranted;
-	private GoogleFit googleFit;
-	private StoreProvider storeProvider;
+	private final GoogleFit googleFit;
+	private final StoreProvider storeProvider;
 
 	private ScreenName currentScreen;
 
-	private ReentrantLock lock = new ReentrantLock();
-	private Condition waitCondition = lock.newCondition();
+	private final ReentrantLock lock = new ReentrantLock();
+	private final Condition waitCondition = lock.newCondition();
 
 	private Thread stepRefreshThread;
 	private long nextStepRefresh;
 
 	public Main(boolean essentialPermissionsGranted, GoogleFit googleFit, StoreProvider storeProvider) {
-		this.essentialPermissionsGranted = essentialPermissionsGranted;
 		this.googleFit = googleFit;
 		this.storeProvider = storeProvider;
 	}
@@ -86,12 +84,13 @@ public class Main extends Game implements ScreenManager {
 	public void permissionGranted(int code) {
 		if(code == Values.GOOGLE_FIT_REQUEST_CODE) {
 			googleFit.getStepCountToday(steps -> {
-				if(Gdx.app.getType() == Application.ApplicationType.Desktop) {
-
-				}
 				if(steps != -1) {
 					UserData data = DataUtils.getUserData();
-					data.setLastStepCount(steps);
+					if(Gdx.app.getType() == Application.ApplicationType.Desktop) {
+						data.setLastStepCount(9500);
+					} else {
+						data.setLastStepCount(steps);
+					}
 					data.setLastStepStamp(System.currentTimeMillis());
 					DataUtils.storeUserData();
 					if (currentScreen == ScreenName.CHARACTER_SCREEN) {
@@ -114,7 +113,11 @@ public class Main extends Game implements ScreenManager {
 				googleFit.getStepCountToday(steps -> {
 					if(steps != -1) {
 						UserData data = DataUtils.getUserData();
-						data.setLastStepCount(steps);
+						if(Gdx.app.getType() == Application.ApplicationType.Desktop) {
+							data.setLastStepCount(9500);
+						} else {
+							data.setLastStepCount(steps);
+						}
 						data.setLastStepStamp(System.currentTimeMillis());
 						DataUtils.storeUserData();
 						if (currentScreen == ScreenName.CHARACTER_SCREEN) {

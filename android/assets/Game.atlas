@@ -596,7 +596,7 @@ ui_bar_back
   rotate: false
   xy: 1904, 747
   size: 64, 64
-  split: 14, 14, 14, 14
+  split: 14, 14, 0, 14
   orig: 64, 64
   offset: 0, 0
   index: -1

@@ -12,8 +12,9 @@ import com.healthypetsTUM.game.util.Sounds;
  * ToggleButton allows to have a button in two states -> set and unset
  */
 public class ToggleButton {
-    private Image image;
-    private Drawable toggledDrawable, releasedDrawable;
+    private final Image image;
+    private final Drawable toggledDrawable;
+    private final Drawable releasedDrawable;
     private boolean toggled;
 
     public ToggleButton(Drawable released, Drawable toggled) {

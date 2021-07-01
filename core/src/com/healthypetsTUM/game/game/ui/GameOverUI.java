@@ -17,11 +17,11 @@ import com.healthypetsTUM.game.util.Values;
 import com.healthypetsTUM.game.util.interfaces.ScreenManager;
 
 public class GameOverUI {
-    private ScreenManager screenManager;
-    private Table contentTable, screenTable;
-    private Label gameOverLabel, scoreLabel, mathLabel, coinsLabel;
-    private Image coinImg;
-    private TextButton replayBtn, backBtn;
+    private final ScreenManager screenManager;
+    private Table screenTable;
+    private Label scoreLabel;
+    private Label mathLabel;
+    private Label coinsLabel;
 
     public GameOverUI(AssetsManager assetsManager, ScreenManager screenManager) {
         buildUI(assetsManager);
@@ -29,7 +29,7 @@ public class GameOverUI {
     }
 
     private void buildUI(AssetsManager assetsManager) {
-        contentTable = new Table();
+        Table contentTable = new Table();
         contentTable.background(assetsManager.get9Drawable(Values.MENU_BACK));
         contentTable.padBottom(Values.PADDING).padTop(Values.PADDING);
 
@@ -42,7 +42,7 @@ public class GameOverUI {
         screenTable.add(contentTable).center();
 
         Table gameOverTable = new Table();
-        gameOverLabel = new Label(Values.GAME_OVER, assetsManager.labelStyle());
+        Label gameOverLabel = new Label(Values.GAME_OVER, assetsManager.labelStyle());
         gameOverLabel.setAlignment(Align.center);
         gameOverTable.add(gameOverLabel).padTop(Values.SPACING*.5f).padBottom(Values.SPACING*.5f).growX();
         gameOverTable.background(assetsManager.getDrawable(Values.WINDOW_BANNER));
@@ -56,13 +56,13 @@ public class GameOverUI {
         coinsLabel = new Label("= " + 0, assetsManager.labelStyle());
         coinsLabel.setAlignment(Align.left);
 
-        coinImg = new Image(assetsManager.getDrawable(Values.COIN));
+        Image coinImg = new Image(assetsManager.getDrawable(Values.COIN));
 
         Table coinTable = new Table();
         coinTable.add(coinsLabel).padRight(Values.PADDING);
         coinTable.add(coinImg).left();
 
-        backBtn = new TextButton(Values.BACK, assetsManager.textBtnStyle());
+        TextButton backBtn = new TextButton(Values.BACK, assetsManager.textBtnStyle());
         backBtn.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
@@ -71,7 +71,7 @@ public class GameOverUI {
                 screenManager.setScreen(ScreenName.CHARACTER_SCREEN);
             }
         });
-        replayBtn = new TextButton(Values.REPLAY, assetsManager.textBtnStyle());
+        TextButton replayBtn = new TextButton(Values.REPLAY, assetsManager.textBtnStyle());
         replayBtn.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {

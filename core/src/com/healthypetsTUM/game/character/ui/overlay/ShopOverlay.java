@@ -20,13 +20,12 @@ import com.healthypetsTUM.game.util.ui.Overlay;
 import java.util.List;
 
 public class ShopOverlay extends Overlay {
-    private Table itemsTable;
+    private final Table itemsTable;
 
     private Table[] wholeTables;
     private Label[] itemLabels;
-    private Image[] coins, items, itemStates;
-
-    private ScrollPane scrollPane;
+    private Image[] coins;
+    private Image[] itemStates;
 
     private ShopListener shopListener;
 
@@ -50,7 +49,7 @@ public class ShopOverlay extends Overlay {
         itemsTable = new Table();
         createItems(assetsManager);
 
-        scrollPane = new ScrollPane(itemsTable);
+        ScrollPane scrollPane = new ScrollPane(itemsTable);
         scrollPane.setScrollingDisabled(true, false);
         contentTable.add(scrollPane).width(Values.BTN_SIZE*6f).height(Values.BTN_SIZE*8f)
                 .padBottom(Values.SPACING_SMALL).row();
@@ -59,7 +58,7 @@ public class ShopOverlay extends Overlay {
     private void createItems(AssetsManager assetsManager) {
         itemLabels = new Label[Values.ITEM_COUNT];
         coins = new Image[Values.ITEM_COUNT];
-        items = new Image[Values.ITEM_COUNT];
+        Image[] items = new Image[Values.ITEM_COUNT];
         itemStates = new Image[Values.ITEM_COUNT];
 
         wholeTables = new Table[Values.ITEM_COUNT];
@@ -117,7 +116,12 @@ public class ShopOverlay extends Overlay {
         for(int i : bought) purchase(i, false);
 
         List<Integer> equiped = data.getEquipedItems();
-        for(int i : equiped) wholeTables[i].background(equipedBack);
+        for(int i : equiped) {
+            wholeTables[i].background(equipedBack);
+
+            coins[i].remove();
+            itemLabels[i].remove();
+        }
 
     }
 
