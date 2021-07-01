@@ -34,9 +34,10 @@ public class UIManagerImpl implements UIManager, ShopListener {
     private final AssetsManager assetsManager;
     private final Stage stage;
 
-    private Table contentTable, backgroundTable, uiTableLeft, uiTableRight, uiTableBottom, progressTable;
-    private Table showerTable, foodTable, petTable, minigameTable;
-    private Button shopBtn, achievementsBtn, worldsBtn, settingsBtn;
+    private Table backgroundTable;
+    private Table uiTableLeft;
+    private Table uiTableRight;
+    private Table uiTableBottom;
     private Button showerBtn, foodBtn, petBtn, minigameBtn;
 
     private Character character;
@@ -78,7 +79,7 @@ public class UIManagerImpl implements UIManager, ShopListener {
 
         character = new Character(assetsManager, stage);
 
-        contentTable = new Table();
+        Table contentTable = new Table();
         contentTable.setFillParent(true);
         stage.addActor(contentTable);
 
@@ -103,7 +104,7 @@ public class UIManagerImpl implements UIManager, ShopListener {
         Button.ButtonStyle shopBtnStyle = new Button.ButtonStyle();
         shopBtnStyle.down = assetsManager.getDrawable(Values.SHOP_BTN);
         shopBtnStyle.up = shopBtnStyle.down;
-        shopBtn = new Button(shopBtnStyle);
+        Button shopBtn = new Button(shopBtnStyle);
         shopBtn.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
@@ -115,7 +116,7 @@ public class UIManagerImpl implements UIManager, ShopListener {
         Button.ButtonStyle worldsBtnStyle = new Button.ButtonStyle();
         worldsBtnStyle.down = assetsManager.getDrawable(Values.WORLDS_BTN);
         worldsBtnStyle.up = worldsBtnStyle.down;
-        worldsBtn = new Button(worldsBtnStyle);
+        Button worldsBtn = new Button(worldsBtnStyle);
         worldsBtn.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
@@ -130,12 +131,12 @@ public class UIManagerImpl implements UIManager, ShopListener {
         Button.ButtonStyle achievementsBtnStyle = new Button.ButtonStyle();
         achievementsBtnStyle.down = assetsManager.getDrawable(Values.ACHIEVEMENTS_BTN);
         achievementsBtnStyle.up = achievementsBtnStyle.down;
-        achievementsBtn = new Button(achievementsBtnStyle);
+        Button achievementsBtn = new Button(achievementsBtnStyle);
 
         Button.ButtonStyle settingsBtnStyle = new Button.ButtonStyle();
         settingsBtnStyle.down = assetsManager.getDrawable(Values.SETTINGS_BTN);
         settingsBtnStyle.up = settingsBtnStyle.down;
-        settingsBtn = new Button(settingsBtnStyle);
+        Button settingsBtn = new Button(settingsBtnStyle);
         settingsBtn.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
@@ -145,7 +146,7 @@ public class UIManagerImpl implements UIManager, ShopListener {
         });
 
         uiTableRight.add(settingsBtn).size(Values.BTN_SIZE).padBottom(20f).row();
-        uiTableRight.add(achievementsBtn).size(Values.BTN_SIZE).row();
+        //uiTableRight.add(achievementsBtn).size(Values.BTN_SIZE).row();
 
         int minH = 50;
         progressbarRed = assetsManager.get9Drawable(Values.PROGRESSBAR_FRONT_RED);
@@ -203,7 +204,7 @@ public class UIManagerImpl implements UIManager, ShopListener {
         petProgressbar = new ProgressBar(0, Values.MAX_PET_AMOUNT, 1, false, progressbarStyleSmall3);
         minigameProgressbar = new ProgressBar(0, Values.MAX_PLAY_AMOUNT, 1, false, progressbarStyleSmall4);
 
-        progressTable = new Table();
+        Table progressTable = new Table();
         progressLabel = new Label(DataUtils.getUserData().getLastStepCount() + Values.STEPS_PROGRESS1 + Values.MAX_STEPS + Values.STEPS_PROGRESS2, assetsManager.labelStyleSmall());
         progressBar = new ProgressBar(0, 10000, 1, false, progressBarStyle);
 
@@ -303,10 +304,10 @@ public class UIManagerImpl implements UIManager, ShopListener {
             }
         });
 
-        showerTable = new Table();
-        foodTable = new Table();
-        petTable = new Table();
-        minigameTable = new Table();
+        Table showerTable = new Table();
+        Table foodTable = new Table();
+        Table petTable = new Table();
+        Table minigameTable = new Table();
 
         showerTable.add(showerBtn).size(Values.BTN_SIZE).row();
         showerTable.add(showerProgressbar).width(Values.BTN_SIZE).height(Values.BTN_SIZE/7f).padTop(5f);
