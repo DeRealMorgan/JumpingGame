@@ -122,7 +122,7 @@ public class Values {
     public static final String CHECKBOX_UNCHECKED = "checkbox_unchecked",
             CHECKBOX_CHECKED = "checkbox_checked";
 
-    public static final String LVL = "Lvl ", BOUGHT = "Gekauft";
+    public static final String LVL = "Level ", BOUGHT = "Gekauft";
 
     public static final String TREATS_WORK = "treats_worker";
     public static final String TREAT_NOTIFICATION_TITLE = "Item gefunden!";

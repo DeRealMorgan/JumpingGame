@@ -2,6 +2,7 @@ package com.healthypetsTUM.game.character.ui.overlay;
 
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
+import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Slider;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
@@ -91,11 +92,16 @@ public class SettingsOverlay extends Overlay {
             }
         });
 
+        Label musicLabel = new Label("Musik:", assetsManager.labelStyle());
+        Label soundsLabel = new Label("Sounds:", assetsManager.labelStyle());
+
         Table musicTable = new Table();
+        musicTable.add(musicLabel).row();
         musicTable.add(musicButton.getImage()).size(Values.BTN_SIZE).spaceRight(Values.SPACING);
         musicTable.add(musicSlider).size(Values.BTN_SIZE*3, Values.BTN_SIZE);
 
         Table soundTable = new Table();
+        soundTable.add(soundsLabel).row();
         soundTable.add(soundButton.getImage()).size(Values.BTN_SIZE).spaceRight(Values.SPACING);
         soundTable.add(soundSlider).size(Values.BTN_SIZE*3, Values.BTN_SIZE);
 

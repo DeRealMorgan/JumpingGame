@@ -23,7 +23,7 @@ public class UIManagerImpl implements UIManager, GameUIController {
     private final UIBar uiBar;
 
     public UIManagerImpl(Viewport viewport, SpriteBatch batch, AssetsManager assetsManager,
-                         ScreenManager screenManager, Runnable onPause, Runnable onResume) {
+                         ScreenManager screenManager, Runnable onPause, Runnable onResume, Runnable onBackPressed) {
         stage = new Stage(viewport, batch);
         stageBack = new Stage(viewport, batch);
 
@@ -35,7 +35,7 @@ public class UIManagerImpl implements UIManager, GameUIController {
         gameOverUI = new GameOverUI(assetsManager, screenManager);
         gameOverUI.addToStage(stage);
 
-        pauseUI = new PauseUI(assetsManager, screenManager, onResume);
+        pauseUI = new PauseUI(assetsManager, screenManager, onResume, onBackPressed);
         pauseUI.addToStage(stage);
 
         uiBar = new UIBar(assetsManager);
@@ -58,17 +58,17 @@ public class UIManagerImpl implements UIManager, GameUIController {
         stage.act(dt);
     }
 
-    public void updateScore(int score) {
-        gameOverlayUI.updateScore(score);
-        gameOverUI.updateScore(score);
-        pauseUI.updateScore(score);
+    public void updateScore(int coins) {
+        gameOverlayUI.updateCoins(coins);
+        gameOverUI.updateCoins(coins);
+        pauseUI.updateCoins(coins);
     }
 
-    public void updateMathScore(int score) {
-        uiBar.setMath(DataUtils.getUserData().getMath());
-        gameOverlayUI.updateMathScore(score);
-        gameOverUI.updateMathScore(score);
-        pauseUI.updateMathScore(score);
+    public void updateMathScore(int coins, int math) {
+        uiBar.setMath(math);
+        gameOverlayUI.updateCoins(coins);
+        gameOverUI.updateCoins(coins);
+        pauseUI.updateCoins(coins);
     }
 
     private void updateUIBar() {

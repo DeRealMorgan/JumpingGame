@@ -19,8 +19,6 @@ import com.healthypetsTUM.game.util.interfaces.ScreenManager;
 public class GameOverUI {
     private final ScreenManager screenManager;
     private Table screenTable;
-    private Label scoreLabel;
-    private Label mathLabel;
     private Label coinsLabel;
 
     public GameOverUI(AssetsManager assetsManager, ScreenManager screenManager) {
@@ -47,13 +45,7 @@ public class GameOverUI {
         gameOverTable.add(gameOverLabel).padTop(Values.SPACING*.5f).padBottom(Values.SPACING*.5f).growX();
         gameOverTable.background(assetsManager.getDrawable(Values.WINDOW_BANNER));
 
-        scoreLabel = new Label("", assetsManager.labelStyle());
-        scoreLabel.setAlignment(Align.left);
-
-        mathLabel = new Label(Values.MATH_SCORE + 0, assetsManager.labelStyle());
-        mathLabel.setAlignment(Align.left);
-
-        coinsLabel = new Label("= " + 0, assetsManager.labelStyle());
+        coinsLabel = new Label("0", assetsManager.labelStyle());
         coinsLabel.setAlignment(Align.left);
 
         Image coinImg = new Image(assetsManager.getDrawable(Values.COIN));
@@ -82,8 +74,6 @@ public class GameOverUI {
         });
 
         contentTable.add(gameOverTable).spaceBottom(Values.PADDING_BIG).width(Values.BTN_SIZE*6).growX().row();
-        contentTable.add(scoreLabel).padBottom(Values.PADDING).row();
-        contentTable.add(mathLabel).padBottom(Values.PADDING).row();
         contentTable.add(coinTable).padBottom(Values.PADDING_BIG).row();
         contentTable.add(replayBtn).padBottom(Values.PADDING).padLeft(Values.PADDING)
                 .padRight(Values.PADDING).growX().row();
@@ -95,16 +85,8 @@ public class GameOverUI {
         stage.addActor(screenTable);
     }
 
-    public void updateScore(int score) {
-        scoreLabel.setText(Values.SCORE + score);
-    }
-
-    public void updateMathScore(int score) {
-        mathLabel.setText(Values.MATH_SCORE + score);
-    }
-
-    public void updateCoinScore(int score) {
-        coinsLabel.setText("= " + score);
+    public void updateCoins(int coins) {
+        coinsLabel.setText(Integer.toString(coins));
     }
 
     public void show() {

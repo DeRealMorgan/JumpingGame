@@ -4,13 +4,13 @@ import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.Touchable;
 import com.badlogic.gdx.scenes.scene2d.actions.Actions;
+import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.Align;
 import com.healthypetsTUM.game.assets.AssetsManager;
-import com.healthypetsTUM.game.util.ScreenName;
 import com.healthypetsTUM.game.util.Sounds;
 import com.healthypetsTUM.game.util.Values;
 import com.healthypetsTUM.game.util.interfaces.ScreenManager;
@@ -18,14 +18,15 @@ import com.healthypetsTUM.game.util.interfaces.ScreenManager;
 public class PauseUI {
     private final ScreenManager screenManager;
     private Table screenTable;
-    private Label scoreLabel;
-    private Label mathLabel;
-    private final Runnable onResume;
+    private final Runnable onResume, onBack;
 
-    public PauseUI(AssetsManager assetsManager, ScreenManager screenManager, Runnable onResume) {
+    private Label coinsLabel;
+
+    public PauseUI(AssetsManager assetsManager, ScreenManager screenManager, Runnable onResume, Runnable onBack) {
         buildUI(assetsManager);
         this.screenManager = screenManager;
         this.onResume = onResume;
+        this.onBack = onBack;
     }
 
     private void buildUI(AssetsManager assetsManager) {
@@ -47,18 +48,22 @@ public class PauseUI {
         pauseTable.add(pauseLabel).padTop(Values.SPACING*.5f).padBottom(Values.SPACING*.5f).growX();
         pauseTable.background(assetsManager.getDrawable(Values.WINDOW_BANNER));
 
-        scoreLabel = new Label("", assetsManager.labelStyle());
-        scoreLabel.setAlignment(Align.center);
 
-        mathLabel = new Label(Values.MATH_SCORE + 0, assetsManager.labelStyle());
-        mathLabel.setAlignment(Align.center);
+        coinsLabel = new Label("0", assetsManager.labelStyle());
+        coinsLabel.setAlignment(Align.left);
+
+        Image coinImg = new Image(assetsManager.getDrawable(Values.COIN));
+
+        Table coinTable = new Table();
+        coinTable.add(coinsLabel).padRight(Values.PADDING);
+        coinTable.add(coinImg).left();
 
         TextButton backBtn = new TextButton(Values.BACK, assetsManager.textBtnStyle());
         backBtn.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 Sounds.click();
-                screenManager.setScreen(ScreenName.CHARACTER_SCREEN);
+                onBack.run();
             }
         });
         TextButton continueBtn = new TextButton(Values.CONTINUE, assetsManager.textBtnStyle());
@@ -72,9 +77,9 @@ public class PauseUI {
         });
 
         contentTable.add(pauseTable).spaceBottom(Values.PADDING_BIG).width(Values.BTN_SIZE*6).growX().row();
-        contentTable.add(scoreLabel).padBottom(Values.PADDING).row();
-        contentTable.add(mathLabel).padBottom(Values.PADDING_BIG).growX().row();
-        contentTable.add(continueBtn).padBottom(Values.PADDING).padLeft(Values.PADDING).padRight(Values.PADDING).growX().row();
+        contentTable.add(coinTable).padBottom(Values.PADDING).row();
+        contentTable.add(continueBtn).padBottom(Values.PADDING).padLeft(Values.PADDING).padRight(Values.PADDING)
+                .growX().row();
         contentTable.add(backBtn).padLeft(Values.PADDING).padRight(Values.PADDING).growX().row();
 
     }
@@ -83,12 +88,8 @@ public class PauseUI {
         stage.addActor(screenTable);
     }
 
-    public void updateScore(int score) {
-        scoreLabel.setText(Values.SCORE + score);
-    }
-
-    public void updateMathScore(int score) {
-        mathLabel.setText(Values.MATH_SCORE + score);
+    public void updateCoins(int coins) {
+        coinsLabel.setText(Integer.toString(coins));
     }
 
     public void show() {

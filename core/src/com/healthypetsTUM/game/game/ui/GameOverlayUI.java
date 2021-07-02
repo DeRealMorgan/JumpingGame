@@ -5,6 +5,7 @@ import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.Touchable;
 import com.badlogic.gdx.scenes.scene2d.actions.Actions;
 import com.badlogic.gdx.scenes.scene2d.ui.Button;
+import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
@@ -15,8 +16,8 @@ import com.healthypetsTUM.game.util.Values;
 
 public class GameOverlayUI {
     private Table screenTable;
-    private Label scoreLabel, mathLabel;
     private Button pauseBtn;
+    private Label coinsLabel;
 
     private Runnable onPause;
 
@@ -35,11 +36,14 @@ public class GameOverlayUI {
         screenTable.top().left().padTop(Values.TOP_PADDING_UI_GAME);
         screenTable.add(contentTable).growX().fillX().expandX().top().left();
 
-        scoreLabel = new Label(Values.SCORE + "0", assetsManager.labelStyleSmall());
-        scoreLabel.setAlignment(Align.left);
+        coinsLabel = new Label("0", assetsManager.labelStyle());
+        coinsLabel.setAlignment(Align.left);
 
-        mathLabel = new Label(Values.MATH_SCORE + "0", assetsManager.labelStyleSmall());
-        mathLabel.setAlignment(Align.left);
+        Image coinImg = new Image(assetsManager.getDrawable(Values.COIN));
+
+        Table coinTable = new Table();
+        coinTable.add(coinImg).padRight(Values.PADDING);
+        coinTable.add(coinsLabel).left();
 
         Button.ButtonStyle style = new Button.ButtonStyle();
         style.up = assetsManager.getDrawable(Values.PAUSE_BTN);
@@ -56,8 +60,7 @@ public class GameOverlayUI {
         });
 
         Table uiTable = new Table();
-        uiTable.add(scoreLabel).left().expandX().row();
-        uiTable.add(mathLabel).left().padTop(Values.PADDING_SMALL);
+        uiTable.add(coinTable).left().expandX().row();
         contentTable.add(uiTable).left().padBottom(Values.PADDING_SMALL).padTop(Values.PADDING_BIG);
         contentTable.add(pauseBtn).right().expandX().size(Values.BTN_SIZE).padTop(Values.PADDING_BIG).row();
         contentTable.padLeft(Values.PADDING).padRight(Values.PADDING);
@@ -72,24 +75,12 @@ public class GameOverlayUI {
         pauseBtn.setDisabled(true);
     }
 
-    public void updateScore(int score) {
-        scoreLabel.setText(Values.SCORE + score);
-    }
-
-    public void updateMathScore(int score) {
-        mathLabel.setText(Values.MATH_SCORE + score);
+    public void updateCoins(int coins) {
+        coinsLabel.setText(Integer.toString(coins));
     }
 
     public void addToStage(Stage stage) {
         stage.addActor(screenTable);
-    }
-
-    public void setScore(int score) {
-        scoreLabel.setText(Values.SCORE + score);
-    }
-
-    public void setMathScore(int score) {
-        mathLabel.setText(Values.MATH_SCORE + score);
     }
 
     public void show() {

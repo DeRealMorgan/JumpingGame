@@ -17,6 +17,7 @@ import com.healthypetsTUM.game.game.renderer.RenderPipeline;
 import com.healthypetsTUM.game.game.ui.PauseUI;
 import com.healthypetsTUM.game.game.ui.UIManagerImpl;
 import com.healthypetsTUM.game.util.MathUtils;
+import com.healthypetsTUM.game.util.ScreenName;
 import com.healthypetsTUM.game.util.Values;
 import com.healthypetsTUM.game.util.ZSprite;
 import com.healthypetsTUM.game.util.interfaces.ScreenManager;
@@ -28,6 +29,7 @@ import java.util.List;
 
 public class GameManagerImpl implements GameManager {
     private final AssetsManager assetsManager;
+    private final ScreenManager screenManager;
 
     private final RenderPipeline renderPipeline;
     private final PhysicsEngineImpl physicsEngine;
@@ -57,11 +59,12 @@ public class GameManagerImpl implements GameManager {
         assetsManager.clearInputProcessors();
         this.renderPipeline = renderPipeline;
         this.assetsManager = assetsManager;
+        this.screenManager = screenManager;
 
         this.physicsEngine = new PhysicsEngineImpl();
 
         this.uiManager = new UIManagerImpl(this.renderPipeline.getUIViewport(), this.renderPipeline.getBatch(),
-                assetsManager, screenManager, this::onUIPause, this::onUIResume);
+                assetsManager, screenManager, this::onUIPause, this::onUIResume, this::onBackPressed);
         this.renderPipeline.setUiManager(uiManager);
 
         this.mathImpl = new MathImpl(assetsManager, this::mathCorrect, this::mathWrong, this::onMathShow);
@@ -101,6 +104,16 @@ public class GameManagerImpl implements GameManager {
         pauseUI.show();
     }
 
+    private void onBackPressed() {
+        screenManager.setScreen(ScreenName.CHARACTER_SCREEN);
+
+        int earnedCoins = getEarnedCoins();
+        UserData data = DataUtils.getUserData();
+        data.incPlayAmount();
+        data.addCoins(earnedCoins);
+        DataUtils.storeUserData();
+    }
+
     private void onUIResume() {
         resumeUpdate();
     }
@@ -138,15 +151,19 @@ public class GameManagerImpl implements GameManager {
         stop = true;
         player.gameOver();
 
-        int earnedCoins = (score+correctMathCount)/100;
+        int earnedCoins = getEarnedCoins();
         UserData data = DataUtils.getUserData();
         data.incPlayAmount();
         data.addCoins(earnedCoins);
         DataUtils.storeUserData();
 
-        uiManager.getGameOverUI().updateCoinScore(earnedCoins);
+        uiManager.getGameOverUI().updateCoins(earnedCoins);
         uiManager.getGameOverUI().show();
         physicsEngine.stop();
+    }
+
+    private int getEarnedCoins() {
+        return (score+correctMathCount)/100;
     }
 
     public void mathCorrect(int timeLeftS) {
@@ -156,7 +173,7 @@ public class GameManagerImpl implements GameManager {
         DataUtils.storeUserData();
         resumeUpdateSlow();
         enablePause();
-        uiManager.updateMathScore(correctMathCount);
+        uiManager.updateMathScore(getEarnedCoins(), correctMathCount);
     }
 
     public void mathWrong() {
@@ -173,7 +190,7 @@ public class GameManagerImpl implements GameManager {
     @Override
     public void scoreChanged(int score) {
         this.score = Math.max(this.score, score);
-        uiManager.updateScore(this.score);
+        uiManager.updateScore(getEarnedCoins());
     }
 
     public void update(float dt) {
