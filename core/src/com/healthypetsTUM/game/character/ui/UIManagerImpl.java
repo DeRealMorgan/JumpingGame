@@ -5,16 +5,16 @@ import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.Touchable;
 import com.badlogic.gdx.scenes.scene2d.actions.Actions;
-import com.badlogic.gdx.scenes.scene2d.ui.Button;
-import com.badlogic.gdx.scenes.scene2d.ui.Label;
-import com.badlogic.gdx.scenes.scene2d.ui.ProgressBar;
-import com.badlogic.gdx.scenes.scene2d.ui.Table;
+import com.badlogic.gdx.scenes.scene2d.ui.*;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
+import com.badlogic.gdx.scenes.scene2d.utils.SpriteDrawable;
+import com.badlogic.gdx.utils.Scaling;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import com.healthypetsTUM.game.assets.AssetsManager;
 import com.healthypetsTUM.game.character.ui.overlay.*;
 import com.healthypetsTUM.game.game.math.MathImpl;
+import com.healthypetsTUM.game.util.MathUtils;
 import com.healthypetsTUM.game.util.ScreenName;
 import com.healthypetsTUM.game.util.Sounds;
 import com.healthypetsTUM.game.util.Values;
@@ -60,6 +60,9 @@ public class UIManagerImpl implements UIManager, ShopListener {
 
     private final static float BOTTOM_PADDING = 40, TOP_PADDING = 40, SIDE_PADDING = 40;
 
+    private Image[] pooImg;
+    private Image boredImg, hungryImg;
+
     public UIManagerImpl(Viewport viewport, SpriteBatch batch, AssetsManager assetsManager,
                          ScreenManager screenManager, Runnable onHealthSignIn) {
         this.screenManager = screenManager;
@@ -74,10 +77,52 @@ public class UIManagerImpl implements UIManager, ShopListener {
         backgroundTable = new Table();
         backgroundTable.setFillParent(true);
 
-        backgroundTable.background(assetsManager.getBackground(DataUtils.getUserData().getEquipedWorld() + Values.BACKGROUND));
+        backgroundTable.background(assetsManager.getBackground(DataUtils.getUserData().getEquipedWorld() +
+                Values.BACKGROUND));
         stage.addActor(backgroundTable);
 
+        pooImg = new Image[6];
+        for(int i = 0; i < 3; ++i) {
+            pooImg[i] = new Image(assetsManager.getDrawable(Values.POO_ICON));
+            pooImg[i].setTouchable(Touchable.disabled);
+            pooImg[i].setVisible(false);
+            pooImg[i].setScaling(Scaling.fit);
+            pooImg[i].setSize(300, 300);
+            pooImg[i].setPosition(MathUtils.getRandomX(0, Values.CHARACTER_WORLD_WIDTH-200), 250);
+
+            stage.addActor(pooImg[i]);
+        }
+
         character = new Character(assetsManager, stage);
+
+        for(int i = 3; i < pooImg.length; ++i) {
+            pooImg[i] = new Image(assetsManager.getDrawable(Values.POO_ICON));
+            pooImg[i].setTouchable(Touchable.disabled);
+            pooImg[i].setVisible(false);
+            pooImg[i].setScaling(Scaling.fit);
+            pooImg[i].setSize(300, 300);
+            pooImg[i].setPosition(MathUtils.getRandomX(0, Values.CHARACTER_WORLD_WIDTH-200), 250);
+
+            stage.addActor(pooImg[i]);
+        }
+
+        SpriteDrawable d = assetsManager.getSpriteDrawable(Values.BORED_ICON);
+        d.getSprite().setFlip(true, false);
+        boredImg = new Image(d);
+        boredImg.setTouchable(Touchable.disabled);
+        boredImg.setVisible(false);
+        boredImg.setScaling(Scaling.fit);
+        boredImg.setSize(220, 220);
+        boredImg.setPosition(100, 1000);
+        stage.addActor(boredImg);
+
+        hungryImg = new Image(assetsManager.getDrawable(Values.HUNGRY_ICON));
+        hungryImg.setTouchable(Touchable.disabled);
+        hungryImg.setVisible(false);
+        hungryImg.setScaling(Scaling.fit);
+        hungryImg.setSize(230, 230);
+        hungryImg.setPosition(450, 1000);
+        stage.addActor(hungryImg);
 
         Table contentTable = new Table();
         contentTable.setFillParent(true);
@@ -128,10 +173,24 @@ public class UIManagerImpl implements UIManager, ShopListener {
         uiTableLeft.add(shopBtn).size(Values.BTN_SIZE).padBottom(20f).row();
         uiTableLeft.add(worldsBtn).size(Values.BTN_SIZE).row();
 
-        Button.ButtonStyle achievementsBtnStyle = new Button.ButtonStyle();
-        achievementsBtnStyle.down = assetsManager.getDrawable(Values.ACHIEVEMENTS_BTN);
-        achievementsBtnStyle.up = achievementsBtnStyle.down;
-        Button achievementsBtn = new Button(achievementsBtnStyle);
+        Button.ButtonStyle mathBtnStyle = new Button.ButtonStyle();
+        mathBtnStyle.down = assetsManager.getDrawable(Values.ACHIEVEMENTS_BTN);
+        mathBtnStyle.up = mathBtnStyle.down;
+        Button mathBtn = new Button(mathBtnStyle);
+        mathBtn.addListener(new ClickListener() {
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                Sounds.click();
+
+                math.setOnCorrectMath(arg -> {
+                    DataUtils.getUserData().incMath();
+                    DataUtils.storeUserData();
+                    updateUIBar();
+                    worldsOverlay.levelChanged(DataUtils.getUserData().getLvl());
+                });
+                math.showMathExercise(null);
+            }
+        });
 
         Button.ButtonStyle settingsBtnStyle = new Button.ButtonStyle();
         settingsBtnStyle.down = assetsManager.getDrawable(Values.SETTINGS_BTN);
@@ -146,7 +205,7 @@ public class UIManagerImpl implements UIManager, ShopListener {
         });
 
         uiTableRight.add(settingsBtn).size(Values.BTN_SIZE).padBottom(20f).row();
-        //uiTableRight.add(achievementsBtn).size(Values.BTN_SIZE).row();
+        uiTableRight.add(mathBtn).size(Values.BTN_SIZE).row();
 
         int minH = 50;
         progressbarRed = assetsManager.get9Drawable(Values.PROGRESSBAR_FRONT_RED);
@@ -420,20 +479,56 @@ public class UIManagerImpl implements UIManager, ShopListener {
     private void setBars() {
         UserData data = DataUtils.getUserData();
         showerProgressbar.setValue(data.getShowerAmount());
-        if(data.getShowerAmount() > 0)
+        if(data.getShowerAmount() > 0) {
             showerProgressbar.getStyle().knobBefore = progressbarGreenSmall;
+            setNotDirty();
+        } else
+            setDirty();
 
         foodProgressbar.setValue(data.getFoodAmount());
-        if(data.getFoodAmount() > 0)
+        if(data.getFoodAmount() > 0) {
             foodProgressbar.getStyle().knobBefore = progressbarGreenSmall;
+            setNotHungry();
+        } else
+            setHungry();
 
         petProgressbar.setValue(data.getPetAmount());
-        if(data.getPetAmount() > 0)
+        if(data.getPetAmount() > 0) {
             petProgressbar.getStyle().knobBefore = progressbarGreenSmall;
+            character.setHappy();
+        } else
+            character.setSad();
 
         minigameProgressbar.setValue(data.getPlayAmount());
-        if(data.getPlayAmount() > 0)
+        if(data.getPlayAmount() > 0) {
             minigameProgressbar.getStyle().knobBefore = progressbarGreenSmall;
+            setNotBored();
+        } else
+            setBored();
+    }
+
+    private void setNotDirty() {
+        for(Image i : pooImg) i.setVisible(false);
+    }
+
+    private void setDirty() {
+        for(Image i : pooImg) i.setVisible(true);
+    }
+
+    private void setNotHungry() {
+        hungryImg.setVisible(false);
+    }
+
+    private void setHungry() {
+        hungryImg.setVisible(true);
+    }
+
+    private void setBored() {
+        boredImg.setVisible(true);
+    }
+
+    private void setNotBored() {
+        boredImg.setVisible(false);
     }
 
     private void showerDone() {

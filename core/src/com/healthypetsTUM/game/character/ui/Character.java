@@ -29,6 +29,9 @@ public class Character {
     private final Container<Image> leftArmClothing;
     private final Container<Image> rightArmClothing;
     private final Container<Image> headClothing;
+    private final Container<Image> mouthImg;
+
+    private SpriteDrawable happyMouthDrawable, sadMouthDrawable;
 
     public Character(AssetsManager assetsManager, Stage stage) {
         Container<Image> leftLegImg = getImg(assetsManager.getSpriteDrawable(Values.PIG_LEG));
@@ -64,12 +67,15 @@ public class Character {
         rightEarTexture.getSprite().setFlip(true, false);
         Container<Image> rightEarImg = getImg(rightEarTexture);
 
+        happyMouthDrawable = assetsManager.getSpriteDrawable(Values.PIG_MOUTH);
+        sadMouthDrawable = assetsManager.getSpriteDrawable(Values.PIG_MOUTH_SAD);
+
         Container<Image> headImg = getImg(assetsManager.getSpriteDrawable(Values.PIG_HEAD));
         headClothing = getImg(assetsManager.getSpriteDrawable(Values.INVISIBLE_HEAD));
         Container<Image> bodyImg = getImg(assetsManager.getSpriteDrawable(Values.PIG_BODY));
         bodyClothing = getImg(assetsManager.getSpriteDrawable(Values.PIG_BODY));
         Container<Image> noseImg = getImg(assetsManager.getSpriteDrawable(Values.PIG_NOSE));
-        Container<Image> mouthImg = getImg(assetsManager.getSpriteDrawable(Values.PIG_MOUTH));
+        mouthImg = getImg(happyMouthDrawable);
         Container<Image> hairImg = getImg(assetsManager.getSpriteDrawable(Values.PIG_HAIR));
 
         leftArm = new Stack();
@@ -230,5 +236,13 @@ public class Character {
 
     public Rectangle getBodyBounds() {
         return bounds.set(leftArm.getX(), leftLeg.getY(), rightArm.getRight(), head.getTop());
+    }
+
+    public void setHappy() {
+        mouthImg.getActor().setDrawable(happyMouthDrawable);
+    }
+
+    public void setSad() {
+        mouthImg.getActor().setDrawable(sadMouthDrawable);
     }
 }

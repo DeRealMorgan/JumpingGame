@@ -76,7 +76,7 @@ public class MathImpl extends Overlay implements MathController {
 
                 if(keycode == Input.Keys.BACK || keycode == Input.Keys.ENTER)
                     closeKeyboard();
-                if(keycode == Input.Keys.DEL)
+                if(keycode == Input.Keys.DEL || keycode == Input.Keys.NUMPAD_SUBTRACT)
                     deleteChar();
 
                 return true;

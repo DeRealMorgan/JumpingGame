@@ -119,6 +119,8 @@ public class Shower extends DragItem {
     public void reset() {
         useSoap();
 
+        dragItemImg.setVisible(false);
+
         done = false;
         currentBubbleIndex = 0;
         currentWaterIndex = 0;

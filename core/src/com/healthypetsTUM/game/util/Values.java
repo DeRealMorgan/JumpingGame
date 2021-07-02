@@ -17,7 +17,7 @@ public class Values {
 
     public static final int SPACE_BELOW_TILE_Y = WORLD_HEIGHT/20; // how much of world below player tile is on screen
 
-    public static final int MATH_TIME = 30000; // how much time for giving an answer to a math exercise
+    public static final int MATH_TIME = 15*1000; // how much time for giving an answer to a math exercise
     public static final int SLOW_UPDATE = 3000; // for how long game will be slowed down after math exercise
     public static final int EXERCISE_PADDING = 50, PADDING_BIG = 50, PADDING = 30, PADDING_SMALL = 15;
 
@@ -59,7 +59,8 @@ public class Values {
             BTN_UP = "btn_up", BTN_DOWN = "btn_down",
             MUSIC_ON = "musicIconOn", MUSIC_OFF = "musicIconOff",
             SOUNDS_ON = "soundsIconOn", SOUNDS_OFF = "soundsIconOff";
-    public static final String FALLBACK_TEXTURE = "fallback_texture.jpg";
+
+    public static final String POO_ICON = "poo", HUNGRY_ICON = "hungry", BORED_ICON = "boredIcon";
 
     public static final String SLIDER_KNOB = "slider_knob", SLIDER_BAR = "slider_bar";
 
@@ -68,7 +69,7 @@ public class Values {
             PIG_HAIR = "pig_hair",
             PIG_EAR = "pig_ear",
             PIG_EYE = "pig_eyes",
-            PIG_MOUTH = "pig_mouth",
+            PIG_MOUTH = "pig_mouth", PIG_MOUTH_SAD = "pig_mouth_sad",
             PIG_NOSE = "pig_nose",
             PIG_BODY = "pig_body",
             PIG_ARM = "pig_arm",
