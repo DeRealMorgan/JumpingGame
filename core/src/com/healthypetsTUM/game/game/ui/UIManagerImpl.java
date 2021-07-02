@@ -65,7 +65,7 @@ public class UIManagerImpl implements UIManager, GameUIController {
     }
 
     public void updateMathScore(int coins, int math) {
-        uiBar.setMath(math);
+        uiBar.setMath(math, DataUtils.getUserData().getLvl());
         gameOverlayUI.updateCoins(coins);
         gameOverUI.updateCoins(coins);
         pauseUI.updateCoins(coins);
@@ -74,7 +74,7 @@ public class UIManagerImpl implements UIManager, GameUIController {
     private void updateUIBar() {
         UserData data = DataUtils.getUserData();
         uiBar.setCoins(data.getCoins());
-        uiBar.setMath(data.getMath());
+        uiBar.setMath(data.getMath(), data.getLvl());
         uiBar.setLvl(data.getLvl());
     }
 

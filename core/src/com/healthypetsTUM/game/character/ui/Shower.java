@@ -78,11 +78,6 @@ public class Shower extends DragItem {
                 lastWaterEffect = System.currentTimeMillis();
             }
         } else {
-            if(lastBubbleEffect + 100000 < System.currentTimeMillis()) { // effect long gone
-                lastBubbleEffect = System.currentTimeMillis() + Values.SOAPWATER_COOLDOWN;
-                return;
-            }
-
             if(lastBubbleEffect + Values.SOAPWATER_COOLDOWN < System.currentTimeMillis()) {
                 Image img = soapBubbleList.get(currentBubbleIndex);
                 int inset = (int)(bodyBounds.getWidth()/5);

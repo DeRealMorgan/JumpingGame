@@ -87,7 +87,7 @@ public class Main extends Game implements ScreenManager {
 				if(steps != -1) {
 					UserData data = DataUtils.getUserData();
 					if(Gdx.app.getType() == Application.ApplicationType.Desktop) {
-						data.setLastStepCount(9500);
+						data.setLastStepCount(5500);
 					} else {
 						data.setLastStepCount(steps);
 					}
@@ -114,7 +114,7 @@ public class Main extends Game implements ScreenManager {
 					if(steps != -1) {
 						UserData data = DataUtils.getUserData();
 						if(Gdx.app.getType() == Application.ApplicationType.Desktop) {
-							data.setLastStepCount(9500);
+							data.setLastStepCount(5500);
 						} else {
 							data.setLastStepCount(steps);
 						}

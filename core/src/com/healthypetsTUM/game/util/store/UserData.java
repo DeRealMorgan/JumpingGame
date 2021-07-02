@@ -68,11 +68,12 @@ public class UserData {
         if(Gdx.app.getType() == Application.ApplicationType.Desktop) {
             coins = 10000;
             lvl = 10;
+            math = 245;
             unlockedItems.add(0);
             unlockedItems.add(1);
             unlockedItems.add(2);
             unlockedItems.add(3);
-            lastStepCount = 9500;
+            lastStepCount = 5500;
         }
     }
 
@@ -155,6 +156,10 @@ public class UserData {
         this.lvl = 1 + math/25;
     }
 
+    public static int getMathNextLevel(int math, int lvl) {
+        return (lvl)*25;
+    }
+
     public void setCoins(int coins) {
         this.coins = coins;
     }
@@ -204,7 +209,7 @@ public class UserData {
 
 
         if(type == Application.ApplicationType.Desktop)
-            this.lastStepCount = 9500;
+            this.lastStepCount = 5500;
     }
 
     public void treatFound() {
@@ -240,6 +245,7 @@ public class UserData {
     }
 
     public int getLvl() {
+        if(type == Application.ApplicationType.Desktop) return 10;
         return lvl;
     }
 

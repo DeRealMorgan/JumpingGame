@@ -6,6 +6,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.healthypetsTUM.game.assets.AssetsManager;
 import com.healthypetsTUM.game.util.Values;
+import com.healthypetsTUM.game.util.store.UserData;
 
 public class UIBar {
     public Table table;
@@ -61,7 +62,7 @@ public class UIBar {
        coinLabel.setText(coins);
    }
 
-   public void setMath(int math) {
-        mathLabel.setText(math);
+   public void setMath(int math, int lvl) {
+        mathLabel.setText(math + "/" + UserData.getMathNextLevel(math, lvl));
    }
 }

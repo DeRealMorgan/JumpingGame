@@ -265,7 +265,7 @@ public class UIManagerImpl implements UIManager, ShopListener {
 
         Table progressTable = new Table();
         progressLabel = new Label(DataUtils.getUserData().getLastStepCount() + Values.STEPS_PROGRESS1 + Values.MAX_STEPS + Values.STEPS_PROGRESS2, assetsManager.labelStyleSmall());
-        progressBar = new ProgressBar(0, 10000, 1, false, progressBarStyle);
+        progressBar = new ProgressBar(0, Values.MAX_STEPS, 1, false, progressBarStyle);
 
         Button.ButtonStyle showerBtnStyle = new Button.ButtonStyle();
         showerBtnStyle.down = assetsManager.getDrawable(Values.SHOWER_BTN);
@@ -458,7 +458,7 @@ public class UIManagerImpl implements UIManager, ShopListener {
     }
 
     public void currentSteps(int steps) {
-        boolean disableBtns = steps < 5000;
+        boolean disableBtns = steps < 4000;
 
         showerBtn.setDisabled(disableBtns);
         petBtn.setDisabled(disableBtns);
@@ -614,7 +614,7 @@ public class UIManagerImpl implements UIManager, ShopListener {
     private void updateUIBar() {
         UserData data = DataUtils.getUserData();
         uiBar.setCoins(data.getCoins());
-        uiBar.setMath(data.getMath());
+        uiBar.setMath(data.getMath(), data.getLvl());
         uiBar.setLvl(data.getLvl());
     }
 

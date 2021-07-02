@@ -24,7 +24,7 @@ public class CharacterScreen implements Screen {
 
     public void currentSteps(int steps) {
         if(Gdx.app.getType() == Application.ApplicationType.Desktop)
-            uiManager.currentSteps(9500);
+            uiManager.currentSteps(5500);
         else
             uiManager.currentSteps(steps);
     }

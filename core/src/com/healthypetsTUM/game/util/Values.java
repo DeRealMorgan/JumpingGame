@@ -18,7 +18,7 @@ public class Values {
     public static final int SPACE_BELOW_TILE_Y = WORLD_HEIGHT/20; // how much of world below player tile is on screen
 
     public static final int MATH_TIME = 15*1000; // how much time for giving an answer to a math exercise
-    public static final int SLOW_UPDATE = 3000; // for how long game will be slowed down after math exercise
+    public static final int SLOW_UPDATE = 2*1000; // for how long game will be slowed down after math exercise
     public static final int EXERCISE_PADDING = 50, PADDING_BIG = 50, PADDING = 30, PADDING_SMALL = 15;
 
     public static final int TILE_WIDTH_NORMAL = 250,
@@ -122,7 +122,7 @@ public class Values {
     public static final String CHECKBOX_UNCHECKED = "checkbox_unchecked",
             CHECKBOX_CHECKED = "checkbox_checked";
 
-    public static final String LVL = "Level ", BOUGHT = "Gekauft";
+    public static final String LVL = "", BOUGHT = "Gekauft";
 
     public static final String TREATS_WORK = "treats_worker";
     public static final String TREAT_NOTIFICATION_TITLE = "Item gefunden!";
@@ -132,13 +132,13 @@ public class Values {
     public static final String TREAT_LOST = "Du findest das Item bestimmt später noch einmal!";
     public static final String TREAT_COLLECTED = "Sehr gut! Du kannst das Item jetzt im Shop finden.";
     public static final int TREAT_CHECK_TIME_DELTA = 60*15; // seconds between checks
-    public static final int TREAT_START = 5000;
+    public static final int TREAT_START = 4000;
     public static final int TREAT_INTERVAL = 2500;
 
     public static final String STEP_COUNT = "step_count", STEP_COUNT_TIME = "step_count_timestamp";
 
     public static final String STEPS_PROGRESS1 = " von ", STEPS_PROGRESS2 = " Schritten";
-    public static final int MAX_STEPS = 10000;
+    public static final int MAX_STEPS = 8000;
 
     public static final float BTN_SIZE = CHARACTER_WORLD_WIDTH/8, BTN_SIZE_SMALL = 50;
 
