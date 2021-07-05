@@ -61,7 +61,8 @@ public class UIManagerImpl implements UIManager, ShopListener {
     private final static float BOTTOM_PADDING = 40, TOP_PADDING = 40, SIDE_PADDING = 40;
 
     private Image[] pooImg;
-    private Image boredImg, hungryImg;
+    private Label hungryLabel;
+    private Label boredLabel;
 
     public UIManagerImpl(Viewport viewport, SpriteBatch batch, AssetsManager assetsManager,
                          ScreenManager screenManager, Runnable onHealthSignIn) {
@@ -106,23 +107,17 @@ public class UIManagerImpl implements UIManager, ShopListener {
             stage.addActor(pooImg[i]);
         }
 
-        SpriteDrawable d = assetsManager.getSpriteDrawable(Values.BORED_ICON);
-        d.getSprite().setFlip(true, false);
-        boredImg = new Image(d);
-        boredImg.setTouchable(Touchable.disabled);
-        boredImg.setVisible(false);
-        boredImg.setScaling(Scaling.fit);
-        boredImg.setSize(220, 220);
-        boredImg.setPosition(100, 1000);
-        stage.addActor(boredImg);
+        hungryLabel = new Label("Ich habe hunger...", assetsManager.labelStyleSmall());
+        boredLabel = new Label("Mir ist langweilig...", assetsManager.labelStyleSmall());
 
-        hungryImg = new Image(assetsManager.getDrawable(Values.HUNGRY_ICON));
-        hungryImg.setTouchable(Touchable.disabled);
-        hungryImg.setVisible(false);
-        hungryImg.setScaling(Scaling.fit);
-        hungryImg.setSize(230, 230);
-        hungryImg.setPosition(450, 1000);
-        stage.addActor(hungryImg);
+        Table statusTable = new Table();
+        statusTable.add(hungryLabel).center().padBottom(Values.PADDING_SMALL).row();
+        statusTable.add(boredLabel).center().row();
+        statusTable.background(assetsManager.getDrawable(Values.MENU_BACK));
+        Table statTable = new Table();
+        statTable.setFillParent(true);
+        statTable.add(statusTable).padTop(150).expandY().top();
+        stage.addActor(statTable);
 
         Table contentTable = new Table();
         contentTable.setFillParent(true);
@@ -319,8 +314,8 @@ public class UIManagerImpl implements UIManager, ShopListener {
                     updateUIBar();
                     worldsOverlay.levelChanged(DataUtils.getUserData().getLvl());
                 });
-                math.showMathExercise(null);
 
+                math.showMathExercise(null);
             }
         });
 
@@ -466,12 +461,13 @@ public class UIManagerImpl implements UIManager, ShopListener {
         minigameBtn.setDisabled(disableBtns);
 
         progressBar.setValue(steps);
-        if(progressBar.getPercent() < 0.01f)
+        if(progressBar.getPercent() < 0.01f) {
             progressBar.getStyle().knobBefore = progressbarEmpty;
-        else if(steps < Values.MAX_STEPS/2)
+        } else if(steps < Values.MAX_STEPS/2) {
             progressBar.getStyle().knobBefore = progressbarRed;
-        else
+        } else {
             progressBar.getStyle().knobBefore = progressbarGreen;
+        }
 
         progressLabel.setText(steps + Values.STEPS_PROGRESS1 + Values.MAX_STEPS + Values.STEPS_PROGRESS2);
     }
@@ -516,19 +512,21 @@ public class UIManagerImpl implements UIManager, ShopListener {
     }
 
     private void setNotHungry() {
-        hungryImg.setVisible(false);
+        hungryLabel.setVisible(false);
+        hungryLabel.remove();
     }
 
     private void setHungry() {
-        hungryImg.setVisible(true);
+        hungryLabel.setVisible(true);
     }
 
     private void setBored() {
-        boredImg.setVisible(true);
+        boredLabel.setVisible(true);
     }
 
     private void setNotBored() {
-        boredImg.setVisible(false);
+        boredLabel.setVisible(false);
+        boredLabel.remove();
     }
 
     private void showerDone() {
@@ -638,6 +636,15 @@ public class UIManagerImpl implements UIManager, ShopListener {
     }
 
     @Override
+    public void unequipItem(int item) {
+        UserData data = DataUtils.getUserData();
+        data.unequipItem(item);
+        DataUtils.storeUserData();
+
+        character.unequipCloth(item);
+    }
+
+    @Override
     public void buyWorld(int item, int cost) {
         UserData data = DataUtils.getUserData();
         data.subCoins(cost);
@@ -652,6 +659,8 @@ public class UIManagerImpl implements UIManager, ShopListener {
         UserData data = DataUtils.getUserData();
         data.equipWorld(item);
         DataUtils.storeUserData();
+        if(item == -1) backgroundTable.background(new SpriteDrawable());
+
         backgroundTable.background(assetsManager.getBackground(item + Values.BACKGROUND));
     }
 

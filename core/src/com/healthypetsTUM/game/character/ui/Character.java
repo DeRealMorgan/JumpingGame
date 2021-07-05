@@ -218,6 +218,25 @@ public class Character {
         }
     }
 
+    public void unequipCloth(int item) {
+        switch (ClothPiece.bodyPart(item)) {
+            case HEAD:
+                headClothing.getActor().setDrawable(null);
+                return;
+            case BODY:
+                bodyClothing.getActor().setDrawable(null);
+                leftArmClothing.getActor().setDrawable(null);
+                rightArmClothing.getActor().setDrawable(null);
+                return;
+            case LEGS:
+                leftLegClothing.getActor().setDrawable(null);
+                rightLegClothing.getActor().setDrawable(null);
+                return;
+            case SHOES:
+                return;
+        }
+    }
+
     private Container<Image> getImg(SpriteDrawable drawable) {
         return new Container<>(new Image(drawable));
     }

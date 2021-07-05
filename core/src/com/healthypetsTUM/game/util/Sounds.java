@@ -14,12 +14,16 @@ public class Sounds {
     private static float volume;
 
     public static void init() {
-        sounds = new Sound[5];
+        sounds = new Sound[9];
         sounds[0] = Gdx.audio.newSound(soundHandle.child("clickSound.wav"));
         sounds[1] = Gdx.audio.newSound(soundHandle.child("coinSound.wav"));
         sounds[2] = Gdx.audio.newSound(soundHandle.child("jumpSound.wav"));
         sounds[3] = Gdx.audio.newSound(soundHandle.child("correctSound.wav"));
         sounds[4] = Gdx.audio.newSound(soundHandle.child("wrongSound.wav"));
+        sounds[5] = Gdx.audio.newSound(soundHandle.child("buySound.wav"));
+        sounds[6] = Gdx.audio.newSound(soundHandle.child("foodSound.wav"));
+        sounds[7] = Gdx.audio.newSound(soundHandle.child("petSound.wav"));
+        sounds[8] = Gdx.audio.newSound(soundHandle.child("showerSound.wav"));
 
         UserData data = DataUtils.getUserData();
         play = data.playSound();
@@ -49,6 +53,35 @@ public class Sounds {
     public static void wrong() {
         if(!play) return;
         sounds[4].play(volume);
+    }
+
+    public static void buy() {
+        if(!play) return;
+        sounds[5].play(volume);
+    }
+
+    public static int eat() {
+        if(!play) return -1;
+        sounds[6].loop(volume);
+
+        return 6;
+    }
+
+    public static int pet() {
+        if(!play) return -1;
+        sounds[7].loop(volume);
+
+        return 7;
+    }
+
+    public static int shower() {
+        if(!play) return -1;
+        sounds[8].loop(volume);
+        return 8;
+    }
+
+    public static void stop(int index) {
+        sounds[index].stop();
     }
 
     public static void mute(boolean mute) {

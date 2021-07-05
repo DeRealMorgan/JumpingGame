@@ -9,6 +9,7 @@ import com.badlogic.gdx.utils.Align;
 import com.healthypetsTUM.game.assets.AssetsManager;
 import com.healthypetsTUM.game.character.ui.listener.ShowerListener;
 import com.healthypetsTUM.game.util.MathUtils;
+import com.healthypetsTUM.game.util.Sounds;
 import com.healthypetsTUM.game.util.Values;
 
 import java.util.ArrayList;
@@ -25,6 +26,8 @@ public class Shower extends DragItem {
     private boolean useShower, done;
 
     private final ShowerListener listener;
+
+    private int soundID;
 
     public Shower(AssetsManager assetsManager, ShowerListener listener) {
         super(assetsManager, Values.SOAP);
@@ -74,11 +77,16 @@ public class Shower extends DragItem {
                     done = true;
                     hide();
                     listener.showerDone();
+
+                    Sounds.stop(soundID);
+                    soundID = -1;
                 }
                 lastWaterEffect = System.currentTimeMillis();
             }
         } else {
             if(lastBubbleEffect + Values.SOAPWATER_COOLDOWN < System.currentTimeMillis()) {
+                if(soundID == -1) soundID = Sounds.shower();
+
                 Image img = soapBubbleList.get(currentBubbleIndex);
                 int inset = (int)(bodyBounds.getWidth()/5);
                 img.setPosition(bodyBounds.x + MathUtils.getRandomX(inset, (int)bodyBounds.width-inset),
@@ -119,6 +127,8 @@ public class Shower extends DragItem {
         done = false;
         currentBubbleIndex = 0;
         currentWaterIndex = 0;
+
+        soundID = -1;
     }
 
     @Override

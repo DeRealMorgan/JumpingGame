@@ -43,9 +43,20 @@ public class MathImpl extends Overlay implements MathController {
 
     private int mathTime = Values.MATH_TIME;
 
+    private boolean openKeyboard, closeKeyboard;
+
     public MathImpl(AssetsManager assetsManager, VoidRunnableInt onCorrectMath,
                     Runnable onWrongMath, Runnable onMathShow) {
+        this(assetsManager, onCorrectMath, onWrongMath, onMathShow, true, true);
+    }
+
+    public MathImpl(AssetsManager assetsManager, VoidRunnableInt onCorrectMath,
+                    Runnable onWrongMath, Runnable onMathShow, boolean openKeyboard,
+                    boolean closeKeyboard) {
         super(assetsManager, Values.MATH_HEADER, Align.top);
+
+        this.openKeyboard = openKeyboard;
+        this.closeKeyboard = closeKeyboard;
 
         this.onCorrectMath = onCorrectMath;
         this.onWrongMath = onWrongMath;
@@ -76,7 +87,7 @@ public class MathImpl extends Overlay implements MathController {
 
                 if(keycode == Input.Keys.BACK || keycode == Input.Keys.ENTER)
                     closeKeyboard();
-                if(keycode == Input.Keys.DEL || keycode == Input.Keys.NUMPAD_SUBTRACT)
+                if(keycode == Input.Keys.DEL || keycode == Input.Keys.NUMPAD_SUBTRACT || keycode == Input.Keys.PERIOD)
                     deleteChar();
 
                 return true;
@@ -118,7 +129,7 @@ public class MathImpl extends Overlay implements MathController {
     }
 
     private void closeKeyboard() {
-        Gdx.input.setOnscreenKeyboardVisible(false);
+        if(closeKeyboard) Gdx.input.setOnscreenKeyboardVisible(false);
 
         if(currentExercise.isCorrect(answerString)) {
             answerCorrect();
@@ -135,7 +146,7 @@ public class MathImpl extends Overlay implements MathController {
         if(active) {
             updateLabel();
             if(isTimerOver()) {
-                Gdx.input.setOnscreenKeyboardVisible(false);
+                if(closeKeyboard) Gdx.input.setOnscreenKeyboardVisible(false);
                 answerWrong();
             }
         }
@@ -165,6 +176,8 @@ public class MathImpl extends Overlay implements MathController {
         Sounds.wrong();
         closeInstantly();
         onWrongMath.run();
+
+        answerString = "";
     }
 
     private void digitTyped(char c) {
@@ -199,7 +212,15 @@ public class MathImpl extends Overlay implements MathController {
 
         showInstantly();
 
+        if(openKeyboard) Gdx.input.setOnscreenKeyboardVisible(true, Input.OnscreenKeyboardType.NumberPad);
+    }
+
+    public void showSoftKeyboard() {
         Gdx.input.setOnscreenKeyboardVisible(true, Input.OnscreenKeyboardType.NumberPad);
+    }
+
+    public void closeSoftKeyboard() {
+        Gdx.input.setOnscreenKeyboardVisible(false);
     }
 
     private void loadExercise() {
@@ -241,6 +262,14 @@ public class MathImpl extends Overlay implements MathController {
 
     public void setMathTime(int time) {
         this.mathTime = time;
+    }
+
+    public void setOpenKeyboard(boolean openKeyboard) {
+        this.openKeyboard = openKeyboard;
+    }
+
+    public void setCloseKeyboard(boolean closeKeyboard) {
+        this.closeKeyboard = closeKeyboard;
     }
 
     @Override

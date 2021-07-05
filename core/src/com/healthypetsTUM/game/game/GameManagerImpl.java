@@ -49,6 +49,7 @@ public class GameManagerImpl implements GameManager {
 
     private final float tileDistY = 50;
     private final float tileSpawnRate = 2.75f;
+    private float difficultyScale = 1f, difficultyScaleInv = 1f;
 
     private boolean pause, stop;
 
@@ -203,7 +204,7 @@ public class GameManagerImpl implements GameManager {
         }
 
         if(Gdx.app.getType() == Application.ApplicationType.Android)
-            player.updateVelocityX(Gdx.input.getAccelerometerX());
+            player.updateVelocityX(Gdx.input.getAccelerometerX()*difficultyScaleInv);
         else if(Gdx.app.getType() == Application.ApplicationType.Desktop) {
             if(Gdx.input.isKeyJustPressed(Input.Keys.LEFT) || Gdx.input.isKeyPressed(Input.Keys.LEFT))
                 player.updateVelocityX(Values.DESKTOP_VELOCITY_X);
@@ -213,7 +214,7 @@ public class GameManagerImpl implements GameManager {
                 player.updateVelocityX(0);
         }
 
-        physicsEngine.update(dt);
+        physicsEngine.update(dt*difficultyScale);
         physicsEngine.handlePlayerCollisions(player);
         if(player.getTop() < renderPipeline.getGameCamBottomY()) gameOver();
 
@@ -280,8 +281,12 @@ public class GameManagerImpl implements GameManager {
 
         List<Tile> tiles = new ArrayList<>();
         Tile lastTile = topTile;
-        float tileDistY = Values.TILE_DISTANCE_Y*0.75f + Values.TILE_DISTANCE_Y*Math.min(0.25f, ((float)score)/50000); // todo abhängig von sprunghöhe
-        mathImpl.setMathTime(Math.max(10, Values.MATH_TIME - score/2500));
+        float tileDistY = Values.TILE_DISTANCE_Y*0.75f + Values.TILE_DISTANCE_Y*Math.min(0.15f, ((float)score)/5_000);
+        difficultyScale = Math.max(1f, Math.min(1.2f, 1f + ((float) score)/20_000));
+        difficultyScaleInv = 2f - difficultyScale;
+
+        System.out.println(difficultyScale);
+        mathImpl.setMathTime(Values.MATH_TIME);
 
         while(lastTile.getTop() + tileDistY <= toY) { // todo here complicated world creation logic
             Tile t = new BasicTile(assetsManager, MathUtils.getRandomWorldX(BasicTile.TILE_WIDTH),

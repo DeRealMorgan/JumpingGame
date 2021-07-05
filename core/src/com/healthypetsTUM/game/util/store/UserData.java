@@ -147,6 +147,10 @@ public class UserData {
         equipedItems.add(item);
     }
 
+    public void unequipItem(int item) {
+        equipedItems.remove((Integer) item);
+    }
+
     public void setMath(int math) {
         this.math = math;
     }

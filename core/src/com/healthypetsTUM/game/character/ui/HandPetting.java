@@ -9,6 +9,7 @@ import com.healthypetsTUM.game.assets.AssetsManager;
 import com.healthypetsTUM.game.character.Duration;
 import com.healthypetsTUM.game.character.ui.listener.HandPettingListener;
 import com.healthypetsTUM.game.util.MathUtils;
+import com.healthypetsTUM.game.util.Sounds;
 import com.healthypetsTUM.game.util.Values;
 
 import java.util.ArrayList;
@@ -22,6 +23,8 @@ public class HandPetting extends DragItem {
     private Duration duration;
 
     private HandPettingListener listener;
+
+    private int soundID;
 
     public HandPetting(AssetsManager assetsManager, HandPettingListener listener) {
         super(assetsManager, Values.HAND);
@@ -46,6 +49,8 @@ public class HandPetting extends DragItem {
     @Override
     protected void touchedDown() {
         duration.start();
+
+        if(soundID == -1) soundID = Sounds.pet();
     }
 
     @Override
@@ -54,6 +59,10 @@ public class HandPetting extends DragItem {
             listener.pettingDone();
             hide();
             moving = false;
+
+
+            Sounds.stop(soundID);
+            soundID = -1;
         }
     }
 
@@ -72,6 +81,8 @@ public class HandPetting extends DragItem {
     public void reset() {
         currentIndex = 0;
         duration.reset();
+
+        soundID = -1;
     }
 
     @Override

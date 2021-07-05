@@ -91,7 +91,7 @@ public class ShopOverlay extends Overlay {
             wholeTables[i].addListener(new ClickListener() {
                 @Override
                 public void clicked(InputEvent event, float x, float y) {
-                    Sounds.click();
+                    Sounds.buy();
                     purchase(finalI, true);
                 }
             });
@@ -140,6 +140,8 @@ public class ShopOverlay extends Overlay {
                     unequipOther(item);
                     close();
                     wholeTables[item].background(equipedBack);
+
+                    onItemEquiped(item);
                 }
             });
 
@@ -148,6 +150,34 @@ public class ShopOverlay extends Overlay {
 
             nextClick = TimeUtils.millis()+200; //alle X-ms klicken erlauben
         }
+    }
+
+    private void onItemEquiped(int item) {
+        wholeTables[item].getListeners().clear();
+        wholeTables[item].addListener(new ClickListener() {
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                Sounds.click();
+                shopListener.unequipItem(item);
+
+                wholeTables[item].background(boughtBack);
+                close();
+
+                wholeTables[item].getListeners().clear();
+                wholeTables[item].addListener(new ClickListener() {
+                    @Override
+                    public void clicked(InputEvent event, float x, float y) {
+                        Sounds.click();
+                        shopListener.equipItem(item);
+                        unequipOther(item);
+                        close();
+                        wholeTables[item].background(equipedBack);
+
+                        onItemEquiped(item);
+                    }
+                });
+            }
+        });
     }
 
     public void itemCollected(int item) {

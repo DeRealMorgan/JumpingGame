@@ -11,6 +11,7 @@ import com.healthypetsTUM.game.assets.AssetsManager;
 import com.healthypetsTUM.game.character.Duration;
 import com.healthypetsTUM.game.character.ui.listener.FoodItemListener;
 import com.healthypetsTUM.game.util.MathUtils;
+import com.healthypetsTUM.game.util.Sounds;
 import com.healthypetsTUM.game.util.Values;
 
 import java.util.ArrayList;
@@ -24,6 +25,7 @@ public class FoodItem extends DragItem {
     private Duration duration;
 
     private FoodItemListener listener;
+    private int soundID;
 
     public FoodItem(AssetsManager assetsManager, FoodItemListener listener) {
         super(assetsManager, 0+ Values.FOOD_ITEM);
@@ -53,6 +55,8 @@ public class FoodItem extends DragItem {
     @Override
     protected void touchedDown() {
         duration.start();
+
+        if(soundID == -1) soundID = Sounds.eat();
     }
 
     @Override
@@ -61,6 +65,9 @@ public class FoodItem extends DragItem {
             listener.foodEaten();
             hide();
             moving = false;
+
+            Sounds.stop(soundID);
+            soundID = -1;
         }
     }
 
@@ -84,6 +91,7 @@ public class FoodItem extends DragItem {
         duration.reset();
         position();
         moving = false;
+        soundID = -1;
     }
 
     @Override

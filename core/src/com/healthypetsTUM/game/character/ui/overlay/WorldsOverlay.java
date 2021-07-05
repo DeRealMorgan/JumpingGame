@@ -103,7 +103,7 @@ public class WorldsOverlay extends Overlay {
             wholeTables[i].addListener(new ClickListener() {
                 @Override
                 public void clicked(InputEvent event, float x, float y) {
-                    Sounds.click();
+                    Sounds.buy();
                     purchase(finalI, true);
                 }
             });
@@ -147,6 +147,7 @@ public class WorldsOverlay extends Overlay {
 
                     shopListener.equipWorld(item);
                     wholeTables[item].background(equipedBack);
+                    onEquipWorld(item);
                     close();
                 }
             });
@@ -161,6 +162,45 @@ public class WorldsOverlay extends Overlay {
         }
     }
 
+    private void onEquipWorld(int item) {
+        wholeTables[item].getListeners().clear();
+        wholeTables[item].addListener(new ClickListener() {
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                Sounds.click();
+                DataUtils.getUserData().equipWorld(-1);
+                DataUtils.storeUserData();
+
+                wholeTables[item].background(boughtBack);
+                shopListener.equipWorld(-1);
+
+                wholeTables[item].getListeners().clear();
+                wholeTables[item].addListener(new ClickListener() {
+                    @Override
+                    public void clicked(InputEvent event, float x, float y) {
+                        Sounds.click();
+                        int equiped = DataUtils.getUserData().getEquipedWorld();
+                        if(equiped != -1)
+                            wholeTables[equiped].background(boughtBack);
+
+                        shopListener.equipWorld(item);
+                        wholeTables[item].background(equipedBack);
+                        onEquipWorld(item);
+                        close();
+                    }
+                });
+            }
+        });
+
+        coins[item].remove();
+        itemLabels[item].remove();
+
+        levels[item].remove();
+        levelLabels[item].remove();
+
+        nextClick = TimeUtils.millis()+500; //alle X-ms klicken erlauben
+    }
+
     public void levelChanged(int lvl) {
         for(int i = 0; i < itemLabels.length; ++i)
             if(getLevel(i) <= lvl) enableItem(i);
@@ -172,7 +212,7 @@ public class WorldsOverlay extends Overlay {
     }
 
     private int getCost(int item) {
-        return 1000+1000*item;
+        return 500+500*item;
     }
 
     private int getLevel(int item) {

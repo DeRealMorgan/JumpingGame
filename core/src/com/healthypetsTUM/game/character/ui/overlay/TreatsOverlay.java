@@ -46,6 +46,7 @@ public class TreatsOverlay extends Overlay {
             public void clicked(InputEvent event, float x, float y) {
                 Sounds.click();
                 math.showMathExercise(null);
+                math.showSoftKeyboard();
                 closeInstantly();
             }
         });
@@ -63,7 +64,7 @@ public class TreatsOverlay extends Overlay {
         contentTable.add(okButton).height(Values.BTN_SIZE).padTop(Values.SPACING)
                 .padLeft(Values.SPACING_SMALL).padRight(Values.SPACING_SMALL).colspan(3).growX();
 
-        math = new MathImpl(assetsManager, this::mathCorrect, this::mathWrong, this::onMathShow);
+        math = new MathImpl(assetsManager, this::mathCorrect, this::mathWrong, this::onMathShow, false, false);
         //------------
 
         useClose(false);
@@ -88,14 +89,26 @@ public class TreatsOverlay extends Overlay {
 
             changeHead(true);
             onSuccess.run(item);
+
+            math.closeSoftKeyboard();
         }
     }
 
     private void mathWrong() {
+        math.closeSoftKeyboard();
         foundLabel.setText(Values.TREAT_LOST);
         showInstantly();
 
         changeHead(false);
+
+        okButton.getListeners().clear();
+        okButton.addListener(new ClickListener() {
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                Sounds.click();
+                closeInstantly();
+            }
+        });
     }
 
     private void changeHead(boolean success) {
