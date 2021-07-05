@@ -43,6 +43,7 @@ public class ShopOverlay extends Overlay {
             public void clicked(InputEvent event, float x, float y) {
                 Sounds.click();
                 close();
+
             }
         });
 

@@ -27,7 +27,7 @@ public class Shower extends DragItem {
 
     private final ShowerListener listener;
 
-    private int soundID;
+    private int soundID = -1;
 
     public Shower(AssetsManager assetsManager, ShowerListener listener) {
         super(assetsManager, Values.SOAP);

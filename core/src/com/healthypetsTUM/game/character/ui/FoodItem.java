@@ -25,7 +25,7 @@ public class FoodItem extends DragItem {
     private Duration duration;
 
     private FoodItemListener listener;
-    private int soundID;
+    private int soundID = -1;
 
     public FoodItem(AssetsManager assetsManager, FoodItemListener listener) {
         super(assetsManager, 0+ Values.FOOD_ITEM);

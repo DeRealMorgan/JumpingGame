@@ -24,7 +24,7 @@ public class HandPetting extends DragItem {
 
     private HandPettingListener listener;
 
-    private int soundID;
+    private int soundID = -1;
 
     public HandPetting(AssetsManager assetsManager, HandPettingListener listener) {
         super(assetsManager, Values.HAND);

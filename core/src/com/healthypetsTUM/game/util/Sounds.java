@@ -81,6 +81,7 @@ public class Sounds {
     }
 
     public static void stop(int index) {
+        if(index != -1)
         sounds[index].stop();
     }
 
