@@ -221,16 +221,16 @@ public class Character {
     public void unequipCloth(int item) {
         switch (ClothPiece.bodyPart(item)) {
             case HEAD:
-                headClothing.getActor().setDrawable(null);
+                headClothing.getActor().setVisible(false);
                 return;
             case BODY:
-                bodyClothing.getActor().setDrawable(null);
-                leftArmClothing.getActor().setDrawable(null);
-                rightArmClothing.getActor().setDrawable(null);
+                bodyClothing.getActor().setVisible(false);
+                leftArmClothing.getActor().setVisible(false);
+                rightArmClothing.getActor().setVisible(false);
                 return;
             case LEGS:
-                leftLegClothing.getActor().setDrawable(null);
-                rightLegClothing.getActor().setDrawable(null);
+                leftLegClothing.getActor().setVisible(false);
+                rightLegClothing.getActor().setVisible(false);
                 return;
             case SHOES:
                 return;

@@ -26,6 +26,10 @@ public class MathExercise {
         return solution.equals(other);
     }
 
+    public boolean isNegative() {
+        return Integer.parseInt(solution.trim()) < 0;
+    }
+
     @Override
     public String toString() {
         return "Exercise: " + exercise + "=" + solution;

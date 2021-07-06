@@ -107,7 +107,7 @@ public class UIManagerImpl implements UIManager, ShopListener {
             stage.addActor(pooImg[i]);
         }
 
-        hungryLabel = new Label("Ich habe hunger...", assetsManager.labelStyleSmall());
+        hungryLabel = new Label("Ich habe Hunger...", assetsManager.labelStyleSmall());
         boredLabel = new Label("Mir ist langweilig...", assetsManager.labelStyleSmall());
 
         Table statusTable = new Table();

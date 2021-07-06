@@ -92,7 +92,6 @@ public class ShopOverlay extends Overlay {
             wholeTables[i].addListener(new ClickListener() {
                 @Override
                 public void clicked(InputEvent event, float x, float y) {
-                    Sounds.buy();
                     purchase(finalI, true);
                 }
             });
@@ -114,7 +113,10 @@ public class ShopOverlay extends Overlay {
         for(int i : unlocked) enableItem(i);
 
         List<Integer> bought = data.getBoughtItems();
-        for(int i : bought) purchase(i, false);
+        for(int i : bought) {
+            System.out.println(i + " is bought");
+            purchase(i, false);
+        }
 
         List<Integer> equiped = data.getEquipedItems();
         for(int i : equiped) {
@@ -122,14 +124,18 @@ public class ShopOverlay extends Overlay {
 
             coins[i].remove();
             itemLabels[i].remove();
+
+            onItemEquiped(i);
         }
 
     }
 
     private void purchase(int item, boolean buy) {
-        if(nextClick <= TimeUtils.millis() && DataUtils.getUserData().getCoins() >= getCost(item)) {
-            if(buy)
+        if((nextClick <= TimeUtils.millis() && DataUtils.getUserData().getCoins() >= getCost(item)) || !buy) {
+            if(buy) {
+                Sounds.buy();
                 shopListener.buy(item, getCost(item));
+            }
 
             wholeTables[item].getListeners().clear();
             wholeTables[item].background(boughtBack);

@@ -33,7 +33,7 @@ public class MathImpl extends Overlay implements MathController {
 
     private MathExercise currentExercise;
     private MathAttachment attachment;
-    private String answerString = "";
+    private String answerString = "-";
 
     private boolean active;
     private long endTime;
@@ -87,8 +87,10 @@ public class MathImpl extends Overlay implements MathController {
 
                 if(keycode == Input.Keys.BACK || keycode == Input.Keys.ENTER)
                     closeKeyboard();
-                if(keycode == Input.Keys.DEL || keycode == Input.Keys.NUMPAD_SUBTRACT || keycode == Input.Keys.PERIOD)
+                else if(keycode == Input.Keys.DEL)
                     deleteChar();
+                else
+                    return false;
 
                 return true;
             }
@@ -98,7 +100,6 @@ public class MathImpl extends Overlay implements MathController {
                 if(!active) return false;
 
                 if(Character.isDigit(character)) digitTyped(character);
-                if(answerString.isEmpty() && character == '-') digitTyped(character);
                 return true;
             }
         });
@@ -190,6 +191,7 @@ public class MathImpl extends Overlay implements MathController {
         if(answerString.isEmpty()) return;
 
         answerString = answerString.substring(0, answerString.length()-1);
+        if(currentExercise.isNegative() && answerString.trim().isEmpty()) answerString = "-";
 
         updateAnswer();
     }
@@ -231,6 +233,10 @@ public class MathImpl extends Overlay implements MathController {
 
         endTime = TimeUtils.millis() + mathTime;
         exerciseLabel.setText(currentExercise.getExerciseQuestion());
+        if(currentExercise.isNegative()) answerString = "-";
+        else answerString = "";
+
+        updateAnswer();
     }
 
     /**

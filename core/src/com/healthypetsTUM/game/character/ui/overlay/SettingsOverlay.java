@@ -96,19 +96,19 @@ public class SettingsOverlay extends Overlay {
         Label soundsLabel = new Label("Sounds:", assetsManager.labelStyle());
 
         Table musicTable = new Table();
-        musicTable.add(musicLabel).row();
+        musicTable.add(musicLabel).width(Values.BTN_SIZE*2).row();
         musicTable.add(musicButton.getImage()).size(Values.BTN_SIZE).spaceRight(Values.SPACING);
-        musicTable.add(musicSlider).size(Values.BTN_SIZE*3, Values.BTN_SIZE);
+        musicTable.add(musicSlider).size(Values.BTN_SIZE*3, Values.BTN_SIZE).row();
 
         Table soundTable = new Table();
-        soundTable.add(soundsLabel).row();
-        soundTable.add(soundButton.getImage()).size(Values.BTN_SIZE).spaceRight(Values.SPACING);
-        soundTable.add(soundSlider).size(Values.BTN_SIZE*3, Values.BTN_SIZE);
+        soundTable.add(soundsLabel).width(Values.BTN_SIZE*2).row();
+        soundTable.add(soundButton.getImage()).size(Values.BTN_SIZE).spaceRight(Values.SPACING).colspan(2);
+        soundTable.add(soundSlider).size(Values.BTN_SIZE*3, Values.BTN_SIZE).row();
 
         Table soundsTable = new Table();
-        soundsTable.add(musicTable).spaceBottom(Values.SPACING).row();
-        soundsTable.add(soundTable);
-        contentTable.add(soundsTable).width(Values.BTN_SIZE*7f).row();
+        soundsTable.add(musicTable).width(Values.BTN_SIZE*6f).spaceBottom(Values.SPACING).row();
+        soundsTable.add(soundTable).width(Values.BTN_SIZE*6f).row();
+        contentTable.add(soundsTable).width(Values.BTN_SIZE*6f).row();
 
         UserData userData = DataUtils.getUserData();
         musicSlider.setValue(userData.getMusicVolume());
