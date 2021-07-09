@@ -20,7 +20,7 @@ public abstract class DragItem implements DragListener {
     protected boolean moving, isPresent;
     protected Image dragItemImg;
 
-    private Table progressbarTable;
+    private final Table progressbarTable;
     protected ProgressBar bar;
 
     protected Drawable progressbarGreen, progressbarEmpty;
@@ -31,10 +31,11 @@ public abstract class DragItem implements DragListener {
         dragItemImg.setOrigin(Align.center);
 
         assetsManager.addInputProcessor(this);
-        hideInstantly();
 
         progressbarGreen = assetsManager.get9Drawable(Values.PROGRESSBAR_FRONT_GREEN);
+        progressbarGreen.setMinHeight(50);
         progressbarEmpty = assetsManager.getDrawable(Values.PROGRESSBAR_FRONT_EMPTY);
+        progressbarEmpty.setMinHeight(50);
 
         ProgressBar.ProgressBarStyle progressBarStyle = new ProgressBar.ProgressBarStyle();
         progressBarStyle.background = assetsManager.get9Drawable(Values.PROGRESSBAR_BACK);
@@ -50,6 +51,8 @@ public abstract class DragItem implements DragListener {
         progressbarTable.bottom();
         progressbarTable.setTouchable(Touchable.disabled);
         progressbarTable.setVisible(false);
+
+        hideInstantly();
     }
 
     public void show() {
@@ -64,16 +67,18 @@ public abstract class DragItem implements DragListener {
     public void hide() {
         dragItemImg.addAction(Actions.sequence(Actions.fadeOut(.3f), Actions.visible(false)));
         isPresent = false;
+        progressbarTable.setVisible(false);
     }
 
     public void hideInstantly() {
         dragItemImg.setVisible(false);
         isPresent = false;
+        progressbarTable.setVisible(false);
     }
 
     public void position() {
         dragItemImg.setPosition(dragItemImg.getStage().getWidth()/2,
-                dragItemImg.getStage().getHeight()/4, Align.center);
+                dragItemImg.getStage().getHeight()/3, Align.center);
     }
 
     @Override
@@ -131,6 +136,15 @@ public abstract class DragItem implements DragListener {
             return true;
         }
         return false;
+    }
+
+    public void updateProgressbar(float percent) {
+        if(percent > 0.01f) {
+            bar.getStyle().knobBefore = progressbarGreen;
+        } else {
+            bar.getStyle().knobBefore = progressbarEmpty;
+        }
+        bar.setValue(percent*100);
     }
 
     public Image getDragItemImg() {

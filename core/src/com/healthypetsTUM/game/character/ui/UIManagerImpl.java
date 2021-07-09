@@ -177,7 +177,8 @@ public class UIManagerImpl implements UIManager, ShopListener {
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 Sounds.click();
-
+                
+                math.useNext(true);
                 math.setOnCorrectMath(arg -> {
                     DataUtils.getUserData().incMath();
                     DataUtils.storeUserData();
@@ -274,6 +275,7 @@ public class UIManagerImpl implements UIManager, ShopListener {
                 if(showerBtn.isDisabled()) return;
                 Sounds.click();
 
+                math.useNext(false);
                 math.setOnCorrectMath(arg -> {
                     setUiVisible(false);
                     shower.show();
@@ -306,6 +308,7 @@ public class UIManagerImpl implements UIManager, ShopListener {
                 if(foodBtn.isDisabled()) return;
                 Sounds.click();
 
+                math.useNext(false);
                 math.setOnCorrectMath(arg -> {
                     foodShopOverlay.show();
 
@@ -330,6 +333,7 @@ public class UIManagerImpl implements UIManager, ShopListener {
                 if(petBtn.isDisabled()) return;
                 Sounds.click();
 
+                math.useNext(false);
                 math.setOnCorrectMath(arg -> {
                     setUiVisible(false);
                     hand.show();

@@ -91,11 +91,11 @@ public class GameOverUI {
 
     public void show() {
         screenTable.setTouchable(Touchable.enabled);
-        screenTable.addAction(Actions.sequence(Actions.visible(true), Actions.fadeIn(.5f)));
+        screenTable.addAction(Actions.sequence(Actions.visible(true), Actions.fadeIn(.2f)));
     }
 
     private void hide() {
         screenTable.setTouchable(Touchable.disabled);
-        screenTable.addAction(Actions.sequence(Actions.visible(false), Actions.fadeOut(.5f)));
+        screenTable.addAction(Actions.sequence(Actions.visible(false), Actions.fadeOut(.2f)));
     }
 }

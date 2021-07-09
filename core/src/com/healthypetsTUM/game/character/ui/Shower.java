@@ -81,6 +81,8 @@ public class Shower extends DragItem {
 
                     Sounds.stop(soundID);
                     soundID = -1;
+                } else {
+                    updateProgressbar(0.5f + ((float)(currentWaterIndex)/waterdropList.size())/2);
                 }
                 lastWaterEffect = System.currentTimeMillis();
             }
@@ -101,6 +103,8 @@ public class Shower extends DragItem {
                 if(currentBubbleIndex == soapBubbleList.size()) {
                     moving = false;
                     useShower();
+                } else {
+                    updateProgressbar(((float)(currentBubbleIndex)/soapBubbleList.size())/2);
                 }
             }
         }

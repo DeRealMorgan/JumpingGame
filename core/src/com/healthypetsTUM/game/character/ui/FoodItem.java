@@ -68,6 +68,8 @@ public class FoodItem extends DragItem {
 
             Sounds.stop(soundID);
             soundID = -1;
+        } else {
+            updateProgressbar(duration.getPercentDone());
         }
     }
 

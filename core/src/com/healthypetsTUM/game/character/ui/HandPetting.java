@@ -63,6 +63,8 @@ public class HandPetting extends DragItem {
 
             Sounds.stop(soundID);
             soundID = -1;
+        } else {
+            updateProgressbar(duration.getPercentDone());
         }
     }
 
