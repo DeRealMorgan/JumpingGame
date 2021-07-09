@@ -1,10 +1,12 @@
 package com.healthypetsTUM.game.game.math;
 
 public class MathExercise {
+    private final String wholeExercise;
     private final String exercise;
     private final String solution;
 
     public MathExercise(String exercise) {
+        this.wholeExercise = exercise;
         String[] parts = exercise.split("=");
         this.exercise = parts[0];
         this.solution = parts[1].trim();
@@ -33,5 +35,9 @@ public class MathExercise {
     @Override
     public String toString() {
         return "Exercise: " + exercise + "=" + solution;
+    }
+
+    public String getWholeExercise() {
+        return wholeExercise;
     }
 }

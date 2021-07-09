@@ -63,6 +63,7 @@ public class UIManagerImpl implements UIManager, ShopListener {
     private Image[] pooImg;
     private Label hungryLabel;
     private Label boredLabel;
+    private Table statusTable;
 
     public UIManagerImpl(Viewport viewport, SpriteBatch batch, AssetsManager assetsManager,
                          ScreenManager screenManager, Runnable onHealthSignIn) {
@@ -88,7 +89,7 @@ public class UIManagerImpl implements UIManager, ShopListener {
             pooImg[i].setTouchable(Touchable.disabled);
             pooImg[i].setVisible(false);
             pooImg[i].setScaling(Scaling.fit);
-            pooImg[i].setSize(300, 300);
+            pooImg[i].setSize(350, 350);
             pooImg[i].setPosition(MathUtils.getRandomX(0, Values.CHARACTER_WORLD_WIDTH-200), 250);
 
             stage.addActor(pooImg[i]);
@@ -107,16 +108,16 @@ public class UIManagerImpl implements UIManager, ShopListener {
             stage.addActor(pooImg[i]);
         }
 
-        hungryLabel = new Label("Ich habe Hunger...", assetsManager.labelStyleSmall());
-        boredLabel = new Label("Mir ist langweilig...", assetsManager.labelStyleSmall());
+        hungryLabel = new Label("Bitte füttere mich...", assetsManager.labelStyleSmall());
+        boredLabel = new Label("Bitte spiele mit mir...", assetsManager.labelStyleSmall());
 
-        Table statusTable = new Table();
+        statusTable = new Table();
         statusTable.add(hungryLabel).center().padBottom(Values.PADDING_SMALL).row();
         statusTable.add(boredLabel).center().row();
         statusTable.background(assetsManager.getDrawable(Values.MENU_BACK));
         Table statTable = new Table();
         statTable.setFillParent(true);
-        statTable.add(statusTable).padTop(150).expandY().top();
+        statTable.add(statusTable).center().expandY().padTop(200);
         stage.addActor(statTable);
 
         Table contentTable = new Table();
@@ -277,7 +278,6 @@ public class UIManagerImpl implements UIManager, ShopListener {
                     setUiVisible(false);
                     shower.show();
 
-
                     DataUtils.getUserData().incMath();
                     DataUtils.storeUserData();
                     updateUIBar();
@@ -411,7 +411,7 @@ public class UIManagerImpl implements UIManager, ShopListener {
         healthOverlay.closeInstantly();
 
         if(!DataUtils.getUserData().hasPrivacyConsent()) {
-            ConsentOverlay consentOverlay = new ConsentOverlay(assetsManager, healthOverlay);
+            TutorialOverlay consentOverlay = new TutorialOverlay(assetsManager, healthOverlay);
             stage.addActor(consentOverlay.table);
             consentOverlay.showInstantly();
         }
@@ -443,6 +443,7 @@ public class UIManagerImpl implements UIManager, ShopListener {
         setBars();
 
         math = new MathImpl(assetsManager, arg -> {}, () -> {}, () -> {});
+        math.useNext(true);
         stage.addActor(math.table);
     }
 
@@ -514,6 +515,10 @@ public class UIManagerImpl implements UIManager, ShopListener {
     private void setNotHungry() {
         hungryLabel.setVisible(false);
         hungryLabel.remove();
+
+        if(!boredLabel.isVisible())
+            statusTable.setVisible(false);
+
     }
 
     private void setHungry() {
@@ -527,6 +532,9 @@ public class UIManagerImpl implements UIManager, ShopListener {
     private void setNotBored() {
         boredLabel.setVisible(false);
         boredLabel.remove();
+
+        if(!hungryLabel.isVisible())
+            statusTable.setVisible(false);
     }
 
     private void showerDone() {
@@ -612,8 +620,8 @@ public class UIManagerImpl implements UIManager, ShopListener {
     private void updateUIBar() {
         UserData data = DataUtils.getUserData();
         uiBar.setCoins(data.getCoins());
-        uiBar.setMath(data.getMath(), data.getLvl());
-        uiBar.setLvl(data.getLvl());
+        uiBar.setMath(data.getMath());
+        uiBar.setLvl(data.getLvl(), data.getMath());
     }
 
     @Override

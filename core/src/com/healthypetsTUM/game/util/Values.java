@@ -17,7 +17,7 @@ public class Values {
 
     public static final int SPACE_BELOW_TILE_Y = WORLD_HEIGHT/20; // how much of world below player tile is on screen
 
-    public static final int MATH_TIME = 15*1000; // how much time for giving an answer to a math exercise
+    public static final int MATH_TIME = 25*1000; // how much time for giving an answer to a math exercise
     public static final int SLOW_UPDATE = 2*1000; // for how long game will be slowed down after math exercise
     public static final int EXERCISE_PADDING = 50, PADDING_BIG = 50, PADDING = 30, PADDING_SMALL = 15;
 
@@ -55,6 +55,8 @@ public class Values {
             CLOCK_ICON = "clockIcon",
             LVL_ICON = "lvlIcon",
             MATH_ICON = "mathIcon",
+            WRONG_ICON = "wrongIcon",
+            CORRECT_ICON = "correctIcon",
             OVERLAY_BACKGROUND = "overlay_back",
             BTN_UP = "btn_up", BTN_DOWN = "btn_down",
             MUSIC_ON = "musicIconOn", MUSIC_OFF = "musicIconOff",
@@ -99,8 +101,10 @@ public class Values {
             DISABLED_BACK = "disabled_back",
             DISABLED_IMG = "disabled_img";
 
-    public static final String CONSENT_HEADER = "Zustimmung", CONSENT_BODY = "Diese App ist ein Projekt für die Technische Universität München. " +
-            "Während dem Spielen werden anonymisiert Daten gesammelt und verarbeitet.";
+    public static final String TUTORIAL_HEADER = "Anleitung", TUTORIAL_BODY = "Geh spazieren um deine Energie aufzuladen. " +
+            "Kümmere dich um das Schwein, damit es ihm gut geht. " +
+            "Spiele mit ihm, um Münzen zu sammeln. " +
+            "Löse Matheaufgaben, um ins nächste Level zu kommen.";
     public static final String HEALTH_HEADER = "Schritte", HEALTH_BODY = "Dein Haustier möchte gerne wissen, wie viele " +
             "Schritte du täglich läufst. Dafür musst du dich jetzt mit deinem Google Konto verbinden.";
     public static final String SHOP_HEADER = "Shop", WORLDS_HEADER = "Welten", SETTINGS_HEADER = "Einstellungen",
@@ -109,7 +113,7 @@ public class Values {
     public static final String TREATS_HEADER = "Item gefunden", TREATS_BODY = "Du bist gerade an diesem Item vorbei gelaufen. " +
             "Löse schnell 3 Matheaufgaben, um es einzusammeln.";
 
-    public static final String OK = "OK", AGREE = "Ich stimme zu.";
+    public static final String OK = "OK", AGREE = "Habe ich verstanden.";
 
     public static final Color OVERLAY_BACK_COLOR = Color.valueOf("B2B8FF");
 
@@ -148,10 +152,10 @@ public class Values {
     public static final float PLAYER_JUMP_VELOCITY_Y = 1200;
 
     public static final long HEART_COOLDOWN = 500; // heart cooldown in ms
-    public static final long PET_DURATION = 8000;
-    public static final long SOAPWATER_COOLDOWN = 700; // in ms
-    public static final long FOOD_DURATION = 8000;
-    public static final long CRUMB_COOLDOWN = 700;
+    public static final long PET_DURATION = 5000;
+    public static final long SOAPWATER_COOLDOWN = 600; // in ms
+    public static final long FOOD_DURATION = 5000;
+    public static final long CRUMB_COOLDOWN = 600;
 
     public static final long REFRESH_STEPS_INTERVAL = 1000*30;
 

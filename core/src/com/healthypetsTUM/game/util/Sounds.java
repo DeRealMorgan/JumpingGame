@@ -6,6 +6,9 @@ import com.badlogic.gdx.files.FileHandle;
 import com.healthypetsTUM.game.util.store.DataUtils;
 import com.healthypetsTUM.game.util.store.UserData;
 
+import java.util.HashMap;
+import java.util.Map;
+
 public class Sounds {
     private static final FileHandle soundHandle = Gdx.files.internal("sounds/");
 
@@ -13,7 +16,11 @@ public class Sounds {
     private static boolean play;
     private static float volume;
 
+    private static Map<Integer, Long> playingSounds;
+
     public static void init() {
+        playingSounds = new HashMap<>();
+
         sounds = new Sound[9];
         sounds[0] = Gdx.audio.newSound(soundHandle.child("clickSound.wav"));
         sounds[1] = Gdx.audio.newSound(soundHandle.child("coinSound.wav"));
@@ -62,27 +69,34 @@ public class Sounds {
 
     public static int eat() {
         if(!play) return -1;
-        sounds[6].loop(volume);
+
+        if(playingSounds.containsKey(6)) return -1;
+        playingSounds.put(6, sounds[6].loop(volume));
 
         return 6;
     }
 
     public static int pet() {
         if(!play) return -1;
-        sounds[7].loop(volume);
+
+        if(playingSounds.containsKey(7)) return -1;
+        playingSounds.put(7, sounds[7].loop(volume));
 
         return 7;
     }
 
     public static int shower() {
         if(!play) return -1;
-        sounds[8].loop(volume);
+
+        if(playingSounds.containsKey(8)) return -1;
+        playingSounds.put(8, sounds[8].loop(volume));
+
         return 8;
     }
 
     public static void stop(int index) {
-        if(index != -1)
-        sounds[index].stop();
+        if(index == -1) return;
+        if(playingSounds.containsKey(index)) sounds[index].stop(playingSounds.get(index));
     }
 
     public static void mute(boolean mute) {

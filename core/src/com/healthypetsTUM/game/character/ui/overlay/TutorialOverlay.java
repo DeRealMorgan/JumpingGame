@@ -14,14 +14,14 @@ import com.healthypetsTUM.game.util.store.DataUtils;
 import com.healthypetsTUM.game.util.ui.Overlay;
 import com.healthypetsTUM.game.util.ui.ToggleButton;
 
-public class ConsentOverlay extends Overlay {
+public class TutorialOverlay extends Overlay {
     private final TextButton okButton;
     private final ToggleButton agreeButton;
 
-    public ConsentOverlay(AssetsManager assetsManager, HealthSignInOverlay healthOverlay) {
-        super(assetsManager, Values.CONSENT_HEADER);
+    public TutorialOverlay(AssetsManager assetsManager, HealthSignInOverlay healthOverlay) {
+        super(assetsManager, Values.TUTORIAL_HEADER);
 
-        Label policyLabel = new Label(Values.CONSENT_BODY, assetsManager.labelStyleSmall());
+        Label policyLabel = new Label(Values.TUTORIAL_BODY, assetsManager.labelStyleSmall());
         policyLabel.setWrap(true);
         policyLabel.setAlignment(Align.center);
         ScrollPane policyPane = new ScrollPane(policyLabel);

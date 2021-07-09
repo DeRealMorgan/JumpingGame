@@ -9,6 +9,7 @@ import com.badlogic.gdx.scenes.scene2d.Touchable;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
+import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.Scaling;
@@ -25,6 +26,12 @@ public class MathImpl extends Overlay implements MathController {
     private final Label timerLabel;
     private final Label exerciseLabel;
     private final Label answerLabel;
+
+    private final Table correctTable;
+    private final Table wrongTable;
+    private final Label correctAnswerLabel;
+
+    private final TextButton nextBtn;
 
     private final String[] addStringList;
     private final String[] subStringList;
@@ -43,7 +50,9 @@ public class MathImpl extends Overlay implements MathController {
 
     private int mathTime = Values.MATH_TIME;
 
-    private boolean openKeyboard, closeKeyboard;
+    private boolean openKeyboard, closeKeyboard, isCorrect, useNext;
+
+    private int answerTime;
 
     public MathImpl(AssetsManager assetsManager, VoidRunnableInt onCorrectMath,
                     Runnable onWrongMath, Runnable onMathShow) {
@@ -54,6 +63,26 @@ public class MathImpl extends Overlay implements MathController {
                     Runnable onWrongMath, Runnable onMathShow, boolean openKeyboard,
                     boolean closeKeyboard) {
         super(assetsManager, Values.MATH_HEADER, Align.top);
+
+        closeButton.getListeners().clear();
+        closeButton.addListener(new ClickListener() {
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                active = false;
+                closeInstantly();
+
+                correctTable.setVisible(false);
+                wrongTable.setVisible(false);
+                showNext(false);
+                answerString = "";
+                updateAnswer();
+
+                if(isCorrect)
+                    MathImpl.this.correct();
+                else
+                    MathImpl.this.wrong();
+            }
+        });
 
         this.openKeyboard = openKeyboard;
         this.closeKeyboard = closeKeyboard;
@@ -110,16 +139,62 @@ public class MathImpl extends Overlay implements MathController {
         Table exerciseTable = new Table();
         exerciseTable.add(exerciseLabel).growX().center().padBottom(Values.PADDING).row();
         exerciseTable.add(timerTable).growX().center().padBottom(Values.PADDING).row();
-        exerciseTable.add(answerLabel).center().growX().row();
+        exerciseTable.add(answerLabel).center().growX().padBottom(Values.PADDING).row();
+
+        Image correctImage = new Image(assetsManager.getDrawable(Values.CORRECT_ICON));
+        correctImage.setScaling(Scaling.fit);
+        Label correctLabel = new Label("Richtig!", assetsManager.labelStyle());
+
+        correctTable = new Table();
+        correctTable.add(correctImage).size(Values.BTN_SIZE_SMALL).padRight(Values.PADDING);
+        correctTable.add(correctLabel).left().row();
+
+        Image wrongImage = new Image(assetsManager.getDrawable(Values.WRONG_ICON));
+        wrongImage.setScaling(Scaling.fit);
+        correctAnswerLabel = new Label("", assetsManager.labelStyle());
+
+        wrongTable = new Table();
+        wrongTable.add(wrongImage).size(Values.BTN_SIZE_SMALL).padRight(Values.PADDING);
+        wrongTable.add(correctAnswerLabel).left().row();
 
         contentTable.add(exerciseTable).center().growX().width(Values.BTN_SIZE*4f).row();
-        contentTable.addListener(new ClickListener() {
+        contentTable.stack(wrongTable, correctTable).growX().row();
+
+
+        TextButton.TextButtonStyle okBtnStyle = new TextButton.TextButtonStyle();
+        okBtnStyle.up = assetsManager.get9Drawable(Values.BTN_UP);
+        okBtnStyle.down = okBtnStyle.up;
+        okBtnStyle.font = assetsManager.labelStyle().font;
+
+        nextBtn = new TextButton("Nächste Aufgabe", okBtnStyle);
+        nextBtn.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 Sounds.click();
-                closeKeyboard();
+
+                correctTable.setVisible(false);
+                wrongTable.setVisible(false);
+
+                useClose(false);
+                showNext(false);
+                answerString = "";
+                updateAnswer();
+
+                if(isCorrect)
+                    MathImpl.this.correct();
+                else
+                    MathImpl.this.wrong();
+
+                showMathExercise(attachment);
             }
         });
+        nextBtn.setTransform(true);
+
+        contentTable.add(nextBtn).growX().height(Values.BTN_SIZE).padTop(Values.PADDING_SMALL).row();
+        showNext(false);
+
+        correctTable.setVisible(false);
+        wrongTable.setVisible(false);
 
         //------------
 
@@ -139,7 +214,6 @@ public class MathImpl extends Overlay implements MathController {
             answerWrong();
         }
 
-        answerString = "";
         updateAnswer();
     }
 
@@ -147,8 +221,7 @@ public class MathImpl extends Overlay implements MathController {
         if(active) {
             updateLabel();
             if(isTimerOver()) {
-                if(closeKeyboard) Gdx.input.setOnscreenKeyboardVisible(false);
-                answerWrong();
+                closeKeyboard();
             }
         }
     }
@@ -169,16 +242,24 @@ public class MathImpl extends Overlay implements MathController {
 
     private void answerCorrect() {
         Sounds.correct();
-        closeInstantly();
-        onCorrectMath.run((int)(endTime-TimeUtils.millis())/1000);
+        useClose(true);
+        active = false;
+
+        correctTable.setVisible(true);
+        showNext(useNext);
+        isCorrect = true;
+
+        answerTime = (int)(endTime-TimeUtils.millis())/1000;
     }
 
     private void answerWrong() {
         Sounds.wrong();
-        closeInstantly();
-        onWrongMath.run();
+        useClose(true);
+        active = false;
+        isCorrect = false;
 
-        answerString = "";
+        wrongTable.setVisible(true);
+        showNext(useNext);
     }
 
     private void digitTyped(char c) {
@@ -235,6 +316,7 @@ public class MathImpl extends Overlay implements MathController {
         exerciseLabel.setText(currentExercise.getExerciseQuestion());
         if(currentExercise.isNegative()) answerString = "-";
         else answerString = "";
+        correctAnswerLabel.setText(currentExercise.getWholeExercise());
 
         updateAnswer();
     }
@@ -260,6 +342,14 @@ public class MathImpl extends Overlay implements MathController {
                 System.out.println("Error, Exercise list with index " + i + " does not exist!");
                 return addStringList;
         }
+    }
+
+    private void correct() {
+        onCorrectMath.run(answerTime);
+    }
+
+    private void wrong() {
+        onWrongMath.run();
     }
 
     public void setOnCorrectMath(VoidRunnableInt onCorrectMath) {
@@ -288,5 +378,18 @@ public class MathImpl extends Overlay implements MathController {
     public void closeInstantly() {
         active = false;
         super.closeInstantly();
+    }
+
+    public void useNext(boolean use) {
+        this.useNext = use;
+    }
+
+    private void showNext(boolean use) {
+        nextBtn.setVisible(use);
+        if(use) {
+            nextBtn.setTouchable(Touchable.enabled);
+        } else {
+            nextBtn.setTouchable(Touchable.disabled);
+        }
     }
 }

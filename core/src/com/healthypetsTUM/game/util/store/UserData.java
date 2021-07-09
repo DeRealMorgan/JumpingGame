@@ -249,7 +249,7 @@ public class UserData {
     }
 
     public int getLvl() {
-        if(type == Application.ApplicationType.Desktop) return 10;
+        if(type == Application.ApplicationType.Desktop) return lvl;
         return lvl;
     }
 

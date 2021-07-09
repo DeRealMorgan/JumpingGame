@@ -2,12 +2,16 @@ package com.healthypetsTUM.game.character.ui;
 
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.scenes.scene2d.Touchable;
 import com.badlogic.gdx.scenes.scene2d.actions.Actions;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
+import com.badlogic.gdx.scenes.scene2d.ui.ProgressBar;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
+import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
 import com.badlogic.gdx.utils.Align;
 import com.healthypetsTUM.game.assets.AssetsManager;
 import com.healthypetsTUM.game.character.ui.listener.DragListener;
+import com.healthypetsTUM.game.util.Values;
 
 public abstract class DragItem implements DragListener {
     protected Vector2 cacheVec2 = new Vector2();
@@ -16,6 +20,11 @@ public abstract class DragItem implements DragListener {
     protected boolean moving, isPresent;
     protected Image dragItemImg;
 
+    private Table progressbarTable;
+    protected ProgressBar bar;
+
+    protected Drawable progressbarGreen, progressbarEmpty;
+
     public DragItem(AssetsManager assetsManager, String name) {
         dragItemImg = new Image(assetsManager.getDrawable(name));
         dragItemImg.pack();
@@ -23,6 +32,24 @@ public abstract class DragItem implements DragListener {
 
         assetsManager.addInputProcessor(this);
         hideInstantly();
+
+        progressbarGreen = assetsManager.get9Drawable(Values.PROGRESSBAR_FRONT_GREEN);
+        progressbarEmpty = assetsManager.getDrawable(Values.PROGRESSBAR_FRONT_EMPTY);
+
+        ProgressBar.ProgressBarStyle progressBarStyle = new ProgressBar.ProgressBarStyle();
+        progressBarStyle.background = assetsManager.get9Drawable(Values.PROGRESSBAR_BACK);
+        progressBarStyle.background.setMinHeight(50);
+        progressBarStyle.background.setMinWidth(0);
+        progressBarStyle.knobBefore = progressbarEmpty;
+
+        bar = new ProgressBar(0, 100, 1, false, progressBarStyle);
+
+        progressbarTable = new Table();
+        progressbarTable.setFillParent(true);
+        progressbarTable.add(bar).growX().pad(Values.PADDING*2).bottom().padBottom(Values.PADDING*6);
+        progressbarTable.bottom();
+        progressbarTable.setTouchable(Touchable.disabled);
+        progressbarTable.setVisible(false);
     }
 
     public void show() {
@@ -30,6 +57,8 @@ public abstract class DragItem implements DragListener {
         dragItemImg.setVisible(true);
         dragItemImg.addAction(Actions.fadeIn(.2f));
         isPresent = true;
+
+        progressbarTable.setVisible(true);
     }
 
     public void hide() {
@@ -43,7 +72,8 @@ public abstract class DragItem implements DragListener {
     }
 
     public void position() {
-        dragItemImg.setPosition(dragItemImg.getStage().getWidth()/2, dragItemImg.getStage().getHeight()/4, Align.center);
+        dragItemImg.setPosition(dragItemImg.getStage().getWidth()/2,
+                dragItemImg.getStage().getHeight()/4, Align.center);
     }
 
     @Override
@@ -116,5 +146,6 @@ public abstract class DragItem implements DragListener {
 
     public void addAll(Table t) {
         t.addActor(dragItemImg);
+        t.addActor(progressbarTable);
     }
 }

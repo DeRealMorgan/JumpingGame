@@ -39,7 +39,8 @@ public class Shower extends DragItem {
 
         waterdropList = new ArrayList<>();
         soapBubbleList = new ArrayList<>();
-        for(int i = 0; i < 20; ++i) {
+        int cooldown = (int)(4000/Values.SOAPWATER_COOLDOWN);
+        for(int i = 0; i < cooldown; ++i) {
             Image waterdrop = new Image(assetsManager.getDrawable(Values.WATER_DROPS));
             waterdrop.pack();
             waterdrop.setOrigin(Align.center);
