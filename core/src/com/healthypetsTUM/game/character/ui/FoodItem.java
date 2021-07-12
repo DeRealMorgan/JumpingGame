@@ -62,12 +62,12 @@ public class FoodItem extends DragItem {
     @Override
     protected void touchMoved() {
         if(duration.addTimeStampDiff()) {
+            Sounds.stop(soundID);
+            soundID = -1;
+
             listener.foodEaten();
             hide();
             moving = false;
-
-            Sounds.stop(soundID);
-            soundID = -1;
         } else {
             updateProgressbar(duration.getPercentDone());
         }
@@ -93,6 +93,7 @@ public class FoodItem extends DragItem {
         duration.reset();
         position();
         moving = false;
+        Sounds.stop(soundID);
         soundID = -1;
     }
 

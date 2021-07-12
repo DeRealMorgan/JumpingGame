@@ -95,8 +95,14 @@ public class Sounds {
     }
 
     public static void stop(int index) {
+        System.out.println("index");
         if(index == -1) return;
-        if(playingSounds.containsKey(index)) sounds[index].stop(playingSounds.get(index));
+        System.out.println(index);
+        if(playingSounds.containsKey(index)) {
+            sounds[index].stop(playingSounds.get(index));
+            System.out.println("true");
+        }
+
     }
 
     public static void mute(boolean mute) {

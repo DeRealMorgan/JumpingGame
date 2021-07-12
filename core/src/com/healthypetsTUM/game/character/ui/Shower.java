@@ -74,13 +74,13 @@ public class Shower extends DragItem {
 
                 currentWaterIndex++;
                 if(currentWaterIndex == waterdropList.size()) {
+                    Sounds.stop(soundID);
+                    soundID = -1;
+
                     moving = false;
                     done = true;
                     hide();
                     listener.showerDone();
-
-                    Sounds.stop(soundID);
-                    soundID = -1;
                 } else {
                     updateProgressbar(0.5f + ((float)(currentWaterIndex)/waterdropList.size())/2);
                 }
@@ -125,6 +125,9 @@ public class Shower extends DragItem {
     }
 
     public void reset() {
+        Sounds.stop(soundID);
+        soundID = -1;
+
         useSoap();
 
         dragItemImg.setVisible(false);
@@ -132,8 +135,6 @@ public class Shower extends DragItem {
         done = false;
         currentBubbleIndex = 0;
         currentWaterIndex = 0;
-
-        soundID = -1;
     }
 
     @Override

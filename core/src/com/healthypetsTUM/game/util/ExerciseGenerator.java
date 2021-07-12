@@ -2,7 +2,7 @@ package com.healthypetsTUM.game.util;
 
 public class ExerciseGenerator {
     public static void main(String[] args) {
-        generateSimpleExercisesSub();
+        generateSimpleExercisesDiv();
     }
 
     public static void generateSimpleExercisesAdd() {
@@ -79,7 +79,7 @@ public class ExerciseGenerator {
 
     public static void generateSimpleExercisesDiv() {
         for(int i = 0; i <= 100; ++i) {
-            for(int j = 1; j <= 50; ++j) {
+            for(int j = 1; j <= 10; ++j) {
                 if(j > i) continue;
                 if(i%j != 0) continue;
                 System.out.println(i + " / " + j + " = " + (i / j));

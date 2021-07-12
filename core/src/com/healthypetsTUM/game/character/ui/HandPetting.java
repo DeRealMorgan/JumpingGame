@@ -51,18 +51,19 @@ public class HandPetting extends DragItem {
         duration.start();
 
         if(soundID == -1) soundID = Sounds.pet();
+        System.out.println(soundID);
     }
 
     @Override
     protected void touchMoved() {
         if(duration.addTimeStampDiff()) {
             listener.pettingDone();
-            hide();
-            moving = false;
-
 
             Sounds.stop(soundID);
             soundID = -1;
+
+            hide();
+            moving = false;
         } else {
             updateProgressbar(duration.getPercentDone());
         }
@@ -84,6 +85,7 @@ public class HandPetting extends DragItem {
         currentIndex = 0;
         duration.reset();
 
+        Sounds.stop(soundID);
         soundID = -1;
     }
 

@@ -103,7 +103,6 @@ public class WorldsOverlay extends Overlay {
             wholeTables[i].addListener(new ClickListener() {
                 @Override
                 public void clicked(InputEvent event, float x, float y) {
-                    Sounds.buy();
                     purchase(finalI, true);
                 }
             });
@@ -135,7 +134,10 @@ public class WorldsOverlay extends Overlay {
     private void purchase(int item, boolean buy) {
         if((nextClick <= TimeUtils.millis() && DataUtils.getUserData().getCoins() >= getCost(item)
                 && DataUtils.getUserData().getLvl() >= getLevel(item)) || !buy) {
-            if(buy) shopListener.buyWorld(item, getCost(item));
+            if(buy) {
+                Sounds.buy();
+                shopListener.buyWorld(item, getCost(item));
+            }
 
             wholeTables[item].getListeners().clear();
             wholeTables[item].background(boughtBack);

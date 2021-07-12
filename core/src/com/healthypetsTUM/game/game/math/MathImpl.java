@@ -81,6 +81,8 @@ public class MathImpl extends Overlay implements MathController {
                     MathImpl.this.correct();
                 else
                     MathImpl.this.wrong();
+
+                if(MathImpl.this.closeKeyboard) Gdx.input.setOnscreenKeyboardVisible(false);
             }
         });
 
@@ -160,7 +162,6 @@ public class MathImpl extends Overlay implements MathController {
         contentTable.add(exerciseTable).center().growX().width(Values.BTN_SIZE*4f).row();
         contentTable.stack(wrongTable, correctTable).growX().row();
 
-
         TextButton.TextButtonStyle okBtnStyle = new TextButton.TextButtonStyle();
         okBtnStyle.up = assetsManager.get9Drawable(Values.BTN_UP);
         okBtnStyle.down = okBtnStyle.up;
@@ -175,7 +176,6 @@ public class MathImpl extends Overlay implements MathController {
                 correctTable.setVisible(false);
                 wrongTable.setVisible(false);
 
-                useClose(false);
                 showNext(false);
                 answerString = "";
                 updateAnswer();
@@ -292,6 +292,7 @@ public class MathImpl extends Overlay implements MathController {
         onMathShow.run();
         this.attachment = attachment;
         loadExercise();
+        useClose(false);
 
         showInstantly();
 

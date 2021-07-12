@@ -181,6 +181,7 @@ public class UIManagerImpl implements UIManager, ShopListener {
                 math.useNext(true);
                 math.setOnCorrectMath(arg -> {
                     DataUtils.getUserData().incMath();
+                    DataUtils.getUserData().addCoins(10);
                     DataUtils.storeUserData();
                     updateUIBar();
                     worldsOverlay.levelChanged(DataUtils.getUserData().getLvl());
