@@ -3,6 +3,7 @@ package com.healthypetsTUM.game;
 import com.badlogic.gdx.backends.iosrobovm.IOSApplication;
 import com.badlogic.gdx.backends.iosrobovm.IOSApplicationConfiguration;
 import com.healthypetsTUM.game.util.GoogleFitImplStub;
+import com.healthypetsTUM.game.util.StatsProviderStub;
 import com.healthypetsTUM.game.util.StoreProviderStub;
 import org.robovm.apple.foundation.NSAutoreleasePool;
 import org.robovm.apple.uikit.UIApplication;
@@ -12,7 +13,7 @@ public class IOSLauncher extends IOSApplication.Delegate {
     protected IOSApplication createApplication() {
         IOSApplicationConfiguration config = new IOSApplicationConfiguration();
         return new IOSApplication(new Main(false, new GoogleFitImplStub(),
-                new StoreProviderStub()), config);
+                new StoreProviderStub(), new StatsProviderStub()), config);
     }
 
     public static void main(String[] argv) {

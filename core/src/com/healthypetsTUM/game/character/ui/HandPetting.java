@@ -51,7 +51,6 @@ public class HandPetting extends DragItem {
         duration.start();
 
         if(soundID == -1) soundID = Sounds.pet();
-        System.out.println(soundID);
     }
 
     @Override

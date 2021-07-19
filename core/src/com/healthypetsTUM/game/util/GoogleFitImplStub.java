@@ -1,6 +1,7 @@
 package com.healthypetsTUM.game.util;
 
 import com.healthypetsTUM.game.util.interfaces.GoogleFit;
+import com.healthypetsTUM.game.util.interfaces.StepListener;
 
 public class GoogleFitImplStub implements GoogleFit {
     @Override

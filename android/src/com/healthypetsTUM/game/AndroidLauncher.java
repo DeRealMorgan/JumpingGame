@@ -9,6 +9,7 @@ import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.os.Build;
 import android.os.Bundle;
+import androidx.annotation.RequiresApi;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import com.badlogic.gdx.backends.android.AndroidApplication;
@@ -19,17 +20,21 @@ import com.google.android.gms.fitness.Fitness;
 import com.google.android.gms.fitness.FitnessOptions;
 import com.google.android.gms.fitness.data.*;
 import com.google.android.gms.fitness.request.DataReadRequest;
-import com.healthypetsTUM.game.util.StepListener;
 import com.healthypetsTUM.game.util.Values;
 import com.healthypetsTUM.game.util.interfaces.GoogleFit;
+import com.healthypetsTUM.game.util.interfaces.StatsProvider;
+import com.healthypetsTUM.game.util.interfaces.StepListener;
 import com.healthypetsTUM.game.util.interfaces.StoreProvider;
+import com.healthypetsTUM.game.util.store.DataUtils;
+import com.healthypetsTUM.game.util.store.UserData;
 
 import java.time.*;
+import java.util.Date;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
 
-public class AndroidLauncher extends AndroidApplication implements GoogleFit, StoreProvider {
+public class AndroidLauncher extends AndroidApplication implements GoogleFit, StoreProvider, StatsProvider {
 	private Main main;
 
 	@Override
@@ -39,10 +44,33 @@ public class AndroidLauncher extends AndroidApplication implements GoogleFit, St
 		boolean essentialPermsGranted = requestPermissions();
 
 		initNotificationChannels();
-		main = new Main(essentialPermsGranted, this, this);
+		main = new Main(essentialPermsGranted, this, this, this);
 		initialize(main, config);
 
 		startNotificationWorker();
+	}
+
+	@Override
+	public void setStats() {
+		if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+			UserData data = DataUtils.getUserData();
+			LocalDate last = new Date(data.getLastPlayStamp()).toInstant()
+					.atZone(ZoneId.systemDefault())
+					.toLocalDate();
+			LocalDate now = new Date(System.currentTimeMillis()).toInstant()
+					.atZone(ZoneId.systemDefault())
+					.toLocalDate();
+			if (last.getYear() != now.getYear() || last.getDayOfYear() != now.getDayOfYear()) // new day
+				data.newDay();
+
+			data.setLastPlayStamp(System.currentTimeMillis());
+			DataUtils.storeUserData();
+		}
+	}
+
+	@Override
+	public boolean isApiTooLow() {
+		return Build.VERSION.SDK_INT < 26;
 	}
 
 	@Override
@@ -89,26 +117,38 @@ public class AndroidLauncher extends AndroidApplication implements GoogleFit, St
 
 	@Override
 	public void getStepCountToday(StepListener listener) {
-		getStepCountToday(getContext(), this, listener);
+		if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+			getStepCountToday(getContext(), this, listener);
+		} else {
+			listener.stepsReturned(4000);
+		}
 	}
 
+	@RequiresApi(api = Build.VERSION_CODES.O)
 	@Override
 	public void getStepCountYesterday(StepListener listener) {
 		getStepCountYesterday(getContext(), this, listener);
 	}
 
+	@RequiresApi(api = Build.VERSION_CODES.O)
 	@Override
 	public void getStepCountLast24(StepListener listener) {
 		getStepCountLast24(getContext(), this, listener);
 	}
 
+	@RequiresApi(api = Build.VERSION_CODES.O)
 	public static void getStepCountToday(Context c, Activity a, StepListener listener) {
-		ZonedDateTime startTime = LocalDate.now().atStartOfDay(ZoneId.systemDefault());
-		ZonedDateTime endTime = LocalDateTime.now().atZone(ZoneId.systemDefault());
+		if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+			ZonedDateTime startTime = LocalDate.now().atStartOfDay(ZoneId.systemDefault());
+			ZonedDateTime endTime = LocalDateTime.now().atZone(ZoneId.systemDefault());
 
-		getSteps(c, a, startTime, endTime, listener);
+			getSteps(c, a, startTime, endTime, listener);
+		} else {
+			listener.stepsReturned(4000);
+		}
 	}
 
+	@RequiresApi(api = Build.VERSION_CODES.O)
 	public static void getStepCountYesterday(Context c, Activity a, StepListener listener) {
 		ZonedDateTime startTime = LocalDate.now().atStartOfDay(ZoneId.systemDefault()).minusDays(1);
 		ZonedDateTime endTime = LocalDateTime.now().atZone(ZoneId.systemDefault()).with(LocalTime.MAX);
@@ -116,6 +156,7 @@ public class AndroidLauncher extends AndroidApplication implements GoogleFit, St
 		getSteps(c, a, startTime, endTime, listener);
 	}
 
+	@RequiresApi(api = Build.VERSION_CODES.O)
 	public static void getStepCountLast24(Context c, Activity a, StepListener listener) {
 		ZonedDateTime startTime = LocalDateTime.now().atZone(ZoneId.systemDefault()).minusDays(1);
 		ZonedDateTime endTime = LocalDateTime.now().atZone(ZoneId.systemDefault());
@@ -136,8 +177,9 @@ public class AndroidLauncher extends AndroidApplication implements GoogleFit, St
 				Values.GOOGLE_FIT_REQUEST_CODE, signInAcc, fitnessOptions);
 	}
 
+	@RequiresApi(api = Build.VERSION_CODES.O)
 	private static void getSteps(Context c, Activity a, ZonedDateTime startTime, ZonedDateTime endTime,
-								StepListener listener) {
+								 StepListener listener) {
 		// TODO https://developers.google.com/fit/android/disconnect
 		DataSource datasource = new DataSource.Builder()
 				.setAppPackageName("com.google.android.gms")
@@ -189,14 +231,16 @@ public class AndroidLauncher extends AndroidApplication implements GoogleFit, St
 	}
 
 	private void initNotificationChannels() {
-		NotificationManager notificationManager =
-				(NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
+		if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+			NotificationManager notificationManager =
+					(NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
 
-		int importance = NotificationManager.IMPORTANCE_DEFAULT;
-		NotificationChannel notificationChannel = new NotificationChannel(Values.NOTIFY_CHANNEL_ID,
-				Values.NOTIFY_CHANNEL_NAME, importance);
-		notificationChannel.enableLights(false);
-		notificationChannel.enableVibration(false);
-		notificationManager.createNotificationChannel(notificationChannel);
+			int importance = NotificationManager.IMPORTANCE_DEFAULT;
+			NotificationChannel notificationChannel = new NotificationChannel(Values.NOTIFY_CHANNEL_ID,
+					Values.NOTIFY_CHANNEL_NAME, importance);
+			notificationChannel.enableLights(false);
+			notificationChannel.enableVibration(false);
+			notificationManager.createNotificationChannel(notificationChannel);
+		}
 	}
 }

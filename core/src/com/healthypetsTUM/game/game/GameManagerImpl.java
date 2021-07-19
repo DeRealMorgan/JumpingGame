@@ -285,7 +285,6 @@ public class GameManagerImpl implements GameManager {
         difficultyScale = Math.max(1f, Math.min(1.2f, 1f + ((float) score)/20_000));
         difficultyScaleInv = 2f - difficultyScale;
 
-        System.out.println(difficultyScale);
         mathImpl.setMathTime(Values.MATH_TIME);
 
         while(lastTile.getTop() + tileDistY <= toY) { // todo here complicated world creation logic

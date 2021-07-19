@@ -9,16 +9,10 @@ import com.healthypetsTUM.game.util.Game;
 import com.healthypetsTUM.game.util.GameState;
 import com.healthypetsTUM.game.util.ScreenName;
 import com.healthypetsTUM.game.util.Values;
-import com.healthypetsTUM.game.util.interfaces.GoogleFit;
-import com.healthypetsTUM.game.util.interfaces.RenderPipeline;
-import com.healthypetsTUM.game.util.interfaces.ScreenManager;
-import com.healthypetsTUM.game.util.interfaces.StoreProvider;
+import com.healthypetsTUM.game.util.interfaces.*;
 import com.healthypetsTUM.game.util.store.DataUtils;
 import com.healthypetsTUM.game.util.store.UserData;
 
-import java.time.LocalDate;
-import java.time.ZoneId;
-import java.util.Date;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.locks.Condition;
 import java.util.concurrent.locks.ReentrantLock;
@@ -30,6 +24,7 @@ public class Main extends Game implements ScreenManager {
 
 	private final GoogleFit googleFit;
 	private final StoreProvider storeProvider;
+	private final StatsProvider statsProvider;
 
 	private ScreenName currentScreen;
 
@@ -39,9 +34,11 @@ public class Main extends Game implements ScreenManager {
 	private Thread stepRefreshThread;
 	private long nextStepRefresh;
 
-	public Main(boolean essentialPermissionsGranted, GoogleFit googleFit, StoreProvider storeProvider) {
+	public Main(boolean essentialPermissionsGranted, GoogleFit googleFit, StoreProvider storeProvider,
+				StatsProvider statsProvider) {
 		this.googleFit = googleFit;
 		this.storeProvider = storeProvider;
+		this.statsProvider = statsProvider;
 	}
 
 	@Override
@@ -67,18 +64,7 @@ public class Main extends Game implements ScreenManager {
 	}
 
 	private void setStats() {
-		UserData data = DataUtils.getUserData();
-		LocalDate last = new Date(data.getLastPlayStamp()).toInstant()
-				.atZone(ZoneId.systemDefault())
-				.toLocalDate();
-		LocalDate now = new Date(System.currentTimeMillis()).toInstant()
-				.atZone(ZoneId.systemDefault())
-				.toLocalDate();
-		if(last.getYear() != now.getYear() || last.getDayOfYear() != now.getDayOfYear()) // new day
-			data.newDay();
-
-		data.setLastPlayStamp(System.currentTimeMillis());
-		DataUtils.storeUserData();
+		statsProvider.setStats();
 	}
 
 	public void permissionGranted(int code) {
@@ -109,22 +95,32 @@ public class Main extends Game implements ScreenManager {
 
 	private void runGoogleFitRefresh() {
 		while(gameState == GameState.ACTIVE) {
-			if (nextStepRefresh <= System.currentTimeMillis() && DataUtils.getUserData().hasHealthConsent()) {
-				googleFit.getStepCountToday(steps -> {
-					if(steps != -1) {
-						UserData data = DataUtils.getUserData();
-						if(Gdx.app.getType() == Application.ApplicationType.Desktop) {
-							data.setLastStepCount(5500);
-						} else {
-							data.setLastStepCount(steps);
-						}
-						data.setLastStepStamp(System.currentTimeMillis());
-						DataUtils.storeUserData();
-						if (currentScreen == ScreenName.CHARACTER_SCREEN) {
-							((CharacterScreen) getScreen()).currentSteps(steps);
-						}
+			if (nextStepRefresh <= System.currentTimeMillis()) {
+				if(statsProvider.isApiTooLow()) {
+					UserData data = DataUtils.getUserData();
+					data.setLastStepCount(5500);
+					data.setLastStepStamp(System.currentTimeMillis());
+					DataUtils.storeUserData();
+					if (currentScreen == ScreenName.CHARACTER_SCREEN) {
+						((CharacterScreen) getScreen()).currentSteps(5500);
 					}
-				});
+				} else {
+					googleFit.getStepCountToday(steps -> {
+						if (steps != -1) {
+							UserData data = DataUtils.getUserData();
+							if (Gdx.app.getType() == Application.ApplicationType.Desktop) {
+								data.setLastStepCount(5500);
+							} else {
+								data.setLastStepCount(steps);
+							}
+							data.setLastStepStamp(System.currentTimeMillis());
+							DataUtils.storeUserData();
+							if (currentScreen == ScreenName.CHARACTER_SCREEN) {
+								((CharacterScreen) getScreen()).currentSteps(steps);
+							}
+						}
+					});
+				}
 
 				nextStepRefresh = System.currentTimeMillis() + Values.REFRESH_STEPS_INTERVAL;
 			} else {

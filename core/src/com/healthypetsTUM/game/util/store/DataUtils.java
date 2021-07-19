@@ -45,6 +45,7 @@ public final class DataUtils {
     }
 
     public static void storeUserData() {
+        System.out.println(userData);
         String data = Base64Coder.encodeString(json.toJson(userData));
 
         storeProvider.store(Values.USER_DATA, data);

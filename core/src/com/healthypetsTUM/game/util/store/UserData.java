@@ -59,6 +59,7 @@ public class UserData {
 
         boughtItems = new ArrayList<>();
         boughtWorlds = new ArrayList<>();
+        boughtWorlds.add(0);
         equipedItems = new ArrayList<>();
         unlockedItems = new ArrayList<>();
         unlockedItems.add(0);

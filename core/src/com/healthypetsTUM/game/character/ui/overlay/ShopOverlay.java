@@ -114,7 +114,6 @@ public class ShopOverlay extends Overlay {
 
         List<Integer> bought = data.getBoughtItems();
         for(int i : bought) {
-            System.out.println(i + " is bought");
             purchase(i, false);
         }
 
