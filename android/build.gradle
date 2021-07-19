@@ -20,7 +20,7 @@ android {
         applicationId "com.healthypetsTUM.game"
         minSdkVersion 20
         targetSdkVersion 30
-        versionCode 16
+        versionCode 17
         versionName "1.0"
     }
     signingConfigs {

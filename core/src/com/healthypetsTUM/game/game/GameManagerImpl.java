@@ -237,7 +237,6 @@ public class GameManagerImpl implements GameManager {
     }
 
     private void updateWorld() {
-        sort();
         float bottomY = renderPipeline.getGameCamBottomY();
         for(int i = tileList.size()-1; i >= 0; --i) {
             if(tileList.get(i).getMaxYPos() < bottomY) //todo bug - lowest platform not removed
@@ -320,18 +319,6 @@ public class GameManagerImpl implements GameManager {
                 tileEntityList.add(attachment);
             }
         }
-    }
-
-    /**
-     * Sorting list by tile max y. Largest y first.
-     */
-    private void sort() {
-        tileList.sort((t1, t2) -> {
-            float dif = t1.getMaxYPos() - t2.getMaxYPos();
-            if(dif < 0) return -1;
-            if(dif > 0) return 1;
-            return 0;
-        });
     }
 
     public void show() {

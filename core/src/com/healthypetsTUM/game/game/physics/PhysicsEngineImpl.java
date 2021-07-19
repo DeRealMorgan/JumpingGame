@@ -35,7 +35,11 @@ public class PhysicsEngineImpl implements PhysicsEngine {
 
         Rectangle r2 = new Rectangle(0, 0, 0, 0);
 
-        entityList.removeIf(PhysicsEntity::isRemove);
+        List<PhysicsEntity> removeList = new ArrayList<>();
+        for(PhysicsEntity e : entityList) {
+            if(e.isRemove()) removeList.add(e);
+        }
+        entityList.removeAll(removeList);
 
         for(PhysicsEntity e : entityList) {
             if(e == player) continue;

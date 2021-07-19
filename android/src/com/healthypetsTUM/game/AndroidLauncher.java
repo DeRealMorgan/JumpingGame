@@ -65,6 +65,7 @@ public class AndroidLauncher extends AndroidApplication implements GoogleFit, St
 
 			data.setLastPlayStamp(System.currentTimeMillis());
 			DataUtils.storeUserData();
+
 		}
 	}
 

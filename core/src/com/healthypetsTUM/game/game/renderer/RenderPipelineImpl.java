@@ -12,10 +12,7 @@ import com.healthypetsTUM.game.util.Values;
 import com.healthypetsTUM.game.util.ZSprite;
 import com.healthypetsTUM.game.util.interfaces.UIManager;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Comparator;
-import java.util.List;
+import java.util.*;
 
 public class RenderPipelineImpl implements RenderPipeline {
     private final SpriteBatch batch;
@@ -60,7 +57,11 @@ public class RenderPipelineImpl implements RenderPipeline {
         gameCam.update();
         uiCam.update();
 
-        spriteList.removeIf(ZSprite::isRemove);
+        List<ZSprite> removeList = new ArrayList<>();
+        for(ZSprite sprite : spriteList) {
+            if(sprite.isRemove()) removeList.add(sprite);
+        }
+        spriteList.removeAll(removeList);
     }
 
     public void render(float dt) {
@@ -100,7 +101,9 @@ public class RenderPipelineImpl implements RenderPipeline {
     }
 
     private void sort() {
-        spriteList.sort(Comparator.comparingInt(ZSprite::getZ));
+        Collections.sort(spriteList, (z1, z2) -> {
+            return Integer.compare(z1.getZ(), z2.getZ());
+        });
     }
 
     @Override
